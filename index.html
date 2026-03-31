@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
-  <title>DLB Workspace</title>
+  <title>Vantage AZ21 · Workspace</title>
   <!-- Open Graph / Social Media Thumbnail -->
   <meta property="og:title" content="Daily Commissioning Report - DLB" />
   <meta property="og:description" content="Daily Commissioning Report by DLB Associates" />
@@ -377,15 +377,17 @@
     #dcrSplash.splashDone{opacity:0;pointer-events:none;}
     #dcrSplash .splashLogoWrap{display:flex;align-items:center;justify-content:center;flex-shrink:0;}
     #dcrSplash .splashLogo{width:200px;height:200px;object-fit:contain;object-position:center;display:block;}
-    #dcrSplash .splashTitle{color:var(--navy);font-size:18px;font-weight:600;text-align:center;max-width:360px;line-height:1.35;}
-    #dcrSplash .splashDate{color:#64748b;font-size:14px;font-weight:500;text-align:center;}
+    #dcrSplash .splashTitle{color:var(--navy);font-size:18px;font-weight:600;text-align:center;max-width:420px;line-height:1.35;}
+    #dcrSplash .splashDate{display:none;}
     #dcrSplash .splashBarWrap{width:200px;height:6px;background:#e5e7eb;border-radius:999px;overflow:hidden;}
     #dcrSplash .splashBar{height:100%;width:0;background:var(--dlb-blue);border-radius:999px;animation:splashBar 2s ease-out forwards;}
     @keyframes splashBar{to{width:100%;}}
 
     /* ===== Hub dashboard (before opening a tool) ===== */
     .hubDashboard{min-height:calc(100vh - 0px);background:linear-gradient(165deg,#f4f6f9 0%,#e8ecf4 45%,#f8fafc 100%);padding-bottom:32px;}
-    .hubTopBar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+    .hubTopBar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+    .hubTopBarInner{display:flex;align-items:center;gap:16px;flex-wrap:wrap;flex:1;min-width:0;}
+    .hubHeaderLogoContainer{margin-right:4px;}
     .hubBrandTitle{font-size:20px;font-weight:900;color:var(--navy);letter-spacing:-0.02em;}
     .hubBrandSub{display:block;font-size:13px;color:#64748b;font-weight:600;margin-top:4px;}
     .hubMain{max-width:1100px;margin:0 auto;padding:24px 18px;}
@@ -426,18 +428,24 @@
 <body>
 <div id="dcrSplash">
   <div class="splashLogoWrap">
-    <img id="splashLogo" class="splashLogo" src="projects/Users-michaelcboyer-cursor/assets/dlb_logo_dark-824daaa9-355c-4062-a36d-8939c53bb06e.png" alt="DLB" />
+    <img id="splashLogo" class="splashLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO0GmEwAAAAASUVORK5CYII=" alt="DLB" />
   </div>
-  <div id="splashTitle" class="splashTitle">DLB Workspace</div>
-  <div id="splashDate" class="splashDate"></div>
+  <div id="splashTitle" class="splashTitle">Vantage AZ21, Workspace</div>
+  <div id="splashDate" class="splashDate" aria-hidden="true"></div>
   <div class="splashBarWrap"><div class="splashBar"></div></div>
 </div>
 
 <div id="hubDashboard" class="hubDashboard">
   <header class="hubTopBar">
-    <div class="hubBrand">
-      <span class="hubBrandTitle">DLB Workspace</span>
-      <span class="hubBrandSub">Choose a tool or pick a date on the calendar</span>
+    <div class="hubTopBarInner">
+      <div class="appHeaderLogoContainer hubHeaderLogoContainer">
+        <img class="appHeaderLogo" id="hubHeaderLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO0GmEwAAAAASUVORK5CYII=" alt="DLB" />
+        <span class="appHeaderLogoDCR">DCR</span>
+      </div>
+      <div class="hubBrand">
+        <span class="hubBrandTitle">Vantage AZ21, Workspace</span>
+        <span class="hubBrandSub">Choose a tool or pick a date on the calendar</span>
+      </div>
     </div>
   </header>
   <div class="hubMain">
@@ -494,7 +502,7 @@
   </div>
 
   <div class="appHeaderRight">
-    <button type="button" class="btn" id="backToHubBtn" title="Back to workspace dashboard">Dashboard</button>
+    <button type="button" class="btn" id="backToHubBtn" title="Back to Vantage AZ21 Workspace">← Back</button>
     <button class="btn" id="pasteDocBtn">Paste doc</button>
     <button class="btn" id="previewBtn">Preview</button>
     <button class="btn" id="advancedBtn">Advanced</button>
@@ -757,7 +765,17 @@
         }
       };
       appHeaderLogoEl.onerror = tryNextPath;
+      function syncHubAndSplashLogos(){
+        var src = appHeaderLogoEl.src;
+        if(!src) return;
+        var h = document.getElementById('hubHeaderLogo');
+        var s = document.getElementById('splashLogo');
+        if(h) { h.src = src; }
+        if(s) { s.src = src; }
+      }
+      appHeaderLogoEl.addEventListener('load', syncHubAndSplashLogos);
       tryNextPath();
+      if(appHeaderLogoEl.complete && appHeaderLogoEl.naturalWidth) syncHubAndSplashLogos();
     }
     
     // Grey logo in report header (CSS filter will make it grey to match reference)
@@ -854,16 +872,13 @@
 
   function initApp() {
     try { window.scrollTo(0,0); var mo=document.getElementById('modalOverlay'); if(mo)mo.classList.add('hidden'); if(document.body){ document.body.style.overflow=''; if(document.body.style.removeProperty) document.body.style.removeProperty('overflow'); } } catch(e){}
-    // Splash: workspace branding + today, 2s loading bar, then hide
+    // Splash: DLB logo + Vantage AZ21, Workspace + loading bar only
     (function(){
       var splash = document.getElementById('dcrSplash');
       var titleEl = document.getElementById('splashTitle');
       var dateEl = document.getElementById('splashDate');
-      if (titleEl) titleEl.textContent = 'DLB Workspace';
-      if (dateEl) {
-        try { dateEl.textContent = new Date().toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); }
-        catch(e) { dateEl.textContent = mmddyyyyFromISO((document.getElementById('reportDate')||{}).value) || ''; }
-      }
+      if (titleEl) titleEl.textContent = 'Vantage AZ21, Workspace';
+      if (dateEl) dateEl.textContent = '';
       setTimeout(function(){ if (splash) splash.classList.add('splashDone'); }, 2000);
     })();
     // Set up button delegation FIRST so buttons work even if something else throws
@@ -1703,7 +1718,7 @@
     var splashFixCss = '<style id="dcr-splash-download-fix">#dcrSplash{overflow:visible !important;min-height:100vh !important;box-sizing:border-box !important}#dcrSplash .splashLogoWrap{overflow:visible !important;width:200px !important;height:200px !important;min-width:200px !important;min-height:200px !important;flex:0 0 200px !important;flex-shrink:0 !important;flex-grow:0 !important;box-sizing:border-box !important}#dcrSplash #splashLogo{width:200px !important;height:200px !important;min-height:200px !important;max-width:200px !important;max-height:200px !important;object-fit:contain !important;object-position:center center !important;display:block !important;vertical-align:top !important;box-sizing:border-box !important}#dcrSplash #splashTitle,#dcrSplash #splashDate,#dcrSplash .splashBarWrap{position:relative;z-index:1 !important}</style>';
     htmlContent = htmlContent.replace(/<\/head>/i, splashFixCss + '</head>');
     var bakedTitle = (state.reportTitle != null && String(state.reportTitle).trim()) ? String(state.reportTitle).trim() : 'Daily Commissioning Report';
-    htmlContent = htmlContent.replace(/(<div\s+id="splashTitle"[^>]*>)([\s\S]*?)(<\/div>)/i, '$1' + escapeHtml('DLB Workspace') + '$3');
+    htmlContent = htmlContent.replace(/(<div\s+id="splashTitle"[^>]*>)([\s\S]*?)(<\/div>)/i, '$1' + escapeHtml('Vantage AZ21, Workspace') + '$3');
     // Bake report date into #splashDate for downloaded file (display format MM-DD-YYYY)
     var bakedDateRaw = (state.reportDate != null && String(state.reportDate).trim()) ? String(state.reportDate).trim() : '';
     var bakedDateDisplay = bakedDateRaw ? (function(){ var p = bakedDateRaw.split('-'); return p.length >= 3 ? p[1] + '-' + p[2] + '-' + p[0] : bakedDateRaw; }()) : '';
