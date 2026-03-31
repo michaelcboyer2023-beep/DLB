@@ -19,7 +19,20 @@ python3 -m http.server 8080
 
 Open `http://localhost:8080/` (serve from this folder so paths work).
 
-## Push updates
+## Publish live (GitHub Pages)
+
+After editing `../commissioning-report.html`, sync and push in one step:
+
+```bash
+cd DLB
+./publish-live.sh
+```
+
+Optional custom commit message: `./publish-live.sh "Fix hub header"`.
+
+This copies `commissioning-report.html` → `index.html`, commits if the file changed, then `git push origin main`.
+
+## Manual push (any file)
 
 ```bash
 cd DLB
