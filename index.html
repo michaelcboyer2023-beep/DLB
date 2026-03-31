@@ -391,7 +391,7 @@
     .hubBrandTitle{font-size:20px;font-weight:900;color:var(--navy);letter-spacing:-0.02em;}
     .hubBrandSub{display:block;font-size:13px;color:#64748b;font-weight:600;margin-top:4px;}
     .hubMain{max-width:1100px;margin:0 auto;padding:24px 18px;}
-    .hubLayout{display:grid;grid-template-columns:1fr 320px;gap:24px;align-items:start;}
+    .hubLayout{display:grid;grid-template-columns:1fr minmax(360px,480px);gap:24px;align-items:start;}
     @media (max-width:900px){.hubLayout{grid-template-columns:1fr;}}
     .hubPanel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;box-shadow:0 1px 0 rgba(0,0,0,0.04);}
     .hubPanelTitle{margin:0 0 16px;font-size:14px;font-weight:900;color:var(--dlb-navy);text-transform:uppercase;letter-spacing:0.06em;}
@@ -408,6 +408,9 @@
     .hubCalCell.today{box-shadow:0 0 0 2px var(--dlb-blue);}
     .hubCalCell.selected{background:#e6efff;border-color:var(--dlb-blue);color:var(--dlb-navy);}
     .hubCalHint{margin:14px 0 0;font-size:12px;color:#64748b;}
+    .hubToolsTopRow{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:stretch;}
+    .hubToolsTilesCol{min-width:0;}
+    .hubToolsLookAsideCol{min-width:0;border-left:1px solid var(--border);padding-left:16px;}
     .toolsGrid{display:flex;flex-direction:column;gap:12px;}
     .hubToolCard{display:block;width:100%;text-align:left;padding:18px 16px;border-radius:14px;border:2px solid var(--border);background:var(--card);cursor:pointer;font:inherit;transition:border-color .15s,box-shadow .15s,transform .1s;}
     .hubToolCard:hover{border-color:var(--dlb-blue);box-shadow:0 8px 24px rgba(0,87,231,0.12);}
@@ -436,10 +439,13 @@
     @media (max-width:900px){
       .hubScheduleDetail{max-height:min(45vh,360px);}
     }
+    .hubToolsTopRow .hubLookAheadWrap{margin-top:0;padding-top:0;border-top:none;}
     .hubLookAheadWrap{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);}
     .hubLookAheadHint{font-size:11px;color:#64748b;margin:0 0 12px;line-height:1.45;}
     .hubLookAheadGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch;}
     @media (max-width:900px){
+      .hubToolsTopRow{grid-template-columns:1fr;}
+      .hubToolsLookAsideCol{border-left:none;padding-left:0;padding-top:16px;margin-top:4px;border-top:1px solid var(--border);}
       .hubLookAheadGrid{grid-template-columns:1fr;}
     }
     .hubLookDay{border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden;display:flex;flex-direction:column;min-height:0;}
@@ -501,20 +507,26 @@
       </section>
       <section class="hubPanel hubToolsPanel" aria-labelledby="hubToolsHeading">
         <h2 id="hubToolsHeading" class="hubPanelTitle">Tools</h2>
-        <div class="toolsGrid">
-          <button type="button" class="hubToolCard hubToolCardPrimary" id="openDcrTool">
-            <span class="hubToolCardTitle">Daily Commissioning Report</span>
-            <span class="hubToolCardDesc">DCR — executive summary, issues, constraints, activities, 3-day look ahead, team</span>
-          </button>
-          <div class="hubToolCard hubToolCardSoon" aria-disabled="true">
-            <span class="hubToolCardTitle">More tools</span>
-            <span class="hubToolCardDesc">Additional modules will appear here.</span>
+        <div class="hubToolsTopRow">
+          <div class="hubToolsTilesCol">
+            <div class="toolsGrid">
+              <button type="button" class="hubToolCard hubToolCardPrimary" id="openDcrTool">
+                <span class="hubToolCardTitle">Daily Commissioning Report</span>
+                <span class="hubToolCardDesc">DCR — executive summary, issues, constraints, activities, 3-day look ahead, team</span>
+              </button>
+              <div class="hubToolCard hubToolCardSoon" aria-disabled="true">
+                <span class="hubToolCardTitle">More tools</span>
+                <span class="hubToolCardDesc">Additional modules will appear here.</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="hubLookAheadWrap" id="hubLookAheadWrap">
-          <h3 class="hubScheduleTitle">3-day look ahead · Electrical &amp; Mechanical</h3>
-          <p class="hubLookAheadHint">Uses the selected calendar date as day 1. Only the Electrical and Mechanical rows from the Hybrid Cx workbook are shown.</p>
-          <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
+          <div class="hubToolsLookAsideCol">
+            <div class="hubLookAheadWrap" id="hubLookAheadWrap">
+              <h3 class="hubScheduleTitle">3-day look ahead · Electrical &amp; Mechanical</h3>
+              <p class="hubLookAheadHint">Uses the selected calendar date as day 1. Only the Electrical and Mechanical rows from the Hybrid Cx workbook are shown.</p>
+              <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
+            </div>
+          </div>
         </div>
         <div class="hubScheduleWrap" id="hubScheduleWrap">
           <h3 class="hubScheduleTitle">Hybrid Cx schedule</h3>
@@ -1001,6 +1013,8 @@
   /* Hub dashboard: month calendar + workspace navigation */
   var hubViewDate = new Date();
   var hubSelectedDate = null;
+  /** When true, next showDcrApp() replaces DCR 3-day look ahead from Hybrid Cx data for the report date. */
+  var fillCxLookAheadWhenOpeningDcr = false;
   var HUB_CX_SHEET_ORDER = ['L3.5 - Phase 1','L3.5 - Phase 2','L4 - Phase 1','L4 - Phase 2'];
   function hubCxSheetRank(t){
     var i = HUB_CX_SHEET_ORDER.indexOf(t);
@@ -1138,6 +1152,44 @@
     }
     grid.innerHTML = html;
   }
+  /** Build DCR `look` entries (Day 1–3, ECx/MCx) from embedded AZ21 schedule — same sheet order & E/M rows as the hub look ahead. */
+  function fillLookAheadFromCxSchedule(baseISO){
+    var data = window.AZ21_CX_SCHEDULE_BY_DATE;
+    if(!data || typeof data !== 'object' || !baseISO || !/^\d{4}-\d{2}-\d{2}$/.test(String(baseISO))) return;
+    var base = hubParseISODateLocal(baseISO);
+    if(!base) return;
+    base.setHours(0,0,0,0);
+    var next = [];
+    for(var i = 0; i < 3; i++){
+      var d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
+      d.setHours(0,0,0,0);
+      var iso = hubToISODateLocal(d);
+      var raw = data[iso] || [];
+      var entries = raw.filter(function(e){ return e.r === 'Electrical' || e.r === 'Mechanical'; });
+      function textForRow(rowLabel){
+        var byT = {};
+        entries.forEach(function(e){
+          if(!byT[e.t]) byT[e.t] = {};
+          byT[e.t][e.r] = e.v;
+        });
+        var parts = [];
+        HUB_CX_SHEET_ORDER.forEach(function(sheet){
+          var o = byT[sheet];
+          if(!o) return;
+          var v = o[rowLabel];
+          if(v == null || String(v).trim() === '') return;
+          parts.push(sheet + ': ' + String(v).trim());
+        });
+        return parts.join('\n\n');
+      }
+      var ecText = textForRow('Electrical');
+      var mcText = textForRow('Mechanical');
+      if(ecText) next.push({ day: DAYS[i], disc: 'ECx', text: ecText });
+      if(mcText) next.push({ day: DAYS[i], disc: 'MCx', text: mcText });
+    }
+    look.length = 0;
+    next.forEach(function(x){ look.push(x); });
+  }
   function renderHubCalendar(){
     var grid = document.getElementById('hubCalGrid');
     var label = document.getElementById('hubCalMonthLabel');
@@ -1209,7 +1261,14 @@
         rd.value = hubToISODateLocal(t);
       }
     }
-    if(typeof syncPreview === 'function') syncPreview();
+    if(fillCxLookAheadWhenOpeningDcr){
+      fillCxLookAheadWhenOpeningDcr = false;
+      if(rd && rd.value){
+        fillLookAheadFromCxSchedule(rd.value);
+        if(typeof renderAll === 'function') renderAll();
+        else if(typeof syncPreview === 'function') syncPreview();
+      } else if(typeof syncPreview === 'function') syncPreview();
+    } else if(typeof syncPreview === 'function') syncPreview();
     window.scrollTo(0,0);
   }
   function showHubDashboard(){
@@ -3015,7 +3074,7 @@
       });
     }
     renderHubCalendar();
-    _reg('openDcrTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showDcrApp(); });
+    _reg('openDcrTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } fillCxLookAheadWhenOpeningDcr = true; showDcrApp(); });
     _reg('backToHubBtn', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showHubDashboard(); });
     (function(){ var b = document.getElementById('openDcrTool'); if(b){ b.setAttribute('role','button'); b.style.touchAction='manipulation'; } })();
     (function(){ var b = document.getElementById('backToHubBtn'); if(b){ b.setAttribute('role','button'); b.style.touchAction='manipulation'; } })();
