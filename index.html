@@ -436,6 +436,24 @@
     @media (max-width:900px){
       .hubScheduleDetail{max-height:min(45vh,360px);}
     }
+    .hubLookAheadWrap{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);}
+    .hubLookAheadHint{font-size:11px;color:#64748b;margin:0 0 12px;line-height:1.45;}
+    .hubLookAheadGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:stretch;}
+    @media (max-width:900px){
+      .hubLookAheadGrid{grid-template-columns:1fr;}
+    }
+    .hubLookDay{border:1px solid var(--border);border-radius:12px;background:#fff;overflow:hidden;display:flex;flex-direction:column;min-height:0;}
+    .hubLookDayHdr{padding:10px 12px;background:linear-gradient(180deg,#f1f5f9,#e8edf3);font-size:12px;font-weight:900;color:var(--navy);border-bottom:1px solid var(--border);}
+    .hubLookDayBody{padding:10px 12px;font-size:11px;flex:1;max-height:260px;overflow-y:auto;min-height:120px;}
+    .hubLookDayBody::-webkit-scrollbar{width:5px;}
+    .hubLookDayBody::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px;}
+    .hubLookSheet{margin-bottom:12px;}
+    .hubLookSheet:last-child{margin-bottom:0;}
+    .hubLookSheetTag{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;color:var(--dlb-blue);margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #e2e8f0;}
+    .hubLookEM{margin-bottom:10px;}
+    .hubLookEM:last-child{margin-bottom:0;}
+    .hubLookEM h4{margin:0 0 4px;font-size:10px;font-weight:900;color:#0f172a;text-transform:uppercase;letter-spacing:0.04em;}
+    .hubLookEM p{margin:0;font-size:11px;line-height:1.45;color:var(--ink);white-space:pre-wrap;word-break:break-word;}
     .dcrAppRoot.hidden{display:none !important;}
     @media print{
       .hubDashboard{display:none !important;}
@@ -459,7 +477,6 @@
     <div class="hubTopBarInner">
       <div class="appHeaderLogoContainer hubHeaderLogoContainer">
         <img class="appHeaderLogo" id="hubHeaderLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO0GmEwAAAAASUVORK5CYII=" alt="DLB" />
-        <span class="appHeaderLogoDCR">DCR</span>
       </div>
       <div class="hubBrand">
         <span class="hubBrandTitle">Vantage AZ21, Workspace</span>
@@ -493,6 +510,11 @@
             <span class="hubToolCardTitle">More tools</span>
             <span class="hubToolCardDesc">Additional modules will appear here.</span>
           </div>
+        </div>
+        <div class="hubLookAheadWrap" id="hubLookAheadWrap">
+          <h3 class="hubScheduleTitle">3-day look ahead · Electrical &amp; Mechanical</h3>
+          <p class="hubLookAheadHint">Uses the selected calendar date as day 1. Only the Electrical and Mechanical rows from the Hybrid Cx workbook are shown.</p>
+          <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
         </div>
         <div class="hubScheduleWrap" id="hubScheduleWrap">
           <h3 class="hubScheduleTitle">Hybrid Cx schedule</h3>
@@ -979,6 +1001,41 @@
   /* Hub dashboard: month calendar + workspace navigation */
   var hubViewDate = new Date();
   var hubSelectedDate = null;
+  var HUB_CX_SHEET_ORDER = ['L3.5 - Phase 1','L3.5 - Phase 2','L4 - Phase 1','L4 - Phase 2'];
+  function hubCxSheetRank(t){
+    var i = HUB_CX_SHEET_ORDER.indexOf(t);
+    return i < 0 ? 99 : i;
+  }
+  /** Pull Electrical & Mechanical to the top of each sheet block so they are not buried under vendor rows. */
+  function hubSortScheduleEntriesEMFirst(entries){
+    if(!entries || !entries.length) return entries;
+    var bySheet = {};
+    entries.forEach(function(e){
+      if(!bySheet[e.t]) bySheet[e.t] = [];
+      bySheet[e.t].push(e);
+    });
+    var keys = Object.keys(bySheet).sort(function(a,b){ return hubCxSheetRank(a) - hubCxSheetRank(b); });
+    var out = [];
+    keys.forEach(function(t){
+      var arr = bySheet[t];
+      var em = [];
+      var rest = [];
+      arr.forEach(function(e){
+        if(e.r === 'Electrical' || e.r === 'Mechanical') em.push(e);
+        else rest.push(e);
+      });
+      em.sort(function(a,b){
+        if(a.r === 'Electrical' && b.r !== 'Electrical') return -1;
+        if(a.r !== 'Electrical' && b.r === 'Electrical') return 1;
+        if(a.r === 'Mechanical' && b.r !== 'Mechanical') return -1;
+        if(a.r !== 'Mechanical' && b.r === 'Mechanical') return 1;
+        return 0;
+      });
+      rest.sort(function(a,b){ return String(a.r).localeCompare(String(b.r)); });
+      out = out.concat(em).concat(rest);
+    });
+    return out;
+  }
   function hubPad2(n){ return n < 10 ? '0' + n : '' + n; }
   function hubToISODateLocal(d){
     if(!d) return '';
@@ -1018,6 +1075,7 @@
       wrap.innerHTML = '<p class="hubScheduleEmpty">No schedule rows in the embedded workbook for this date. Dates with activities start in June 2026 (L3.5 Phase 1) per the current AZ21 Hybrid Cx Schedule.</p>';
       return;
     }
+    entries = hubSortScheduleEntriesEMFirst(entries);
     var html = '';
     var curSheet = null;
     for(var i = 0; i < entries.length; i++){
@@ -1031,6 +1089,54 @@
     }
     if(curSheet !== null) html += '</div>';
     wrap.innerHTML = html;
+  }
+  function renderHubLookAhead(){
+    var grid = document.getElementById('hubLookAheadGrid');
+    if(!grid) return;
+    var data = window.AZ21_CX_SCHEDULE_BY_DATE;
+    if(!data || typeof data !== 'object') data = {};
+    var base = hubSelectedDate;
+    if(!base){
+      var dsi = document.getElementById('hubScheduleDate');
+      if(dsi && dsi.value) base = hubParseISODateLocal(dsi.value);
+    }
+    if(!base){
+      grid.innerHTML = '<p class="hubScheduleEmpty">Select a date on the calendar to see the three-day electrical &amp; mechanical look ahead.</p>';
+      return;
+    }
+    var html = '';
+    for(var i = 0; i < 3; i++){
+      var d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
+      d.setHours(0,0,0,0);
+      var iso = hubToISODateLocal(d);
+      var raw = data[iso] || [];
+      var entries = raw.filter(function(e){ return e.r === 'Electrical' || e.r === 'Mechanical'; });
+      var dayLabel = d.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+      html += '<div class="hubLookDay"><div class="hubLookDayHdr">' + escapeHtml(dayLabel) + '</div><div class="hubLookDayBody">';
+      if(!entries.length){
+        html += '<p class="hubScheduleEmpty" style="margin:0">No electrical or mechanical rows for this date in the embedded schedule.</p>';
+      } else {
+        var byT = {};
+        entries.forEach(function(e){
+          if(!byT[e.t]) byT[e.t] = {};
+          byT[e.t][e.r] = e.v;
+        });
+        HUB_CX_SHEET_ORDER.forEach(function(sheet){
+          if(!byT[sheet]) return;
+          var o = byT[sheet];
+          html += '<div class="hubLookSheet"><div class="hubLookSheetTag">' + escapeHtml(sheet) + '</div>';
+          if(o.Electrical != null && String(o.Electrical).trim() !== ''){
+            html += '<div class="hubLookEM"><h4>Electrical</h4><p>' + escapeHtml(String(o.Electrical)).replace(/\n/g,'<br>') + '</p></div>';
+          }
+          if(o.Mechanical != null && String(o.Mechanical).trim() !== ''){
+            html += '<div class="hubLookEM"><h4>Mechanical</h4><p>' + escapeHtml(String(o.Mechanical)).replace(/\n/g,'<br>') + '</p></div>';
+          }
+          html += '</div>';
+        });
+      }
+      html += '</div></div>';
+    }
+    grid.innerHTML = html;
   }
   function renderHubCalendar(){
     var grid = document.getElementById('hubCalGrid');
@@ -1087,6 +1193,7 @@
     }
     syncHubCalHint();
     renderHubScheduleForSelectedDay();
+    renderHubLookAhead();
   }
   function showDcrApp(){
     var hub = document.getElementById('hubDashboard');
@@ -2904,6 +3011,7 @@
         renderHubCalendar();
         syncHubCalHint();
         renderHubScheduleForSelectedDay();
+        renderHubLookAhead();
       });
     }
     renderHubCalendar();
