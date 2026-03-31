@@ -2,16 +2,24 @@
 # Copy parent commissioning-report.html → index.html, commit if needed, push to GitHub (live Pages).
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")" && pwd)"
-SRC="$(cd "$ROOT/.." && pwd)/commissioning-report.html"
+PARENT="$(cd "$ROOT/.." && pwd)"
+SRC="$PARENT/commissioning-report.html"
+JS_SRC="$PARENT/az21-cx-schedule.js"
 if [[ ! -f "$SRC" ]]; then
   echo "error: missing source: $SRC" >&2
   exit 1
 fi
 cp "$SRC" "$ROOT/index.html"
+if [[ -f "$JS_SRC" ]]; then
+  cp "$JS_SRC" "$ROOT/az21-cx-schedule.js"
+else
+  echo "warn: optional schedule data not found: $JS_SRC (hub schedule panel will be empty)" >&2
+fi
 cd "$ROOT"
 git add index.html
+[[ -f "$ROOT/az21-cx-schedule.js" ]] && git add az21-cx-schedule.js
 if git diff --staged --quiet; then
-  echo "index.html unchanged (already matches commissioning-report.html)"
+  echo "no staged changes (index.html / az21-cx-schedule.js already match source)"
 else
   MSG="${1:-Publish site $(date -u +'%Y-%m-%d %H:%M UTC')}"
   git commit -m "$MSG"

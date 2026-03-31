@@ -30,7 +30,15 @@ cd DLB
 
 Optional custom commit message: `./publish-live.sh "Fix hub header"`.
 
-This copies `commissioning-report.html` → `index.html`, commits if the file changed, then `git push origin main`.
+This copies `commissioning-report.html` → `index.html`, copies `../az21-cx-schedule.js` (Hybrid Cx calendar data for the hub) when present, commits if anything changed, then `git push origin main`.
+
+To refresh schedule data after updating `AZ21 Hybrid Cx Schedule.xlsx`, regenerate the JS from your machine (same folder as the workbook is fine):
+
+```bash
+python3 /path/to/export_az21_schedule.py   # or re-run the export snippet used in your tooling
+```
+
+…and save the output as `../az21-cx-schedule.js` next to `commissioning-report.html`, then run `./publish-live.sh` again.
 
 ## Manual push (any file)
 

@@ -417,6 +417,25 @@
     .hubToolCardDesc{display:block;margin-top:6px;font-size:13px;color:#64748b;line-height:1.45;}
     .hubToolCardSoon{opacity:0.65;cursor:not-allowed;}
     .hubToolCardSoon:hover{border-color:var(--border);box-shadow:none;}
+    /* AZ21 Cx schedule (under Tools) */
+    .hubScheduleWrap{margin-top:20px;padding-top:18px;border-top:1px solid var(--border);}
+    .hubScheduleTitle{margin:0 0 10px;font-size:11px;font-weight:900;color:var(--dlb-navy);text-transform:uppercase;letter-spacing:0.07em;}
+    .hubScheduleDateRow{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+    .hubScheduleDateRow label{font-size:11px;font-weight:800;color:#64748b;flex-shrink:0;}
+    .hubScheduleDateRow input[type="date"]{flex:1;min-width:0;padding:8px 10px;border-radius:10px;border:1px solid var(--border);font-size:13px;font-family:inherit;background:#fff;}
+    .hubScheduleDetail{max-height:min(52vh,420px);overflow-y:auto;padding-right:4px;margin:0 -4px 0 0;display:flex;flex-direction:column;gap:14px;}
+    .hubScheduleDetail::-webkit-scrollbar{width:6px;}
+    .hubScheduleDetail::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px;}
+    .hubScheduleEmpty{margin:0;font-size:12px;color:#64748b;line-height:1.5;}
+    .hubScheduleSheet{border-radius:12px;border:1px solid var(--border);background:linear-gradient(145deg,#fafbfd 0%,#fff 100%);overflow:hidden;box-shadow:0 2px 8px rgba(15,23,42,0.04);}
+    .hubScheduleSheetTitle{padding:10px 12px;font-size:11px;font-weight:900;color:#fff;background:linear-gradient(90deg,var(--dlb-navy),#1e4a8f);letter-spacing:0.04em;text-transform:uppercase;}
+    .hubScheduleCard{padding:10px 12px;border-top:1px solid #eef2f7;}
+    .hubScheduleCard:first-of-type{border-top:none;}
+    .hubScheduleCardLabel{font-size:10px;font-weight:900;color:var(--dlb-blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;}
+    .hubScheduleCardValue{font-size:12px;color:var(--ink);line-height:1.45;white-space:pre-wrap;word-break:break-word;}
+    @media (max-width:900px){
+      .hubScheduleDetail{max-height:min(45vh,360px);}
+    }
     .dcrAppRoot.hidden{display:none !important;}
     @media print{
       .hubDashboard{display:none !important;}
@@ -474,6 +493,14 @@
             <span class="hubToolCardTitle">More tools</span>
             <span class="hubToolCardDesc">Additional modules will appear here.</span>
           </div>
+        </div>
+        <div class="hubScheduleWrap" id="hubScheduleWrap">
+          <h3 class="hubScheduleTitle">Hybrid Cx schedule</h3>
+          <div class="hubScheduleDateRow">
+            <label for="hubScheduleDate">Day</label>
+            <input type="date" id="hubScheduleDate" name="hubScheduleDate" aria-label="Schedule date" />
+          </div>
+          <div class="hubScheduleDetail" id="hubScheduleDetail" role="region" aria-live="polite" aria-label="Schedule details for selected day"></div>
         </div>
       </section>
     </div>
@@ -691,6 +718,7 @@
   </div>
 </div>
 
+<script src="az21-cx-schedule.js"></script>
 <script>
   // Always load at top, modal closed, scrolling allowed.
   (function ensureLoadAtTop(){
@@ -970,6 +998,40 @@
       el.textContent = 'Optional: select a date above, then open Daily Commissioning Report. If you skip selecting, the DCR form keeps its current report date.';
     }
   }
+  function renderHubScheduleForSelectedDay(){
+    var wrap = document.getElementById('hubScheduleDetail');
+    var dateInput = document.getElementById('hubScheduleDate');
+    if(!wrap) return;
+    var data = window.AZ21_CX_SCHEDULE_BY_DATE;
+    if(!data || typeof data !== 'object') data = {};
+    var iso = hubSelectedDate ? hubToISODateLocal(hubSelectedDate) : '';
+    if(dateInput){
+      if(hubSelectedDate) dateInput.value = iso;
+      else if(dateInput.value) iso = dateInput.value;
+    }
+    if(!iso){
+      wrap.innerHTML = '<p class="hubScheduleEmpty">Pick a day on the calendar or use the date field above to see electrical, mechanical, manpower, and support rows from the AZ21 Hybrid Cx schedule.</p>';
+      return;
+    }
+    var entries = data[iso];
+    if(!entries || !entries.length){
+      wrap.innerHTML = '<p class="hubScheduleEmpty">No schedule rows in the embedded workbook for this date. Dates with activities start in June 2026 (L3.5 Phase 1) per the current AZ21 Hybrid Cx Schedule.</p>';
+      return;
+    }
+    var html = '';
+    var curSheet = null;
+    for(var i = 0; i < entries.length; i++){
+      var e = entries[i];
+      if(e.t !== curSheet){
+        if(curSheet !== null) html += '</div>';
+        curSheet = e.t;
+        html += '<div class="hubScheduleSheet"><div class="hubScheduleSheetTitle">' + escapeHtml(e.t) + '</div>';
+      }
+      html += '<div class="hubScheduleCard"><div class="hubScheduleCardLabel">' + escapeHtml(e.r) + '</div><div class="hubScheduleCardValue">' + escapeHtml(e.v).replace(/\n/g, '<br>') + '</div></div>';
+    }
+    if(curSheet !== null) html += '</div>';
+    wrap.innerHTML = html;
+  }
   function renderHubCalendar(){
     var grid = document.getElementById('hubCalGrid');
     var label = document.getElementById('hubCalMonthLabel');
@@ -1024,6 +1086,7 @@
       grid.appendChild(cell);
     }
     syncHubCalHint();
+    renderHubScheduleForSelectedDay();
   }
   function showDcrApp(){
     var hub = document.getElementById('hubDashboard');
@@ -1049,6 +1112,7 @@
     if(root) root.classList.add('hidden');
     try { history.replaceState(null, '', location.pathname + location.search); } catch(err2) { location.hash = ''; }
     window.scrollTo(0,0);
+    renderHubCalendar();
   }
 
   function renderIssueScreenshots(){
@@ -1777,6 +1841,16 @@
     // Downloaded file only: no splash logo (initial loading page unchanged)
     var splashLogoBlockRe = /<div\s+class="splashLogoWrap"[^>]*>[\s\S]*?<img[^>]*id="splashLogo"[^>]*>[\s\S]*?<\/div>/gi;
     htmlContent = htmlContent.replace(splashLogoBlockRe, '<div class="splashLogoWrap" style="display:none;"></div>');
+    (function bakeScheduleData(){
+      var sched = window.AZ21_CX_SCHEDULE_BY_DATE;
+      if (!sched || typeof sched !== 'object') return;
+      var sc = '<' + '/' + 'script>';
+      try {
+        var schedJson = JSON.stringify(sched).replace(/</g, '\\u003c');
+        var inlineSched = '<script>window.AZ21_CX_SCHEDULE_BY_DATE=' + schedJson + ';' + sc;
+        htmlContent = htmlContent.replace(/<script\s+src=["'][^"']*az21-cx-schedule\.js["']\s*>\s*<\/script>/i, inlineSched);
+      } catch (err) {}
+    })();
     return htmlContent;
   }
 
@@ -2820,6 +2894,18 @@
     var hubCalNext = document.getElementById('hubCalNext');
     if(hubCalPrev) hubCalPrev.onclick = function(ev){ ev.preventDefault(); hubViewDate.setMonth(hubViewDate.getMonth()-1); renderHubCalendar(); };
     if(hubCalNext) hubCalNext.onclick = function(ev){ ev.preventDefault(); hubViewDate.setMonth(hubViewDate.getMonth()+1); renderHubCalendar(); };
+    var hubSchedDate = document.getElementById('hubScheduleDate');
+    if(hubSchedDate){
+      hubSchedDate.addEventListener('change', function(){
+        var d = hubParseISODateLocal(hubSchedDate.value);
+        if(!d) return;
+        hubSelectedDate = d;
+        hubViewDate = new Date(d.getFullYear(), d.getMonth(), 1);
+        renderHubCalendar();
+        syncHubCalHint();
+        renderHubScheduleForSelectedDay();
+      });
+    }
     renderHubCalendar();
     _reg('openDcrTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showDcrApp(); });
     _reg('backToHubBtn', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showHubDashboard(); });
