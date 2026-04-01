@@ -582,14 +582,13 @@
     .hubLookEM:last-child{margin-bottom:0;}
     .hubLookEM h4{margin:0 0 4px;font-size:9px;font-weight:900;color:#0f172a;text-transform:uppercase;letter-spacing:0.04em;}
     .hubLookEM p{margin:0;font-size:11px;line-height:1.45;color:var(--ink);white-space:pre-wrap;word-break:break-word;}
-    .hubBottomPair{display:flex;flex-direction:column;gap:10px;align-items:stretch;}
-    .hubBottomPair > .hubPanel{min-height:0;display:flex;flex-direction:column;}
+    .hubLayoutMain,.hubLayoutAside{display:flex;flex-direction:column;gap:10px;align-items:stretch;min-width:0;}
+    .hubLayoutAside > .hubPanel{min-height:0;display:flex;flex-direction:column;}
     .hubLookAheadPanel{min-height:0;}
-    .hubSchedulePanel{flex:1;min-height:min(40vh,420px);}
+    .hubLayoutAside .hubSchedulePanel{flex:1;min-height:min(40vh,420px);}
     .hubScheduleWrap{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;}
     @media (min-width:1100px){
-      .hubBottomPair{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch;}
-      .hubBottomPair .hubLookDayBody{max-height:min(28vh,260px);}
+      .hubLayoutMain .hubLookDayBody{max-height:min(28vh,260px);}
     }
     .hubManualStaffLine{font-size:10px;color:#64748b;margin:8px 0 0;line-height:1.4;}
     .hubPanelActions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px;}
@@ -724,6 +723,7 @@
   <div class="hubMainStream">
   <div class="hubMain">
     <div class="hubLayout">
+      <div class="hubLayoutMain">
       <section class="hubPanel hubCalendarPanel" aria-labelledby="hubCalHeading">
         <h2 id="hubCalHeading" class="hubPanelTitle">Calendar</h2>
         <div class="hubCalLaborRow">
@@ -760,6 +760,19 @@
           <button type="button" class="btn" id="hubWeekViewBtn">Week view (tasks &amp; staff)</button>
         </div>
       </section>
+      <section class="hubPanel hubLookAheadPanel" aria-labelledby="hubLookAheadHeading">
+        <div class="hubSchedulePanelTop" style="margin-bottom:4px;">
+          <h2 id="hubLookAheadHeading" class="hubPanelTitle">3-day look ahead</h2>
+          <button type="button" class="btn" id="hubEditLookAheadBtn">Edit look ahead</button>
+        </div>
+        <p class="hubLookAheadSubtitle">Electrical &amp; mechanical · Hybrid Cx workbook</p>
+        <div class="hubLookAheadTile">
+          <p class="hubLookAheadHint">Day 1 follows the calendar or the <strong>Daily tasks</strong> date (same row on a wide laptop). E/M rows only.</p>
+          <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
+        </div>
+      </section>
+      </div>
+      <div class="hubLayoutAside">
       <section class="hubPanel hubToolsPanel" aria-labelledby="hubToolsHeading">
         <h2 id="hubToolsHeading" class="hubPanelTitle">Tools</h2>
         <div class="toolsGrid">
@@ -774,36 +787,24 @@
           <div class="hubVendorTabsPanels" id="hubVendorTabsPanels"></div>
         </div>
       </section>
-    </div>
-    <div class="hubBottomPair">
-    <section class="hubPanel hubLookAheadPanel" aria-labelledby="hubLookAheadHeading">
-      <div class="hubSchedulePanelTop" style="margin-bottom:4px;">
-        <h2 id="hubLookAheadHeading" class="hubPanelTitle">3-day look ahead</h2>
-        <button type="button" class="btn" id="hubEditLookAheadBtn">Edit look ahead</button>
-      </div>
-      <p class="hubLookAheadSubtitle">Electrical &amp; mechanical · Hybrid Cx workbook</p>
-      <div class="hubLookAheadTile">
-        <p class="hubLookAheadHint">Day 1 follows the calendar or the <strong>Daily tasks</strong> date (same row on a wide laptop). E/M rows only.</p>
-        <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
-      </div>
-    </section>
-    <section class="hubPanel hubSchedulePanel hubSchedulePanel--tasks" aria-labelledby="hubSchedHeading">
-      <div class="hubSchedulePanelTop">
-        <h2 id="hubSchedHeading" class="hubPanelTitle">Daily tasks · Hybrid Cx schedule</h2>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end;">
-          <button type="button" class="btn" id="hubEditDailyTasksBtn">Edit daily tasks</button>
-          <div class="hubCxCount" id="hubCxCount" role="status" aria-live="polite"></div>
+      <section class="hubPanel hubSchedulePanel hubSchedulePanel--tasks" aria-labelledby="hubSchedHeading">
+        <div class="hubSchedulePanelTop">
+          <h2 id="hubSchedHeading" class="hubPanelTitle">Daily tasks · Hybrid Cx schedule</h2>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end;">
+            <button type="button" class="btn" id="hubEditDailyTasksBtn">Edit daily tasks</button>
+            <div class="hubCxCount" id="hubCxCount" role="status" aria-live="polite"></div>
+          </div>
         </div>
-      </div>
-      <p class="hubScheduleLead">Field tasks (E / M / comments). Hour, manpower, and vendor lines are hidden here — vendors under <strong>Tools</strong>.</p>
-      <div class="hubScheduleWrap" id="hubScheduleWrap">
-        <div class="hubScheduleDateRow">
-          <label for="hubScheduleDate">Day</label>
-          <input type="date" id="hubScheduleDate" name="hubScheduleDate" aria-label="Schedule date" />
+        <p class="hubScheduleLead">Field tasks (E / M / comments). Hour, manpower, and vendor lines are hidden here — vendors under <strong>Tools</strong> above.</p>
+        <div class="hubScheduleWrap" id="hubScheduleWrap">
+          <div class="hubScheduleDateRow">
+            <label for="hubScheduleDate">Day</label>
+            <input type="date" id="hubScheduleDate" name="hubScheduleDate" aria-label="Schedule date" />
+          </div>
+          <div class="hubScheduleDetail hubScheduleDetail--tasks" id="hubScheduleDetail" role="region" aria-live="polite" aria-label="Schedule details for selected day"></div>
         </div>
-        <div class="hubScheduleDetail hubScheduleDetail--tasks" id="hubScheduleDetail" role="region" aria-live="polite" aria-label="Schedule details for selected day"></div>
+      </section>
       </div>
-    </section>
     </div>
   </div>
   </div>
@@ -827,7 +828,7 @@
     <div class="field titleField">
       <div class="label">Report Title</div>
       <div class="titleFieldRow">
-        <input id="reportTitle" class="input" value="EdgeCore – PH02 – Daily Commissioning Report" />
+        <input id="reportTitle" class="input" value="AZ21 – PH02 – Daily Commissioning Report" />
         <button type="button" class="btnClearForm" id="clearFormBtn" title="Clear form">🗑</button>
         <button type="button" class="btnCreateForm" id="createFormBtn" title="Create form – download current report as file to send to any jobsite">Create form</button>
       </div>
@@ -922,7 +923,7 @@
   <section id="report" class="report">
     <div class="reportHeader">
       <div class="reportHeaderLeft">
-        <div class="reportHeaderTitle" id="pvTitle">EdgeCore – PH02 – Daily Commissioning Report</div>
+        <div class="reportHeaderTitle" id="pvTitle">AZ21 – PH02 – Daily Commissioning Report</div>
       </div>
       <img class="reportLogoWhite" id="reportLogoWhite" src="data:image/png;base64,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" alt="DLB" />
     </div>
@@ -982,7 +983,7 @@
     <!-- Duplicate header for page 2+ (hidden by default, shown in print on page 2+) -->
     <div class="reportHeader page2Header" style="display:none;">
       <div class="reportHeaderLeft page2HeaderLeft">
-        <div class="reportHeaderTitle" id="pvTitlePage2">EdgeCore – PH02 – Daily Commissioning Report</div>
+        <div class="reportHeaderTitle" id="pvTitlePage2">AZ21 – PH02 – Daily Commissioning Report</div>
       </div>
       <img class="reportLogoWhite" src="data:image/png;base64,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" alt="DLB" />
     </div>
@@ -1213,7 +1214,10 @@
       var dateEl = document.getElementById('splashDate');
       if (titleEl) titleEl.textContent = 'Vantage AZ21 Workspace';
       if (dateEl) dateEl.textContent = '';
-      setTimeout(function(){ if (splash) splash.classList.add('splashDone'); }, 2000);
+      setTimeout(function(){
+        if (splash) splash.classList.add('splashDone');
+        setTimeout(function(){ restartHubChartAnimations(); }, 380);
+      }, 2000);
     })();
     // Set up button delegation FIRST so buttons work even if something else throws
     var _btnMap = {};
@@ -2434,6 +2438,24 @@
     renderHubLookAhead();
     renderHubLaborPanel();
   }
+  /** Re-trigger burn-up SVG/CSS animations (they often finish behind splash or while hub is display:none). */
+  function restartHubChartAnimations(){
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var sidebar = document.querySelector('#hubDashboard aside.hubProjectSidebar');
+    if(!sidebar) return;
+    var wraps = sidebar.querySelectorAll('.hubChartWrap');
+    wraps.forEach(function(wrap){
+      wrap.style.animation = 'none';
+      wrap.querySelectorAll('.hubChartLineAnim, .hubChartDotAnim, .hubChartLegend span').forEach(function(el){
+        el.style.animation = 'none';
+      });
+      void wrap.offsetWidth;
+      wrap.style.removeProperty('animation');
+      wrap.querySelectorAll('.hubChartLineAnim, .hubChartDotAnim, .hubChartLegend span').forEach(function(el){
+        el.style.removeProperty('animation');
+      });
+    });
+  }
   function showDcrApp(opts){
     opts = opts || {};
     var fillCxFromHub = !!opts.fillCxLookAheadFromSchedule;
@@ -2470,6 +2492,9 @@
     try { history.replaceState(null, '', location.pathname + location.search); } catch(err2) { location.hash = ''; }
     window.scrollTo(0,0);
     renderHubCalendar();
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ restartHubChartAnimations(); });
+    });
   }
 
   function renderIssueScreenshots(){
@@ -2916,11 +2941,13 @@
     const execSummary = $('#execSummary'), issueOpen = $('#issueOpen'), issueHigh = $('#issueHigh'), issueNew = $('#issueNew');
     const pvDate = $('#pvDate'), pvExec = $('#pvExec'), pvIssues = $('#pvIssues');
     if(!pvTitle || !pvExec || !pvIssues) return;
-    pvTitle.textContent = (reportTitle && reportTitle.value) || 'Daily Commissioning Report';
+    var titleText = (reportTitle && reportTitle.value) || 'Daily Commissioning Report';
+    pvTitle.textContent = titleText;
+    var pv2 = document.getElementById('pvTitlePage2');
+    if(pv2) pv2.textContent = titleText;
     if(pvDate) pvDate.textContent = mmddyyyyFromISO(reportDate && reportDate.value) || '';
     const date = mmddyyyyFromISO(reportDate && reportDate.value) || '';
-    const title = (reportTitle && reportTitle.value) || 'Daily Commissioning Report';
-    document.title = date ? `${date} ${title}` : title;
+    document.title = date ? `${date} ${titleText}` : titleText;
 
     const exec = (execSummary && execSummary.value||'').trim();
     if(exec) {
