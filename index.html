@@ -425,6 +425,31 @@
     .hubCalCell.selected{background:#e6efff;border-color:var(--dlb-blue);color:var(--dlb-navy);}
     .hubCalCell.hubCalWeekend.selected{background:#e6efff;border-color:var(--dlb-blue);color:var(--dlb-navy);}
     .hubCalHint{margin:14px 0 0;font-size:12px;color:#64748b;}
+    .hubCalLaborRow{display:grid;grid-template-columns:1fr minmax(200px,260px);gap:16px;align-items:start;}
+    @media (max-width:900px){.hubCalLaborRow{grid-template-columns:1fr;}}
+    .hubCalColumn{min-width:0;}
+    .hubCalCellInner{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;height:100%;padding:2px 0;}
+    .hubCalDayNum{font-size:13px;font-weight:700;line-height:1;}
+    .hubCalPips{display:flex;gap:3px;min-height:14px;align-items:center;justify-content:center;flex-wrap:wrap;}
+    .hubCalPip{font-size:8px;font-weight:900;padding:1px 4px;border-radius:4px;line-height:1;}
+    .hubCalPipE{background:#dbeafe;color:#1e40af;}
+    .hubCalPipM{background:#dcfce7;color:#166534;}
+    .hubLaborAside{background:linear-gradient(180deg,#1e293b 0%,#0f172a 100%);color:#e2e8f0;border-radius:14px;padding:14px 14px 16px;border:1px solid #334155;box-shadow:0 4px 20px rgba(15,23,42,0.12);}
+    .hubLaborAsideHdr{margin:0 0 4px;font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.08em;color:#94a3b8;}
+    .hubLaborAsideHint{font-size:11px;color:#94a3b8;margin:0 0 12px;line-height:1.45;}
+    .hubLaborCards{display:flex;flex-direction:column;gap:10px;}
+    .hubStaffCard{display:flex;gap:10px;align-items:center;background:rgba(255,255,255,0.06);border-radius:12px;padding:10px;border:1px solid rgba(255,255,255,0.1);}
+    .hubStaffAvatar{position:relative;width:44px;height:44px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#334155;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#93c5fd;}
+    .hubStaffAvatar img{width:100%;height:100%;object-fit:cover;display:block;}
+    .hubStaffStatus{position:absolute;bottom:-1px;right:-1px;width:14px;height:14px;border-radius:50%;background:#22c55e;border:2px solid #0f172a;box-sizing:border-box;}
+    .hubStaffMeta{min-width:0;flex:1;}
+    .hubStaffName{font-weight:800;font-size:13px;color:#fff;line-height:1.2;}
+    .hubStaffTitle{font-size:11px;color:#94a3b8;margin-top:3px;line-height:1.3;}
+    .hubStaffDisc{font-size:10px;font-weight:800;margin-top:4px;color:#38bdf8;letter-spacing:0.04em;}
+    .hubLaborAddRow{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.12);}
+    .hubLaborAddRow .hubLaborAddLabel{display:block;font-size:10px;font-weight:800;color:#94a3b8;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;}
+    .hubLaborAddRow input,.hubLaborAddRow select{width:100%;margin-bottom:8px;padding:8px 10px;border-radius:8px;border:1px solid #475569;background:#1e293b;color:#f1f5f9;font-size:13px;font-family:inherit;box-sizing:border-box;}
+    .hubLaborAddRow .btn{width:100%;margin-top:4px;}
     .toolsGrid{display:flex;flex-direction:column;gap:12px;}
     .hubToolCard{display:block;width:100%;text-align:left;padding:18px 16px;border-radius:14px;border:2px solid var(--border);background:var(--card);cursor:pointer;font:inherit;transition:border-color .15s,box-shadow .15s,transform .1s;}
     .hubToolCard:hover{border-color:var(--dlb-blue);box-shadow:0 8px 24px rgba(0,87,231,0.12);}
@@ -505,15 +530,34 @@
     <div class="hubLayout">
       <section class="hubPanel hubCalendarPanel" aria-labelledby="hubCalHeading">
         <h2 id="hubCalHeading" class="hubPanelTitle">Calendar</h2>
-        <div class="hubCalNav">
-          <button type="button" class="btn hubCalPrev" id="hubCalPrev" aria-label="Previous month">‹</button>
-          <h3 class="hubCalMonth" id="hubCalMonthLabel"></h3>
-          <button type="button" class="btn hubCalNext" id="hubCalNext" aria-label="Next month">›</button>
+        <div class="hubCalLaborRow">
+          <div class="hubCalColumn">
+            <div class="hubCalNav">
+              <button type="button" class="btn hubCalPrev" id="hubCalPrev" aria-label="Previous month">‹</button>
+              <h3 class="hubCalMonth" id="hubCalMonthLabel"></h3>
+              <button type="button" class="btn hubCalNext" id="hubCalNext" aria-label="Next month">›</button>
+            </div>
+            <div class="hubCalWeekdays" aria-hidden="true">
+              <span class="hubCalDow">Sun</span><span class="hubCalDow">Mon</span><span class="hubCalDow">Tue</span><span class="hubCalDow">Wed</span><span class="hubCalDow">Thu</span><span class="hubCalDow">Fri</span><span class="hubCalDow">Sat</span>
+            </div>
+            <div class="hubCalGrid" id="hubCalGrid"></div>
+          </div>
+          <aside class="hubLaborAside" aria-labelledby="hubLaborAsideHeading">
+            <h3 id="hubLaborAsideHeading" class="hubLaborAsideHdr">On site</h3>
+            <p class="hubLaborAsideHint" id="hubLaborAsideHint">Select a day. Uses <strong>AZ21 labor schedule</strong> when that date is listed in <code>az21-labor-schedule.js</code>; otherwise maps Hybrid Cx Electrical / Mechanical rows to ECx / MCx roster.</p>
+            <div class="hubLaborCards" id="hubLaborCards"></div>
+            <div class="hubLaborAddRow">
+              <span class="hubLaborAddLabel">Add staff to roster (saved in this browser)</span>
+              <input type="text" id="hubLaborNewName" placeholder="Full name" autocomplete="name" />
+              <select id="hubLaborNewDisc" aria-label="Discipline">
+                <option value="ECx">ECx (electrical)</option>
+                <option value="MCx">MCx (mechanical)</option>
+              </select>
+              <input type="text" id="hubLaborNewTitle" placeholder="Job title (optional)" />
+              <button type="button" class="btn" id="hubLaborSaveStaff">Save to roster</button>
+            </div>
+          </aside>
         </div>
-        <div class="hubCalWeekdays" aria-hidden="true">
-          <span class="hubCalDow">Sun</span><span class="hubCalDow">Mon</span><span class="hubCalDow">Tue</span><span class="hubCalDow">Wed</span><span class="hubCalDow">Thu</span><span class="hubCalDow">Fri</span><span class="hubCalDow">Sat</span>
-        </div>
-        <div class="hubCalGrid" id="hubCalGrid"></div>
         <p class="hubCalHint" id="hubCalSelectedHint"></p>
       </section>
       <section class="hubPanel hubToolsPanel" aria-labelledby="hubToolsHeading">
@@ -769,6 +813,7 @@
 </div>
 
 <script src="az21-cx-schedule.js"></script>
+<script src="az21-labor-schedule.js"></script>
 <script>
   // Always load at top, modal closed, scrolling allowed.
   (function ensureLoadAtTop(){
@@ -1095,6 +1140,105 @@
     var p = String(iso).split('-');
     return new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
   }
+  var HUB_LABOR_EXTRA_KEY = 'hubLaborStaffExtra';
+  function getHubLaborStaffByIdMap(){
+    var map = {};
+    var base = window.AZ21_LABOR_STAFF;
+    if(Array.isArray(base)) base.forEach(function(s){ if(s && s.id) map[s.id] = s; });
+    try{
+      var extra = JSON.parse(localStorage.getItem(HUB_LABOR_EXTRA_KEY) || '[]');
+      if(Array.isArray(extra)) extra.forEach(function(s){ if(s && s.id) map[s.id] = s; });
+    }catch(e){}
+    return map;
+  }
+  function hubStaffInitials(s){
+    if(!s || !s.name) return '?';
+    var parts = String(s.name).trim().split(/\s+/);
+    if(parts.length >= 2) return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    return String(s.name).slice(0, 2).toUpperCase();
+  }
+  /** True if Hybrid Cx row text looks like real planned work (not empty / no presence). */
+  function hubCxRowIndicatesPresence(val){
+    var t = String(val || '').trim();
+    if(!t) return false;
+    if(/^no\s+planned/i.test(t)) return false;
+    if(/^n\/a$/i.test(t)) return false;
+    if(/^none\.?$/i.test(t)) return false;
+    return true;
+  }
+  /** Staff on site: labor sheet first; else roster × Hybrid Cx E/M for that date. */
+  function getHubStaffForDate(iso){
+    var byId = getHubLaborStaffByIdMap();
+    var out = [];
+    var seen = {};
+    var source = 'empty';
+    function addId(id){
+      if(!id || seen[id]) return;
+      var st = byId[id];
+      if(st){ seen[id] = true; out.push(st); }
+    }
+    var labor = window.AZ21_LABOR_SCHEDULE_BY_DATE;
+    if(labor && typeof labor === 'object' && labor[iso] && labor[iso].length){
+      labor[iso].forEach(function(row){
+        if(!row || !row.staffId) return;
+        if(row.onsite === false) return;
+        if(row.hours != null && !isNaN(Number(row.hours)) && Number(row.hours) <= 0) return;
+        addId(row.staffId);
+      });
+      if(out.length){ return { staff: out, source: 'labor' }; }
+    }
+    var data = window.AZ21_CX_SCHEDULE_BY_DATE;
+    var rows = data && data[iso];
+    if(!rows || !rows.length) return { staff: out, source: 'empty' };
+    var hasE = false, hasM = false;
+    rows.forEach(function(e){
+      if(e.r === 'Electrical' && hubCxRowIndicatesPresence(e.v)) hasE = true;
+      if(e.r === 'Mechanical' && hubCxRowIndicatesPresence(e.v)) hasM = true;
+    });
+    Object.keys(byId).forEach(function(id){
+      var st = byId[id];
+      if(st.disc === 'ECx' && hasE) addId(id);
+      if(st.disc === 'MCx' && hasM) addId(id);
+    });
+    return { staff: out, source: out.length ? 'cx' : 'empty' };
+  }
+  function renderHubStaffCardHtml(s){
+    var formal = escapeHtml(s.nameFormal || s.name || '');
+    var title = escapeHtml(s.title || '');
+    var disc = escapeHtml(s.disc || '');
+    var initials = escapeHtml(hubStaffInitials(s));
+    var photo = s.photo ? String(s.photo).trim() : '';
+    var img = photo ? '<img src="' + escapeHtml(photo) + '" alt="" loading="lazy" />' : '';
+    var avatarInner = img + (photo ? '' : initials);
+    return '<div class="hubStaffCard"><div class="hubStaffAvatar">' + avatarInner + '<span class="hubStaffStatus" title="Planned on site"></span></div><div class="hubStaffMeta"><div class="hubStaffName">' + formal + '</div><div class="hubStaffTitle">' + title + '</div><div class="hubStaffDisc">' + disc + '</div></div></div>';
+  }
+  function getHubSelectedIsoForLabor(){
+    var dsi = document.getElementById('hubScheduleDate');
+    var iso = '';
+    if(hubSelectedDate) iso = hubToISODateLocal(hubSelectedDate);
+    else if(dsi && dsi.value) iso = dsi.value;
+    return iso;
+  }
+  function renderHubLaborPanel(){
+    var wrap = document.getElementById('hubLaborCards');
+    var hint = document.getElementById('hubLaborAsideHint');
+    if(!wrap) return;
+    var iso = getHubSelectedIsoForLabor();
+    if(!iso){
+      wrap.innerHTML = '';
+      if(hint) hint.innerHTML = 'Select a day. Uses <strong>AZ21 labor schedule</strong> when that date is listed in <code>az21-labor-schedule.js</code>; otherwise maps Hybrid Cx Electrical / Mechanical rows to ECx / MCx roster.';
+      return;
+    }
+    var pack = getHubStaffForDate(iso);
+    var staff = pack.staff;
+    var srcLabel = pack.source === 'labor' ? 'AZ21 labor schedule' : pack.source === 'cx' ? 'Hybrid Cx activity (fallback)' : 'No data';
+    if(hint) hint.textContent = srcLabel + ' · ' + iso;
+    if(!staff.length){
+      wrap.innerHTML = '<p class="hubScheduleEmpty" style="color:#94a3b8;margin:0;font-size:12px;">No roster match for this day. Add dates to <code>AZ21_LABOR_SCHEDULE_BY_DATE</code> or extend the roster.</p>';
+      return;
+    }
+    wrap.innerHTML = staff.map(renderHubStaffCardHtml).join('');
+  }
   function syncHubCalHint(){
     var el = document.getElementById('hubCalSelectedHint');
     if(!el) return;
@@ -1314,9 +1458,38 @@
       cell = document.createElement('button');
       cell.type = 'button';
       cell.className = 'hubCalCell';
-      cell.textContent = i;
       var dow = dt.getDay();
       var isoThis = hubToISODateLocal(dt);
+      var pack = getHubStaffForDate(isoThis);
+      var sl = pack.staff;
+      var hasE = sl.some(function(s){ return s.disc === 'ECx'; });
+      var hasM = sl.some(function(s){ return s.disc === 'MCx'; });
+      var inner = document.createElement('span');
+      inner.className = 'hubCalCellInner';
+      var numEl = document.createElement('span');
+      numEl.className = 'hubCalDayNum';
+      numEl.textContent = String(i);
+      inner.appendChild(numEl);
+      var pips = document.createElement('span');
+      pips.className = 'hubCalPips';
+      if(hasE){
+        var pe = document.createElement('span');
+        pe.className = 'hubCalPip hubCalPipE';
+        pe.textContent = 'E';
+        pips.appendChild(pe);
+      }
+      if(hasM){
+        var pm = document.createElement('span');
+        pm.className = 'hubCalPip hubCalPipM';
+        pm.textContent = 'M';
+        pips.appendChild(pm);
+      }
+      inner.appendChild(pips);
+      cell.appendChild(inner);
+      var ariaParts = [label.textContent.split(' ')[0] || 'Month', String(i)];
+      if(hasE) ariaParts.push('Electrical Cx');
+      if(hasM) ariaParts.push('Mechanical Cx');
+      cell.setAttribute('aria-label', ariaParts.join(' '));
       var isWeekend = dow === 0 || dow === 6;
       if(isWeekend && !hubWeekendWorkIsos[isoThis] && !(hubSelectedDate && dt.getTime() === hubSelectedDate.getTime())){
         cell.classList.add('hubCalWeekend');
@@ -1347,6 +1520,7 @@
     syncHubCalHint();
     renderHubScheduleForSelectedDay();
     renderHubLookAhead();
+    renderHubLaborPanel();
   }
   function showDcrApp(opts){
     opts = opts || {};
@@ -3181,6 +3355,33 @@
       });
     }
     renderHubCalendar();
+    var hubLaborSave = document.getElementById('hubLaborSaveStaff');
+    if(hubLaborSave){
+      hubLaborSave.onclick = function(ev){
+        ev.preventDefault();
+        var nameEl = document.getElementById('hubLaborNewName');
+        var discEl = document.getElementById('hubLaborNewDisc');
+        var titleEl = document.getElementById('hubLaborNewTitle');
+        var name = nameEl && (nameEl.value || '').trim();
+        if(!name) return;
+        var disc = discEl && discEl.value ? discEl.value : 'ECx';
+        var title = titleEl && (titleEl.value || '').trim() || '';
+        var slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || ('staff-' + Date.now());
+        var extra = [];
+        try{ extra = JSON.parse(localStorage.getItem(HUB_LABOR_EXTRA_KEY) || '[]'); }catch(e2){}
+        if(!Array.isArray(extra)) extra = [];
+        var map0 = getHubLaborStaffByIdMap();
+        var id = slug;
+        var suf = 0;
+        while(map0[id]){ suf++; id = slug + '-' + suf; }
+        extra.push({ id: id, name: name, nameFormal: name, title: title, disc: disc, photo: '' });
+        try{ localStorage.setItem(HUB_LABOR_EXTRA_KEY, JSON.stringify(extra)); }catch(e3){}
+        if(nameEl) nameEl.value = '';
+        if(titleEl) titleEl.value = '';
+        renderHubCalendar();
+        renderHubLaborPanel();
+      };
+    }
     _reg('openDcrTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showDcrApp({ fillCxLookAheadFromSchedule: true }); });
     _reg('backToHubBtn', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showHubDashboard(); });
     (function(){ var b = document.getElementById('openDcrTool'); if(b){ b.setAttribute('role','button'); b.style.touchAction='manipulation'; } })();
