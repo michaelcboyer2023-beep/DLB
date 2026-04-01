@@ -4,9 +4,11 @@
  * 1) AZ21_LABOR_STAFF — roster (add rows as needed). Optional `photo` URL (relative to this HTML).
  * 2) AZ21_LABOR_SCHEDULE_BY_DATE — keys are local dates "YYYY-MM-DD".
  *    Each value is an array of { staffId, hours?, onsite? }.
+ *    - Hub “On site” lists people in the same order as AZ21_LABOR_STAFF (then extras), not raw paste order.
  *    - If `hours` is a number ≤ 0 → not on site.
  *    - If `onsite: false` → not on site.
  *    - If `hours` omitted → treated as on site when staffId is present (whole-day line from your sheet).
+ *    - When `hours` is set and > 0, the hub card shows “Scheduled: N h”.
  *
  * Export from Excel: paste rows into this object, or regenerate this file from a small script.
  */
