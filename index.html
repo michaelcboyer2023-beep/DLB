@@ -390,7 +390,7 @@
     .hubDashboard{min-height:100vh;background:#fff;padding-bottom:16px;}
     .hubTopBar{background:#fff;border-bottom:1px solid var(--border);padding:10px 16px 12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;}
     .hubTopBarInner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;flex:1;min-width:0;}
-    .hubHealthBar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding:6px 12px;background:#fff;border:1px solid var(--border);border-radius:10px;}
+    .hubHealthBar,#hubHealthBarRoot{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;padding:6px 12px;background:#fff;border:1px solid var(--border);border-radius:10px;}
     .hubHealthItem{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--navy);}
     .hubHealthDot{width:12px;height:12px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 2px rgba(255,255,255,0.9);}
     .hubHealthDot--yellow{background:#eab308;}
@@ -402,14 +402,30 @@
     .hubProjectSidebar{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 12px 14px;box-shadow:none;max-height:calc(100vh - 96px);overflow-y:auto;position:sticky;top:8px;}
     @media (max-width:1024px){.hubProjectSidebar{position:relative;max-height:none;top:0;}}
     .hubProjectSidebar .hubPanelTitle{margin-bottom:10px;font-size:12px;}
-    .hubQuickLinks{list-style:none;margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:4px;}
-    .hubQuickLinks a{display:flex;align-items:flex-start;gap:8px;padding:6px 8px;border-radius:8px;background:#fff;border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--navy);text-decoration:none;transition:background .15s,border-color .15s;}
-    .hubQuickLinks a:hover{background:#f8fafc;border-color:#cbd5e1;}
-    .hubQuickLinks a::before{content:'↗';font-size:10px;opacity:0.7;flex-shrink:0;}
+    .hubQuickLinks{margin:0 0 12px;padding:0;display:flex;flex-direction:column;gap:4px;}
     .hubMiniTable{width:100%;border-collapse:collapse;font-size:11px;margin:0 0 16px;}
     .hubMiniTable th,.hubMiniTable td{padding:6px 8px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top;}
-    .hubMiniTable th{color:#64748b;font-weight:800;width:52%;}
-    .hubMiniTable td{font-weight:700;color:var(--navy);}
+    .hubMiniTable th{color:#64748b;font-weight:800;width:42%;vertical-align:middle;}
+    .hubMiniTable td{font-weight:700;color:var(--navy);vertical-align:middle;}
+    .hubBrandInput{display:block;width:100%;border:none;background:transparent;font:inherit;color:inherit;padding:0;margin:0;box-sizing:border-box;}
+    .hubBrandInput--title{font-size:18px;font-weight:900;letter-spacing:-0.02em;}
+    .hubBrandInput--sub{font-size:12px;font-weight:600;color:#64748b;margin-top:2px;}
+    .hubSheetCell{width:100%;border:1px solid #e2e8f0;border-radius:6px;padding:5px 8px;font:inherit;font-size:11px;font-weight:700;box-sizing:border-box;background:#fff;}
+    .hubSheetCell:focus{border-color:var(--dlb-blue);outline:none;background:#fafafa;}
+    .hubHealthRow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+    .hubHealthRow select{flex-shrink:0;padding:4px 6px;border-radius:6px;border:1px solid var(--border);font-size:11px;background:#fff;}
+    .hubHealthRow input{flex:1;min-width:80px;padding:4px 8px;border-radius:6px;border:1px solid var(--border);font-size:11px;}
+    .hubPHStatInput{padding:4px 6px;border:1px solid var(--border);border-radius:6px;font-size:10px;width:100%;max-width:100px;}
+    .hubProjectTitleInput{font-size:11px;font-weight:900;border:1px solid var(--border);border-radius:6px;padding:4px 8px;width:100%;max-width:220px;}
+    .hubQLRow{display:flex;gap:6px;margin-bottom:6px;align-items:center;}
+    .hubQLRow input{flex:1;font-size:10px;padding:5px 8px;border:1px solid var(--border);border-radius:6px;box-sizing:border-box;min-width:0;}
+    a.hubQLGo{flex-shrink:0;padding:4px 8px;font-size:12px;font-weight:800;color:var(--dlb-blue);text-decoration:none;border:1px solid var(--border);border-radius:6px;background:#fff;}
+    a.hubQLGo:hover{background:#f8fafc;}
+    .hubChartNote{width:100%;min-height:44px;margin-top:8px;padding:6px 8px;border:1px solid var(--border);border-radius:8px;font-size:10px;font-family:inherit;resize:vertical;box-sizing:border-box;}
+    .hubSyncHint{font-size:10px;color:#64748b;margin:10px 0 0;line-height:1.45;}
+    .hubStaffRemove{margin-left:auto;flex-shrink:0;padding:4px 8px;font-size:10px;border:1px solid var(--border);background:#fff;border-radius:6px;cursor:pointer;color:var(--danger);font-weight:800;}
+    .hubStaffRemove:hover{background:#fef2f2;}
+    .pill .x[type="button"]{min-width:32px;min-height:32px;}
     .hubProjectHealthMini{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 10px;background:#fff;border:1px solid var(--border);border-radius:10px;margin-bottom:12px;}
     .hubProjectHealthMini .hubHealthDot{width:14px;height:14px;}
     .hubPHStats{display:flex;gap:10px;flex-wrap:wrap;font-size:10px;font-weight:700;color:#64748b;}
@@ -494,7 +510,7 @@
     .hubLaborAsideHint{font-size:10px;color:#64748b;margin:0 0 8px;line-height:1.4;}
     .hubLaborAsideHint code{font-size:9px;background:#f1f5f9;padding:1px 4px;border-radius:4px;}
     .hubLaborCards{display:flex;flex-direction:column;gap:6px;}
-    .hubStaffCard{display:flex;gap:8px;align-items:center;background:#fff;border-radius:8px;padding:8px;border:1px solid var(--border);}
+    .hubStaffCard{display:flex;gap:8px;align-items:center;background:#fff;border-radius:8px;padding:8px;border:1px solid var(--border);position:relative;}
     .hubStaffAvatar{position:relative;width:36px;height:36px;border-radius:50%;overflow:hidden;flex-shrink:0;background:#f1f5f9;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:900;color:var(--dlb-blue);}
     .hubStaffAvatar img{width:100%;height:100%;object-fit:cover;display:block;}
     .hubStaffStatus{position:absolute;bottom:-1px;right:-1px;width:11px;height:11px;border-radius:50%;background:#22c55e;border:2px solid #fff;box-sizing:border-box;}
@@ -583,55 +599,43 @@
         <img class="appHeaderLogo" id="hubHeaderLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO0GmEwAAAAASUVORK5CYII=" alt="DLB" />
       </div>
       <div class="hubBrand">
-        <span class="hubBrandTitle">Vantage AZ21, Workspace</span>
-        <span class="hubBrandSub">Choose a tool or pick a date on the calendar</span>
+        <input type="text" class="hubBrandInput hubBrandInput--title" id="hubBrandTitleInput" autocomplete="organization" aria-label="Workspace title" />
+        <input type="text" class="hubBrandInput hubBrandInput--sub" id="hubBrandSubInput" autocomplete="off" aria-label="Workspace subtitle" />
       </div>
     </div>
-    <div class="hubHealthBar" role="region" aria-label="Contract health indicators">
-      <div class="hubHealthItem"><span class="hubHealthDot hubHealthDot--yellow" title="Planned vs actual negative"></span> Revenue</div>
-      <div class="hubHealthItem"><span class="hubHealthDot hubHealthDot--yellow"></span> Labor</div>
-      <div class="hubHealthItem"><span class="hubHealthDot hubHealthDot--yellow"></span> Expense</div>
-      <div class="hubHealthItem"><span class="hubHealthDot hubHealthDot--red" title="Exceeded or projected over contract"></span> Billing</div>
-    </div>
+    <div class="hubHealthBar" role="region" aria-label="Contract health indicators" id="hubHealthBarRoot"></div>
   </header>
   <div class="hubShell">
   <aside class="hubProjectSidebar" aria-label="Vantage AZ21 project dashboard">
     <h2 class="hubPanelTitle">Quick links</h2>
-    <ul class="hubQuickLinks">
-      <li><a href="#hubProjectHealth">Project health</a></li>
-      <li><a href="#" onclick="return false;" title="Link when ready">101560 — Backlog review</a></li>
-      <li><a href="#" onclick="return false;" title="Link when ready">Vantage AZ21 — Labor schedule</a></li>
-      <li><a href="#" onclick="return false;" title="Link when ready">101560 — Bid sheet</a></li>
-      <li><a href="#" onclick="return false;" title="Link when ready">101560 — SoV</a></li>
-      <li><a href="#" onclick="return false;" title="Link when ready">101560 — Contract management</a></li>
-      <li><a href="#" onclick="return false;" title="Link when ready">101560 — Project dashboard</a></li>
-    </ul>
+    <p style="font-size:10px;color:#64748b;margin:-4px 0 8px;">Edit label and URL (local save). Smartsheet / API sync can map here later.</p>
+    <div id="hubQuickLinksRoot" class="hubQuickLinks"></div>
     <div id="hubProjectHealth" class="hubProjectHealthMini">
       <span class="hubHealthDot hubHealthDot--green" aria-hidden="true"></span>
-      <div>
-        <div style="font-size:11px;font-weight:900;color:var(--navy);">Project health</div>
-        <div class="hubPHStats"><span>Escalated 0</span><span>Overdue 0</span><span>Issues 0</span><span>Risks 0</span><span>Actions 1</span></div>
+      <div style="flex:1;min-width:0;">
+        <input type="text" class="hubProjectTitleInput" id="hubProjectHealthTitleInput" aria-label="Project health title" />
+        <div class="hubPHStats" id="hubPHStatsRow" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;"></div>
       </div>
     </div>
     <h2 class="hubPanelTitle">Contract overview</h2>
-    <p style="font-size:10px;color:#64748b;margin:-4px 0 8px;">Placeholder values — replace when you connect spreadsheets.</p>
+    <p style="font-size:10px;color:#64748b;margin:-4px 0 8px;">All values save in this browser (local). Connect Smartsheet when permissions allow.</p>
     <table class="hubMiniTable">
-      <tbody>
-        <tr><th>Contract total</th><td>$2,085,440.00</td></tr>
-        <tr><th>Unapproved CO $</th><td>—</td></tr>
-        <tr><th>Contract budget hours</th><td>8,920</td></tr>
-        <tr><th>Contract hourly rate</th><td>$200.00</td></tr>
-        <tr><th>Budgeted expenses</th><td>—</td></tr>
+      <tbody id="hubContractBody">
+        <tr><th>Contract total</th><td><input type="text" class="hubSheetCell" data-hub-contract="contractTotal" aria-label="Contract total" /></td></tr>
+        <tr><th>Unapproved CO $</th><td><input type="text" class="hubSheetCell" data-hub-contract="unapprovedCo" aria-label="Unapproved CO" /></td></tr>
+        <tr><th>Contract budget hours</th><td><input type="text" class="hubSheetCell" data-hub-contract="budgetHrs" aria-label="Contract budget hours" /></td></tr>
+        <tr><th>Contract hourly rate</th><td><input type="text" class="hubSheetCell" data-hub-contract="hourlyRate" aria-label="Contract hourly rate" /></td></tr>
+        <tr><th>Budgeted expenses</th><td><input type="text" class="hubSheetCell" data-hub-contract="budgetedExp" aria-label="Budgeted expenses" /></td></tr>
       </tbody>
     </table>
     <h2 class="hubPanelTitle">Key performance</h2>
     <table class="hubMiniTable">
-      <tbody>
-        <tr><th>Cost to date</th><td>$32,182.31</td></tr>
-        <tr><th>Revenue to date</th><td>—</td></tr>
-        <tr><th>Remaining hours</th><td>—</td></tr>
-        <tr><th>% complete (PM)</th><td>—</td></tr>
-        <tr><th>% complete (planned hrs)</th><td>—</td></tr>
+      <tbody id="hubKpiBody">
+        <tr><th>Cost to date</th><td><input type="text" class="hubSheetCell" data-hub-kpi="costToDate" aria-label="Cost to date" /></td></tr>
+        <tr><th>Revenue to date</th><td><input type="text" class="hubSheetCell" data-hub-kpi="revenueToDate" aria-label="Revenue to date" /></td></tr>
+        <tr><th>Remaining hours</th><td><input type="text" class="hubSheetCell" data-hub-kpi="remainingHrs" aria-label="Remaining hours" /></td></tr>
+        <tr><th>% complete (PM)</th><td><input type="text" class="hubSheetCell" data-hub-kpi="pctPm" aria-label="Percent complete PM" /></td></tr>
+        <tr><th>% complete (planned hrs)</th><td><input type="text" class="hubSheetCell" data-hub-kpi="pctPlanned" aria-label="Percent complete planned hours" /></td></tr>
       </tbody>
     </table>
     <div class="hubChartBlock">
@@ -674,7 +678,12 @@
         <div class="hubChartLegend"><span><i style="background:#ef4444"></i> Budgeted</span><span><i style="background:#1e3a8f"></i> Planned</span><span><i style="background:#eab308;height:8px;width:8px;border-radius:50%"></i> Actual</span></div>
       </div>
     </div>
-    <p style="font-size:10px;color:#94a3b8;margin:0;line-height:1.4;">Charts animate on load. Swap in live data or embed links when your sheets are ready.</p>
+    <label class="hubChartTitle" for="hubChartNoteHours" style="display:block;margin-top:4px;">Burn-up notes (hours)</label>
+    <textarea id="hubChartNoteHours" class="hubChartNote" placeholder="Notes, targets, or future Smartsheet row IDs…" aria-label="Hours chart notes"></textarea>
+    <label class="hubChartTitle" for="hubChartNoteExpenses" style="display:block;margin-top:10px;">Burn-up notes (expenses)</label>
+    <textarea id="hubChartNoteExpenses" class="hubChartNote" placeholder="Notes or expense roll-up keys…" aria-label="Expenses chart notes"></textarea>
+    <p style="font-size:10px;color:#94a3b8;margin:8px 0 0;line-height:1.4;">Charts animate on load. Chart geometry stays placeholder until you wire data.</p>
+    <p class="hubSyncHint"><strong>Smartsheet / sheets:</strong> Everything here is editable offline in your browser. When IT grants API or sheet access, the same field keys (<code>data-hub-contract</code>, <code>data-hub-kpi</code>, quick-link rows) can be synced from Smartsheet without losing local edits as a fallback.</p>
   </aside>
   <div class="hubMainStream">
   <div class="hubMain">
@@ -1296,15 +1305,42 @@
     return new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
   }
   var HUB_LABOR_EXTRA_KEY = 'hubLaborStaffExtra';
+  var HUB_LABOR_HIDDEN_KEY = 'hubLaborStaffHiddenIds';
+  var HUB_WORKSPACE_KEY = 'hubWorkspaceV1';
+  function getHubLaborHiddenSet(){
+    var hidden = [];
+    try{ hidden = JSON.parse(localStorage.getItem(HUB_LABOR_HIDDEN_KEY) || '[]'); }catch(e){}
+    if(!Array.isArray(hidden)) hidden = [];
+    var o = {};
+    hidden.forEach(function(id){ if(id) o[id] = true; });
+    return o;
+  }
   function getHubLaborStaffByIdMap(){
     var map = {};
+    var hid = getHubLaborHiddenSet();
     var base = window.AZ21_LABOR_STAFF;
-    if(Array.isArray(base)) base.forEach(function(s){ if(s && s.id) map[s.id] = s; });
+    if(Array.isArray(base)) base.forEach(function(s){ if(s && s.id && !hid[s.id]) map[s.id] = s; });
     try{
       var extra = JSON.parse(localStorage.getItem(HUB_LABOR_EXTRA_KEY) || '[]');
-      if(Array.isArray(extra)) extra.forEach(function(s){ if(s && s.id) map[s.id] = s; });
+      if(Array.isArray(extra)) extra.forEach(function(s){ if(s && s.id && !hid[s.id]) map[s.id] = s; });
     }catch(e){}
     return map;
+  }
+  function hubRemoveStaffFromRoster(id){
+    if(!id) return;
+    var extra = [];
+    try{ extra = JSON.parse(localStorage.getItem(HUB_LABOR_EXTRA_KEY) || '[]'); }catch(e){}
+    if(!Array.isArray(extra)) extra = [];
+    var next = extra.filter(function(s){ return s && s.id !== id; });
+    if(next.length < extra.length){
+      try{ localStorage.setItem(HUB_LABOR_EXTRA_KEY, JSON.stringify(next)); }catch(e){}
+      return;
+    }
+    var hidden = [];
+    try{ hidden = JSON.parse(localStorage.getItem(HUB_LABOR_HIDDEN_KEY) || '[]'); }catch(e){}
+    if(!Array.isArray(hidden)) hidden = [];
+    if(hidden.indexOf(id) < 0) hidden.push(id);
+    try{ localStorage.setItem(HUB_LABOR_HIDDEN_KEY, JSON.stringify(hidden)); }catch(e){}
   }
   function hubStaffInitials(s){
     if(!s || !s.name) return '?';
@@ -1365,7 +1401,7 @@
     var photo = s.photo ? String(s.photo).trim() : '';
     var img = photo ? '<img src="' + escapeHtml(photo) + '" alt="" loading="lazy" />' : '';
     var avatarInner = img + (photo ? '' : initials);
-    return '<div class="hubStaffCard"><div class="hubStaffAvatar">' + avatarInner + '<span class="hubStaffStatus" title="Planned on site"></span></div><div class="hubStaffMeta"><div class="hubStaffName">' + formal + '</div><div class="hubStaffTitle">' + title + '</div><div class="hubStaffDisc">' + disc + '</div></div></div>';
+    return '<div class="hubStaffCard" data-staff-id="' + escapeHtml(s.id || '') + '"><div class="hubStaffAvatar">' + avatarInner + '<span class="hubStaffStatus" title="Planned on site"></span></div><div class="hubStaffMeta"><div class="hubStaffName">' + formal + '</div><div class="hubStaffTitle">' + title + '</div><div class="hubStaffDisc">' + disc + '</div></div><button type="button" class="hubStaffRemove">Remove</button></div>';
   }
   function getHubSelectedIsoForLabor(){
     var dsi = document.getElementById('hubScheduleDate');
@@ -1877,20 +1913,292 @@
 
   function renderTeam(){
     const wrap = $('#teamList');
+    if(!wrap) return;
     wrap.innerHTML = '';
     team.forEach((name, idx)=>{
       const pill = document.createElement('div');
       pill.className = 'pill';
-      pill.innerHTML = `<input type="text" class="input teamNameInput" value="${escapeHtml(name)}" placeholder="Name" style="font-weight:800;color:#0B2F6B;border:none;background:transparent;padding:4px 0;min-width:80px;font-size:14px;"><button class="x" title="remove">✖</button>`;
+      pill.innerHTML = `<input type="text" class="input teamNameInput" value="${escapeHtml(name)}" placeholder="Name" style="font-weight:800;color:#0B2F6B;border:none;background:transparent;padding:4px 0;min-width:80px;font-size:14px;flex:1;"><button type="button" class="x" title="Remove from report team" data-team-idx="${idx}" aria-label="Remove">✖</button>`;
       const nameInput = pill.querySelector('.teamNameInput');
       if(nameInput) {
         nameInput.oninput = ()=>{ team[idx] = nameInput.value; syncPreview(); };
         nameInput.onchange = ()=>{ team[idx] = nameInput.value; syncPreview(); };
         nameInput.onblur = ()=>{ team[idx] = nameInput.value; syncPreview(); };
       }
-      pill.querySelector('button').onclick = ()=>{ team.splice(idx,1); renderTeam(); syncPreview(); };
       wrap.appendChild(pill);
     });
+  }
+  function bindTeamListRemoveDelegation(){
+    var wrap = document.getElementById('teamList');
+    if(!wrap || wrap._teamRmBound) return;
+    wrap._teamRmBound = true;
+    wrap.addEventListener('click', function(e){
+      var btn = e.target && e.target.closest && e.target.closest('button[data-team-idx]');
+      if(!btn) return;
+      e.preventDefault();
+      e.stopPropagation();
+      var i = parseInt(btn.getAttribute('data-team-idx'), 10);
+      if(isNaN(i) || i < 0 || i >= team.length) return;
+      team.splice(i, 1);
+      renderTeam();
+      if(typeof syncPreview === 'function') syncPreview();
+    });
+  }
+
+  var HUB_WS_DEFAULT = {
+    brandTitle: 'Vantage AZ21, Workspace',
+    brandSub: 'Choose a tool or pick a date on the calendar',
+    health: [
+      { color: 'yellow', label: 'Revenue' },
+      { color: 'yellow', label: 'Labor' },
+      { color: 'yellow', label: 'Expense' },
+      { color: 'red', label: 'Billing' }
+    ],
+    projectTitle: 'Project health',
+    projectStats: ['Escalated 0', 'Overdue 0', 'Issues 0', 'Risks 0', 'Actions 1'],
+    contract: {
+      contractTotal: '$2,085,440.00',
+      unapprovedCo: '—',
+      budgetHrs: '8,920',
+      hourlyRate: '$200.00',
+      budgetedExp: '—'
+    },
+    kpi: {
+      costToDate: '$32,182.31',
+      revenueToDate: '—',
+      remainingHrs: '—',
+      pctPm: '—',
+      pctPlanned: '—'
+    },
+    quickLinks: [
+      { label: 'Project health', href: '#hubProjectHealth' },
+      { label: '101560 — Backlog review', href: '' },
+      { label: 'Vantage AZ21 — Labor schedule', href: '' },
+      { label: '101560 — Bid sheet', href: '' },
+      { label: '101560 — SoV', href: '' },
+      { label: '101560 — Contract management', href: '' },
+      { label: '101560 — Project dashboard', href: '' }
+    ],
+    chartNotes: { hours: '', expenses: '' }
+  };
+  function deepMergeHubWorkspace(saved){
+    var o = JSON.parse(JSON.stringify(HUB_WS_DEFAULT));
+    if(!saved || typeof saved !== 'object') return o;
+    if(saved.brandTitle != null) o.brandTitle = String(saved.brandTitle);
+    if(saved.brandSub != null) o.brandSub = String(saved.brandSub);
+    if(Array.isArray(saved.health) && saved.health.length) o.health = saved.health.map(function(h, i){
+      var d = o.health[i] || { color: 'yellow', label: '' };
+      return { color: h.color || d.color, label: h.label != null ? String(h.label) : d.label };
+    });
+    if(saved.projectTitle != null) o.projectTitle = String(saved.projectTitle);
+    if(Array.isArray(saved.projectStats) && saved.projectStats.length) o.projectStats = saved.projectStats.map(String);
+    if(saved.contract && typeof saved.contract === 'object'){
+      Object.keys(o.contract).forEach(function(k){
+        if(saved.contract[k] != null) o.contract[k] = String(saved.contract[k]);
+      });
+    }
+    if(saved.kpi && typeof saved.kpi === 'object'){
+      Object.keys(o.kpi).forEach(function(k){
+        if(saved.kpi[k] != null) o.kpi[k] = String(saved.kpi[k]);
+      });
+    }
+    if(Array.isArray(saved.quickLinks)){
+      o.quickLinks = HUB_WS_DEFAULT.quickLinks.map(function(def, i){
+        var s = saved.quickLinks[i];
+        return s ? { label: s.label != null ? String(s.label) : def.label, href: s.href != null ? String(s.href) : def.href } : def;
+      });
+    }
+    if(saved.chartNotes && typeof saved.chartNotes === 'object'){
+      if(saved.chartNotes.hours != null) o.chartNotes.hours = String(saved.chartNotes.hours);
+      if(saved.chartNotes.expenses != null) o.chartNotes.expenses = String(saved.chartNotes.expenses);
+    }
+    return o;
+  }
+  function loadHubWorkspace(){
+    try{
+      var raw = localStorage.getItem(HUB_WORKSPACE_KEY);
+      if(raw) return deepMergeHubWorkspace(JSON.parse(raw));
+    }catch(e){}
+    return JSON.parse(JSON.stringify(HUB_WS_DEFAULT));
+  }
+  function gatherHubWorkspaceFromUI(){
+    var o = JSON.parse(JSON.stringify(HUB_WS_DEFAULT));
+    var ti = document.getElementById('hubBrandTitleInput');
+    var si = document.getElementById('hubBrandSubInput');
+    if(ti) o.brandTitle = ti.value;
+    if(si) o.brandSub = si.value;
+    var hb = document.getElementById('hubHealthBarRoot');
+    if(hb){
+      o.health = [];
+      hb.querySelectorAll('.hubHealthRow').forEach(function(row){
+        var sel = row.querySelector('select');
+        var inp = row.querySelector('input[type="text"]');
+        o.health.push({ color: sel ? sel.value : 'yellow', label: inp ? inp.value : '' });
+      });
+    }
+    var pt = document.getElementById('hubProjectHealthTitleInput');
+    if(pt) o.projectTitle = pt.value;
+    o.projectStats = [];
+    document.querySelectorAll('#hubPHStatsRow .hubPHStatInput').forEach(function(el){ o.projectStats.push(el.value); });
+    document.querySelectorAll('[data-hub-contract]').forEach(function(el){
+      var k = el.getAttribute('data-hub-contract');
+      if(k) o.contract[k] = el.value;
+    });
+    document.querySelectorAll('[data-hub-kpi]').forEach(function(el){
+      var k = el.getAttribute('data-hub-kpi');
+      if(k) o.kpi[k] = el.value;
+    });
+    o.quickLinks = [];
+    document.querySelectorAll('#hubQuickLinksRoot .hubQLRow').forEach(function(row){
+      var lab = row.querySelector('.hubQLabel');
+      var href = row.querySelector('.hubQHref');
+      o.quickLinks.push({ label: lab ? lab.value : '', href: href ? href.value : '' });
+    });
+    var nh = document.getElementById('hubChartNoteHours');
+    var ne = document.getElementById('hubChartNoteExpenses');
+    o.chartNotes = { hours: nh ? nh.value : '', expenses: ne ? ne.value : '' };
+    return o;
+  }
+  function hubRefreshQuickLinkAnchors(){
+    var ql = document.getElementById('hubQuickLinksRoot');
+    if(!ql) return;
+    ql.querySelectorAll('.hubQLRow').forEach(function(row){
+      var hrefEl = row.querySelector('.hubQHref');
+      var a = row.querySelector('.hubQLGo');
+      if(!hrefEl || !a) return;
+      var h = (hrefEl.value || '').trim();
+      a.onclick = null;
+      if(!h){
+        a.href = '#';
+        a.onclick = function(e){ e.preventDefault(); };
+        a.removeAttribute('target');
+        return;
+      }
+      if(h.charAt(0) === '#'){
+        a.href = h;
+        a.removeAttribute('target');
+        a.removeAttribute('rel');
+      } else {
+        a.href = h;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+      }
+    });
+  }
+  function applyHubWorkspaceToUI(data){
+    var ti = document.getElementById('hubBrandTitleInput');
+    var si = document.getElementById('hubBrandSubInput');
+    if(ti) ti.value = data.brandTitle || '';
+    if(si) si.value = data.brandSub || '';
+    var hb = document.getElementById('hubHealthBarRoot');
+    if(hb){
+      hb.innerHTML = '';
+      (data.health || []).forEach(function(it){
+        var row = document.createElement('div');
+        row.className = 'hubHealthItem hubHealthRow';
+        var dot = document.createElement('span');
+        dot.setAttribute('aria-hidden', 'true');
+        dot.className = 'hubHealthDot hubHealthDot--' + (it.color || 'yellow');
+        var sel = document.createElement('select');
+        sel.setAttribute('aria-label', 'Status color');
+        ['yellow','red','green','orange'].forEach(function(c){
+          var opt = document.createElement('option');
+          opt.value = c;
+          opt.textContent = c.charAt(0).toUpperCase() + c.slice(1);
+          if((it.color || 'yellow') === c) opt.selected = true;
+          sel.appendChild(opt);
+        });
+        sel.addEventListener('change', function(){
+          dot.className = 'hubHealthDot hubHealthDot--' + sel.value;
+          saveHubWorkspaceDebounced();
+        });
+        var inp = document.createElement('input');
+        inp.type = 'text';
+        inp.setAttribute('aria-label', 'Metric label');
+        inp.value = it.label || '';
+        row.appendChild(dot);
+        row.appendChild(sel);
+        row.appendChild(inp);
+        hb.appendChild(row);
+      });
+    }
+    var pt = document.getElementById('hubProjectHealthTitleInput');
+    if(pt) pt.value = data.projectTitle || '';
+    var ph = document.getElementById('hubPHStatsRow');
+    if(ph){
+      ph.innerHTML = '';
+      (data.projectStats || []).forEach(function(st, i){
+        var inp = document.createElement('input');
+        inp.type = 'text';
+        inp.className = 'hubPHStatInput';
+        inp.value = st;
+        inp.setAttribute('aria-label', 'Project stat ' + (i + 1));
+        ph.appendChild(inp);
+      });
+    }
+    if(data.contract){
+      Object.keys(data.contract).forEach(function(k){
+        var el = document.querySelector('[data-hub-contract="' + k + '"]');
+        if(el) el.value = data.contract[k];
+      });
+    }
+    if(data.kpi){
+      Object.keys(data.kpi).forEach(function(k){
+        var el = document.querySelector('[data-hub-kpi="' + k + '"]');
+        if(el) el.value = data.kpi[k];
+      });
+    }
+    var ql = document.getElementById('hubQuickLinksRoot');
+    if(ql){
+      ql.innerHTML = '';
+      (data.quickLinks || []).forEach(function(link, i){
+        var row = document.createElement('div');
+        row.className = 'hubQLRow';
+        var lab = document.createElement('input');
+        lab.type = 'text';
+        lab.className = 'hubQLabel';
+        lab.placeholder = 'Label';
+        lab.value = link.label || '';
+        lab.setAttribute('aria-label', 'Quick link label ' + (i + 1));
+        var href = document.createElement('input');
+        href.type = 'text';
+        href.className = 'hubQHref';
+        href.placeholder = 'URL or #anchor';
+        href.value = link.href || '';
+        href.setAttribute('aria-label', 'Quick link URL ' + (i + 1));
+        var a = document.createElement('a');
+        a.className = 'hubQLGo';
+        a.textContent = '↗';
+        a.setAttribute('aria-label', 'Open link');
+        row.appendChild(lab);
+        row.appendChild(href);
+        row.appendChild(a);
+        ql.appendChild(row);
+      });
+    }
+    var nh = document.getElementById('hubChartNoteHours');
+    var ne = document.getElementById('hubChartNoteExpenses');
+    if(nh && data.chartNotes) nh.value = data.chartNotes.hours || '';
+    if(ne && data.chartNotes) ne.value = data.chartNotes.expenses || '';
+    hubRefreshQuickLinkAnchors();
+  }
+  function saveHubWorkspaceDebounced(){
+    if(saveHubWorkspaceDebounced._t) clearTimeout(saveHubWorkspaceDebounced._t);
+    saveHubWorkspaceDebounced._t = setTimeout(function(){
+      saveHubWorkspaceDebounced._t = null;
+      try{
+        hubRefreshQuickLinkAnchors();
+        localStorage.setItem(HUB_WORKSPACE_KEY, JSON.stringify(gatherHubWorkspaceFromUI()));
+      }catch(e){}
+    }, 300);
+  }
+  function initHubWorkspace(){
+    applyHubWorkspaceToUI(loadHubWorkspace());
+    var hub = document.getElementById('hubDashboard');
+    if(!hub || hub._hubWsInit) return;
+    hub._hubWsInit = true;
+    hub.addEventListener('input', saveHubWorkspaceDebounced);
+    hub.addEventListener('change', saveHubWorkspaceDebounced);
   }
 
   function renderLookEditor(){
@@ -3452,6 +3760,7 @@
 
   // Ensure preview and render run after DOM is ready (use setTimeout to defer to next tick)
   setTimeout(function(){
+    bindTeamListRemoveDelegation();
     renderAll();
     if (typeof loadLogo === 'function') loadLogo();
     // Delegated gauge update: when user changes percentage (e.g. paste, blur, or after restore), gauge responds
@@ -3481,6 +3790,21 @@
   }, 0);
 
   (function initHubDashboard(){
+    initHubWorkspace();
+    var lc = document.getElementById('hubLaborCards');
+    if(lc && !lc._hubStaffRm){
+      lc._hubStaffRm = true;
+      lc.addEventListener('click', function(e){
+        var btn = e.target && e.target.closest && e.target.closest('.hubStaffRemove');
+        if(!btn) return;
+        e.preventDefault();
+        var card = btn.closest && btn.closest('[data-staff-id]');
+        if(!card) return;
+        hubRemoveStaffFromRoster(card.getAttribute('data-staff-id'));
+        renderHubCalendar();
+        renderHubLaborPanel();
+      });
+    }
     loadHubWeekendWorkIsos();
     var hubRd0 = document.getElementById('reportDate');
     if(hubRd0 && hubRd0.value) {
