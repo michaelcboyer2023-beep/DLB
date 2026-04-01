@@ -574,14 +574,6 @@
         </div>
       </section>
     </div>
-    <section class="hubPanel hubLookAheadPanel" aria-labelledby="hubLookAheadHeading">
-      <h2 id="hubLookAheadHeading" class="hubPanelTitle">3-day look ahead</h2>
-      <p class="hubLookAheadSubtitle">Electrical &amp; mechanical · Hybrid Cx workbook</p>
-      <div class="hubLookAheadTile">
-        <p class="hubLookAheadHint">Day 1 is the date you select on the calendar (or in the schedule date field under Hybrid Cx schedule). Only Electrical and Mechanical rows are shown.</p>
-        <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
-      </div>
-    </section>
     <section class="hubPanel hubSchedulePanel" aria-labelledby="hubSchedHeading">
       <div class="hubSchedulePanelTop">
         <h2 id="hubSchedHeading" class="hubPanelTitle">Hybrid Cx schedule</h2>
@@ -594,6 +586,14 @@
           <input type="date" id="hubScheduleDate" name="hubScheduleDate" aria-label="Schedule date" />
         </div>
         <div class="hubScheduleDetail" id="hubScheduleDetail" role="region" aria-live="polite" aria-label="Schedule details for selected day"></div>
+      </div>
+    </section>
+    <section class="hubPanel hubLookAheadPanel" aria-labelledby="hubLookAheadHeading">
+      <h2 id="hubLookAheadHeading" class="hubPanelTitle">3-day look ahead</h2>
+      <p class="hubLookAheadSubtitle">Electrical &amp; mechanical · Hybrid Cx workbook</p>
+      <div class="hubLookAheadTile">
+        <p class="hubLookAheadHint">Day 1 is the date you select on the calendar or in the Hybrid Cx schedule date field above. Only Electrical and Mechanical rows are shown.</p>
+        <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
       </div>
     </section>
   </div>
@@ -1316,7 +1316,7 @@
       else if(dateInput.value) iso = dateInput.value;
     }
     if(!iso){
-      wrap.innerHTML = '<p class="hubScheduleEmpty">Pick a day on the calendar or use the date field below to see electrical, mechanical, manpower, and support rows from the AZ21 Hybrid Cx schedule.</p>';
+      wrap.innerHTML = '<p class="hubScheduleEmpty">Pick a day on the calendar or use the date field in this section to see electrical, mechanical, manpower, and support rows from the AZ21 Hybrid Cx schedule.</p>';
       renderHubCxCounter();
       return;
     }
