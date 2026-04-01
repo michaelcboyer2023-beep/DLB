@@ -1410,6 +1410,29 @@
     var p = String(iso).split('-');
     return new Date(Number(p[0]), Number(p[1])-1, Number(p[2]));
   }
+  /**
+   * Dates when Hybrid Cx Electrical/Mechanical must not infer on-site staff (no labor rows for that day).
+   * Without this, gaps in AZ21_LABOR_SCHEDULE_BY_DATE (e.g. year-end break) still had E/M cells in the workbook,
+   * so every ECx/MCx roster member appeared on site.
+   * Override in page or labor script: window.AZ21_LABOR_CX_FALLBACK_BLACKOUT = [['2026-12-24','2027-01-02'], ...];
+   */
+  function hubIsoInLaborCxFallbackBlackout(iso){
+    if(!iso || !/^\d{4}-\d{2}-\d{2}$/.test(String(iso))) return false;
+    var ranges = (window.AZ21_LABOR_CX_FALLBACK_BLACKOUT && Array.isArray(window.AZ21_LABOR_CX_FALLBACK_BLACKOUT))
+      ? window.AZ21_LABOR_CX_FALLBACK_BLACKOUT
+      : [
+          ['2026-12-22', '2027-01-03'],
+          ['2025-12-22', '2026-01-02']
+        ];
+    for(var ri = 0; ri < ranges.length; ri++){
+      var r = ranges[ri];
+      if(!r || r.length < 2) continue;
+      var lo = String(r[0]);
+      var hi = String(r[1]);
+      if(iso >= lo && iso <= hi) return true;
+    }
+    return false;
+  }
   var HUB_LABOR_EXTRA_KEY = 'hubLaborStaffExtra';
   var HUB_LABOR_HIDDEN_KEY = 'hubLaborStaffHiddenIds';
   var HUB_WORKSPACE_KEY = 'hubWorkspaceV1';
@@ -1543,6 +1566,9 @@
         out = sortHubStaffByLaborRosterOrder(out);
         return { staff: out, source: 'labor' };
       }
+    }
+    if(hubIsoInLaborCxFallbackBlackout(iso)){
+      return { staff: out, source: 'empty' };
     }
     var data = window.AZ21_CX_SCHEDULE_BY_DATE;
     var rows = data && data[iso];
@@ -1681,7 +1707,9 @@
     if(!all || !all.length) return [];
     return hubSortScheduleEntriesEMFirst(all.filter(hubShowInDailyTasksPanel));
   }
-  function hubHtmlForTaskEntries(entries){
+  function hubHtmlForTaskEntries(entries, opts){
+    opts = opts || {};
+    var roAttr = opts.readOnly ? ' contenteditable="false" spellcheck="false"' : '';
     if(!entries || !entries.length) return '';
     var html = '';
     var curSheet = null;
@@ -1692,7 +1720,7 @@
         curSheet = e.t;
         html += '<div class="hubTaskSheet"><div class="hubTaskSheetTitle">' + escapeHtml(e.t) + '</div>';
       }
-      html += '<div class="hubTaskCard"><div class="hubTaskLabel">' + escapeHtml(e.r) + '</div><div class="hubTaskValue">' + escapeHtml(String(e.v != null ? e.v : '')).replace(/\n/g, '<br>') + '</div></div>';
+      html += '<div class="hubTaskCard"><div class="hubTaskLabel">' + escapeHtml(e.r) + '</div><div class="hubTaskValue"' + roAttr + '>' + escapeHtml(String(e.v != null ? e.v : '')).replace(/\n/g, '<br>') + '</div></div>';
     }
     if(curSheet !== null) html += '</div>';
     return html;
@@ -2214,7 +2242,7 @@
     body.style.cssText = 'max-height:78vh;overflow-y:auto;padding-right:6px;';
     var hint = document.createElement('p');
     hint.style.cssText = 'font-size:12px;color:#64748b;margin:0 0 12px;line-height:1.45;';
-    hint.textContent = 'Week shown Sunday–Saturday. Each day lists staff and the same field tasks as Daily tasks (E / M / comments). Edit manual names, day notes, or open Edit tasks for the full workbook row editor.';
+    hint.textContent = 'Week shown Sunday–Saturday. Tasks below are read-only; use Edit daily tasks (under the calendar) to change Hybrid Cx rows. You can still edit manual on-site names and day notes here.';
     body.appendChild(hint);
     for(var i = 0; i < 7; i++){
       var d = new Date(week0.getFullYear(), week0.getMonth(), week0.getDate() + i);
@@ -2241,9 +2269,10 @@
       tasksTitle.textContent = 'Tasks (Hybrid Cx)';
       tasksWrap.appendChild(tasksTitle);
       var tasksBody = document.createElement('div');
-      tasksBody.className = 'hubWeekTasksBody';
+      tasksBody.className = 'hubWeekTasksBody hubWeekTasksBody--readonly';
+      tasksBody.setAttribute('aria-readonly', 'true');
       if(taskEntries.length){
-        tasksBody.innerHTML = hubHtmlForTaskEntries(taskEntries);
+        tasksBody.innerHTML = hubHtmlForTaskEntries(taskEntries, { readOnly: true });
       } else {
         tasksBody.innerHTML = '<p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.45;">No field tasks for this day.</p>';
       }
@@ -2275,25 +2304,6 @@
       })();
       box.appendChild(noteLab);
       box.appendChild(noteTa);
-      var edBtn = document.createElement('button');
-      edBtn.type = 'button';
-      edBtn.className = 'btn';
-      edBtn.style.cssText = 'font-size:11px;padding:6px 10px;';
-      edBtn.textContent = 'Edit this day’s tasks';
-      edBtn.onclick = function(){
-        hubSelectedDate = d;
-        hubViewDate = new Date(d.getFullYear(), d.getMonth(), 1);
-        var hsd = document.getElementById('hubScheduleDate');
-        if(hsd) hsd.value = iso;
-        renderHubCalendar();
-        syncHubCalHint();
-        renderHubScheduleForSelectedDay();
-        renderHubLookAhead();
-        renderHubLaborPanel();
-        closeModal();
-        setTimeout(function(){ openHubEditDailyTasksModal(); }, 300);
-      };
-      box.appendChild(edBtn);
       body.appendChild(box);
     }
     var btnRow = document.createElement('div');
