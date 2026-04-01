@@ -15,14 +15,6 @@ window.AZ21_LABOR_STAFF = [
     "photo": ""
   },
   {
-    "id": "michael-boyer",
-    "name": "Michael Boyer",
-    "nameFormal": "Boyer, Michael",
-    "title": "Project Manager",
-    "disc": "ECx",
-    "photo": ""
-  },
-  {
     "id": "wes-buckley",
     "name": "Wes Buckley",
     "nameFormal": "Buckley, Wes",
@@ -374,18 +366,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "mason-lyons"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "robert-snydeman"
     }
   ],
   "2026-04-14": [
     {
       "staffId": "andrew-rosemond"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "robert-snydeman"
@@ -396,9 +382,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "andrew-rosemond"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "robert-snydeman"
     }
   ],
@@ -407,18 +390,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "andrew-rosemond"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "robert-snydeman"
     }
   ],
   "2026-04-17": [
     {
       "staffId": "andrew-rosemond"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "robert-snydeman"
@@ -552,107 +529,63 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
   "2026-06-01": [
     {
       "staffId": "andrew-rosemond"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-02": [
     {
       "staffId": "andrew-rosemond"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-03": [
     {
       "staffId": "andrew-rosemond"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-04": [
     {
       "staffId": "andrew-rosemond"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-05": [
     {
       "staffId": "andrew-rosemond"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
-  "2026-06-06": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-06-07": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
+  "2026-06-06": [],
+  "2026-06-07": [],
   "2026-06-08": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-09": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-10": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-11": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-12": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-13": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-14": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-15": [
@@ -661,9 +594,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-16": [
@@ -672,9 +602,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-17": [
@@ -683,9 +610,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-18": [
@@ -694,9 +618,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-19": [
@@ -705,9 +626,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-06-20": [
@@ -798,9 +716,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-02": [
@@ -809,9 +724,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-03": [
@@ -820,25 +732,16 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-04": [
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-05": [
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-06": [
@@ -850,9 +753,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-07": [
@@ -864,9 +764,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-08": [
@@ -878,9 +775,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-09": [
@@ -892,9 +786,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-10": [
@@ -906,25 +797,16 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-11": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-12": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-13": [
@@ -933,9 +815,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-14": [
@@ -944,9 +823,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-15": [
@@ -955,9 +831,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-16": [
@@ -966,9 +839,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-17": [
@@ -977,9 +847,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-18": [
@@ -988,9 +855,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-19": [
@@ -999,9 +863,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-07-20": [
@@ -1013,9 +874,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1032,9 +890,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1047,9 +902,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1066,9 +918,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1083,9 +932,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1097,9 +943,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1109,9 +952,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1128,9 +968,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "gerardo-mendez"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1143,9 +980,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1162,9 +996,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "gerardo-mendez"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1177,9 +1008,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1196,9 +1024,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "gerardo-mendez"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1211,9 +1036,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1230,9 +1052,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1245,9 +1064,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1264,9 +1080,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1281,9 +1094,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1292,18 +1102,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-08-09": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1320,9 +1124,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1335,9 +1136,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1354,9 +1152,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1369,9 +1164,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1388,9 +1180,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1402,9 +1191,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1414,9 +1200,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1433,9 +1216,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1448,9 +1228,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1467,9 +1244,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1482,9 +1256,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1501,18 +1272,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-08-22": [
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1523,18 +1288,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-08-24": [
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1545,18 +1304,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-08-26": [
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1567,18 +1320,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-08-28": [
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1625,9 +1372,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1640,9 +1384,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1659,9 +1400,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1676,9 +1414,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1687,18 +1422,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-09-06": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1715,9 +1444,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1730,9 +1456,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1749,9 +1472,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1764,9 +1484,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1783,9 +1500,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1797,9 +1511,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1809,9 +1520,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1828,9 +1536,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1843,9 +1548,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1862,9 +1564,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1877,9 +1576,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1896,9 +1592,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1908,9 +1601,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1924,9 +1614,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1936,9 +1623,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1952,9 +1636,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1964,9 +1645,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -1980,9 +1658,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -1994,18 +1669,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-09-26": [
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2016,18 +1685,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-09-28": [
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2038,18 +1701,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-09-30": [
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2060,9 +1717,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2071,24 +1725,17 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-10-03": [
-    {
-      "staffId": "michael-boyer"
-    },
+
     {
       "staffId": "wes-buckley"
     }
   ],
   "2026-10-04": [
-    {
-      "staffId": "michael-boyer"
-    },
+
     {
       "staffId": "wes-buckley"
     }
@@ -2096,9 +1743,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
   "2026-10-05": [
     {
       "staffId": "anthony-viravong"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2109,18 +1753,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "anthony-viravong"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2026-10-07": [
     {
       "staffId": "anthony-viravong"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2131,9 +1769,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "anthony-viravong"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2142,131 +1777,37 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "anthony-viravong"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
-  "2026-10-10": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-11": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-12": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-13": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-14": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-15": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-16": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-17": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-18": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-19": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-20": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-21": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-22": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-23": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-24": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-25": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-26": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-27": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-28": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-29": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-10-30": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-01": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
+  "2026-10-10": [],
+  "2026-10-11": [],
+  "2026-10-12": [],
+  "2026-10-13": [],
+  "2026-10-14": [],
+  "2026-10-15": [],
+  "2026-10-16": [],
+  "2026-10-17": [],
+  "2026-10-18": [],
+  "2026-10-19": [],
+  "2026-10-20": [],
+  "2026-10-21": [],
+  "2026-10-22": [],
+  "2026-10-23": [],
+  "2026-10-24": [],
+  "2026-10-25": [],
+  "2026-10-26": [],
+  "2026-10-27": [],
+  "2026-10-28": [],
+  "2026-10-29": [],
+  "2026-10-30": [],
+  "2026-11-01": [],
   "2026-11-02": [
     {
       "staffId": "andrew-rosemond"
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-11-03": [
@@ -2275,9 +1816,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-11-04": [
@@ -2286,9 +1824,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-11-05": [
@@ -2297,9 +1832,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2026-11-06": [
@@ -2308,126 +1840,31 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
-  "2026-11-07": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-08": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-09": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-10": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-11": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-12": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-13": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-14": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-15": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-16": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-17": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-18": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-19": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-20": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-21": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-22": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-23": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-24": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-25": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-26": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-27": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-28": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-11-29": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
+  "2026-11-07": [],
+  "2026-11-08": [],
+  "2026-11-09": [],
+  "2026-11-10": [],
+  "2026-11-11": [],
+  "2026-11-12": [],
+  "2026-11-13": [],
+  "2026-11-14": [],
+  "2026-11-15": [],
+  "2026-11-16": [],
+  "2026-11-17": [],
+  "2026-11-18": [],
+  "2026-11-19": [],
+  "2026-11-20": [],
+  "2026-11-21": [],
+  "2026-11-22": [],
+  "2026-11-23": [],
+  "2026-11-24": [],
+  "2026-11-25": [],
+  "2026-11-26": [],
+  "2026-11-27": [],
+  "2026-11-28": [],
+  "2026-11-29": [],
   "2026-11-30": [
     {
       "staffId": "andrew-rosemond"
@@ -2437,9 +1874,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2456,9 +1890,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2471,9 +1902,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2490,9 +1918,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2505,9 +1930,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2524,9 +1946,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2539,9 +1958,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2558,9 +1974,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2573,9 +1986,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2592,9 +2002,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2607,9 +2014,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2626,62 +2030,19 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
-  "2026-12-12": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-13": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-14": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-15": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-16": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-17": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-18": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-19": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-20": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2026-12-21": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
+  "2026-12-12": [],
+  "2026-12-13": [],
+  "2026-12-14": [],
+  "2026-12-15": [],
+  "2026-12-16": [],
+  "2026-12-17": [],
+  "2026-12-18": [],
+  "2026-12-19": [],
+  "2026-12-20": [],
+  "2026-12-21": [],
   "2027-01-04": [
     {
       "staffId": "andrew-rosemond"
@@ -2691,9 +2052,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2710,9 +2068,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "gerardo-mendez"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2725,9 +2080,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "gerardo-mendez"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2744,9 +2096,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "gerardo-mendez"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2761,9 +2110,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "gerardo-mendez"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2775,9 +2121,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "bradley-hess"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2787,9 +2130,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "bradley-hess"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2806,9 +2146,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2821,9 +2158,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2840,9 +2174,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2855,9 +2186,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2874,9 +2202,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2889,9 +2214,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2908,9 +2230,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2923,9 +2242,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2942,9 +2258,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2957,9 +2270,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -2976,9 +2286,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -2993,9 +2300,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3004,18 +2308,12 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
   "2027-01-24": [
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3032,9 +2330,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3047,9 +2342,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3066,9 +2358,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3083,9 +2372,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3098,9 +2384,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3486,9 +2769,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
   "2027-04-02": [
@@ -3497,56 +2777,17 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     }
   ],
-  "2027-04-03": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-04": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-05": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-06": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-07": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-08": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-09": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-10": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-11": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
+  "2027-04-03": [],
+  "2027-04-04": [],
+  "2027-04-05": [],
+  "2027-04-06": [],
+  "2027-04-07": [],
+  "2027-04-08": [],
+  "2027-04-09": [],
+  "2027-04-10": [],
+  "2027-04-11": [],
   "2027-04-12": [
     {
       "staffId": "andrew-rosemond"
@@ -3556,9 +2797,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3575,9 +2813,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3590,9 +2825,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3609,9 +2841,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3624,9 +2853,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3643,9 +2869,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3658,9 +2881,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3677,9 +2897,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3692,9 +2909,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3711,9 +2925,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
@@ -3726,9 +2937,6 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
     },
     {
       "staffId": "michael-arvizu"
-    },
-    {
-      "staffId": "michael-boyer"
     },
     {
       "staffId": "wes-buckley"
@@ -3745,45 +2953,14 @@ window.AZ21_LABOR_SCHEDULE_BY_DATE = {
       "staffId": "michael-arvizu"
     },
     {
-      "staffId": "michael-boyer"
-    },
-    {
       "staffId": "wes-buckley"
     }
   ],
-  "2027-04-24": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-25": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-26": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-27": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-28": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-29": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ],
-  "2027-04-30": [
-    {
-      "staffId": "michael-boyer"
-    }
-  ]
+  "2027-04-24": [],
+  "2027-04-25": [],
+  "2027-04-26": [],
+  "2027-04-27": [],
+  "2027-04-28": [],
+  "2027-04-29": [],
+  "2027-04-30": []
 };

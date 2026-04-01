@@ -1440,6 +1440,14 @@
   }
   var HUB_LABOR_EXTRA_KEY = 'hubLaborStaffExtra';
   var HUB_LABOR_HIDDEN_KEY = 'hubLaborStaffHiddenIds';
+  /** Omitted from on-site list and Cx headcount until removed (survives labor JSON re-import). Optional: window.AZ21_LABOR_EXCLUDED_STAFF_IDS */
+  var HUB_LABOR_EXCLUDED_STAFF_IDS = { 'michael-boyer': true };
+  function hubIsLaborStaffExcluded(id){
+    if(!id) return false;
+    if(HUB_LABOR_EXCLUDED_STAFF_IDS[id]) return true;
+    if(window.AZ21_LABOR_EXCLUDED_STAFF_IDS && typeof window.AZ21_LABOR_EXCLUDED_STAFF_IDS === 'object' && window.AZ21_LABOR_EXCLUDED_STAFF_IDS[id]) return true;
+    return false;
+  }
   var HUB_WORKSPACE_KEY = 'hubWorkspaceV1';
   function getHubLaborHiddenSet(){
     var hidden = [];
@@ -1547,7 +1555,7 @@
     var seen = {};
     var source = 'empty';
     function addId(id){
-      if(!id || seen[id]) return;
+      if(!id || seen[id] || hubIsLaborStaffExcluded(id)) return;
       var st = byId[id];
       if(st){ seen[id] = true; out.push(st); }
     }
@@ -1559,6 +1567,7 @@
         if(row.onsite === false) return;
         if(row.hours != null && !isNaN(Number(row.hours)) && Number(row.hours) <= 0) return;
         var id = row.staffId;
+        if(hubIsLaborStaffExcluded(id)) return;
         if(laborHidden[id]) return;
         if(seen[id]) return;
         seen[id] = true;
@@ -1684,6 +1693,24 @@
       if(arr.length >= 2) mcx += arr[1];
     });
     return { emptyDay: false, total: ecx + mcx, ecx: ecx, mcx: mcx };
+  }
+  /** ECx / MCx / FLSCx headcount from same rules as On site (labor schedule, then Hybrid Cx fallback) — matches what Daily tasks day represents. */
+  function hubCxHeadcountFromOnSiteForIso(iso){
+    if(!iso || !/^\d{4}-\d{2}-\d{2}$/.test(String(iso))) return null;
+    var pack = getHubStaffForDate(iso);
+    var ecx = 0, mcx = 0, fls = 0;
+    (pack.staff || []).forEach(function(s){
+      if(s.disc === 'ECx') ecx++;
+      else if(s.disc === 'MCx') mcx++;
+      else if(s.disc === 'FLSCx') fls++;
+    });
+    var total = ecx + mcx + fls;
+    var noCxRows = !(function(){
+      var data = window.AZ21_CX_SCHEDULE_BY_DATE;
+      var rows = data && data[iso];
+      return rows && rows.length;
+    })();
+    return { total: total, ecx: ecx, mcx: mcx, fls: fls, source: pack.source, noCxRows: noCxRows };
   }
   /** Row types kept in Daily tasks; contractor/vendor-style rows go under Tools tabs. */
   var HUB_CX_NON_VENDOR_ROWS = {
@@ -1874,7 +1901,7 @@
       renderHubVendorTabs();
       return;
     }
-    var tot = hubCxManpowerTotalsForIso(iso);
+    var tot = hubCxHeadcountFromOnSiteForIso(iso);
     if(!tot){
       el.innerHTML = '';
       el.removeAttribute('title');
@@ -1882,9 +1909,9 @@
       renderHubVendorTabs();
       return;
     }
-    if(tot.emptyDay){
+    if(tot.noCxRows && tot.total === 0){
       el.innerHTML = '<span class="hubCxCountMuted">—</span>';
-      el.title = 'No embedded Hybrid Cx rows for this date';
+      el.title = 'No Hybrid Cx rows and no on-site Cx roster for ' + iso;
       renderHubCalCxHoursStrip();
       renderHubVendorTabs();
       return;
@@ -1893,9 +1920,10 @@
     var bits = [];
     bits.push(tot.ecx + ' ECx');
     bits.push(tot.mcx + ' MCx');
+    if(tot.fls) bits.push(tot.fls + ' FLSCx');
     html += '<span class="hubCxCountDetail"> · ' + bits.join(' · ') + '</span>';
     el.innerHTML = html;
-    el.title = 'CxA manpower planned onsite (workbook) for ' + iso;
+    el.title = 'On-site Cx headcount (labor schedule / roster) for ' + iso;
     renderHubCalCxHoursStrip();
     renderHubVendorTabs();
   }
