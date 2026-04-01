@@ -241,6 +241,7 @@
     /* Modal */
     .modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:flex;justify-content:center;align-items:flex-end;padding:18px;z-index:200;}
     .modal{width:min(720px,92vw);background:white;border-radius:18px;padding:16px;border:1px solid var(--border);box-shadow:0 20px 60px rgba(0,0,0,0.35);max-height:90vh;overflow-y:auto;}
+    .modal.modal--hubWide{width:min(960px,96vw);}
     .modalHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:10px;}
     .modalTitle{font-size:18px;font-weight:900;color:var(--dlb-navy);}
     .hidden{display:none !important;visibility:hidden !important;pointer-events:none !important;}
@@ -537,7 +538,7 @@
     .hubScheduleDateRow{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap;}
     .hubScheduleDateRow label{font-size:10px;font-weight:800;color:#64748b;flex-shrink:0;}
     .hubScheduleDateRow input[type="date"]{flex:1;min-width:0;padding:6px 8px;border-radius:8px;border:1px solid var(--border);font-size:12px;font-family:inherit;background:#fff;}
-    .hubScheduleDetail{max-height:min(24vh,220px);overflow-y:auto;padding-right:4px;margin:0 -4px 0 0;display:flex;flex-direction:column;gap:8px;}
+    .hubScheduleDetail{max-height:min(58vh,520px);overflow-y:auto;padding-right:4px;margin:0 -4px 0 0;display:flex;flex-direction:column;gap:8px;min-height:120px;}
     .hubScheduleDetail::-webkit-scrollbar{width:6px;}
     .hubScheduleDetail::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:999px;}
     .hubScheduleEmpty{margin:0;font-size:12px;color:#64748b;line-height:1.5;}
@@ -548,7 +549,7 @@
     .hubScheduleCardLabel{font-size:9px;font-weight:900;color:var(--dlb-blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
     .hubScheduleCardValue{font-size:11px;color:var(--ink);line-height:1.4;white-space:pre-wrap;word-break:break-word;}
     @media (max-width:900px){
-      .hubScheduleDetail{max-height:min(28vh,260px);}
+      .hubScheduleDetail{max-height:min(50vh,420px);}
     }
     .hubLookAheadTile{border:1px solid var(--border);border-radius:10px;padding:10px 12px 12px;background:#fff;}
     .hubLookAheadHint{font-size:10px;color:#64748b;margin:0 0 8px;line-height:1.45;max-width:72ch;}
@@ -571,9 +572,12 @@
     .hubBottomPair{display:flex;flex-direction:column;gap:10px;}
     @media (min-width:1100px){
       .hubBottomPair{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch;}
-      .hubBottomPair .hubScheduleDetail{max-height:min(28vh,260px);}
+      .hubBottomPair .hubScheduleDetail{max-height:min(52vh,480px);}
       .hubBottomPair .hubLookDayBody{max-height:min(28vh,260px);}
     }
+    .hubManualStaffLine{font-size:10px;color:#64748b;margin:8px 0 0;line-height:1.4;}
+    .hubPanelActions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px;}
+    .hubPanelActions .btn{font-size:11px;padding:6px 10px;}
     .dcrAppRoot.hidden{display:none !important;}
     @media print{
       .hubDashboard{display:none !important;}
@@ -719,6 +723,9 @@
           </aside>
         </div>
         <p class="hubCalHint" id="hubCalSelectedHint"></p>
+        <div class="hubPanelActions">
+          <button type="button" class="btn" id="hubWeekViewBtn">Week view (tasks &amp; staff)</button>
+        </div>
       </section>
       <section class="hubPanel hubToolsPanel" aria-labelledby="hubToolsHeading">
         <h2 id="hubToolsHeading" class="hubPanelTitle">Tools</h2>
@@ -736,7 +743,10 @@
     </div>
     <div class="hubBottomPair">
     <section class="hubPanel hubLookAheadPanel" aria-labelledby="hubLookAheadHeading">
-      <h2 id="hubLookAheadHeading" class="hubPanelTitle">3-day look ahead</h2>
+      <div class="hubSchedulePanelTop" style="margin-bottom:4px;">
+        <h2 id="hubLookAheadHeading" class="hubPanelTitle">3-day look ahead</h2>
+        <button type="button" class="btn" id="hubEditLookAheadBtn">Edit look ahead</button>
+      </div>
       <p class="hubLookAheadSubtitle">Electrical &amp; mechanical · Hybrid Cx workbook</p>
       <div class="hubLookAheadTile">
         <p class="hubLookAheadHint">Day 1 follows the calendar or the <strong>Daily tasks</strong> date (same row on a wide laptop). E/M rows only.</p>
@@ -746,7 +756,10 @@
     <section class="hubPanel hubSchedulePanel" aria-labelledby="hubSchedHeading">
       <div class="hubSchedulePanelTop">
         <h2 id="hubSchedHeading" class="hubPanelTitle">Daily tasks · Hybrid Cx schedule</h2>
-        <div class="hubCxCount" id="hubCxCount" role="status" aria-live="polite"></div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end;">
+          <button type="button" class="btn" id="hubEditDailyTasksBtn">Edit daily tasks</button>
+          <div class="hubCxCount" id="hubCxCount" role="status" aria-live="polite"></div>
+        </div>
       </div>
       <p class="hubScheduleLead">Workbook — electrical, mechanical, manpower, vendors</p>
       <div class="hubScheduleWrap" id="hubScheduleWrap">
@@ -1203,6 +1216,8 @@
     var ccEl = document.getElementById('advancedCcRecipients');
     if(toEl) emailToRecipients = (toEl.value||'').trim();
     if(ccEl) emailCcRecipients = (ccEl.value||'').trim();
+    var mod = modalOverlay && modalOverlay.querySelector('.modal');
+    if(mod) mod.classList.remove('modal--hubWide');
     if(modalOverlay) modalOverlay.classList.add('hidden');
     document.body.style.overflow = '';
     // Move focus off hidden modal so main page can receive input (fixes "can't change after paste doc")
@@ -1293,6 +1308,63 @@
       out = out.concat(em).concat(rest);
     });
     return out;
+  }
+  /** localStorage overrides for Hybrid Cx by date (full row list per ISO day). */
+  var HUB_CX_OVERLAY_KEY = 'hubCxScheduleOverlay';
+  var HUB_DAY_MANUAL_STAFF_KEY = 'hubDayManualStaff';
+  function loadCxOverlayObject(){
+    try{ var o = JSON.parse(localStorage.getItem(HUB_CX_OVERLAY_KEY) || '{}'); return o && typeof o === 'object' ? o : {}; }catch(e){ return {}; }
+  }
+  function saveCxOverlayObject(o){
+    try{ localStorage.setItem(HUB_CX_OVERLAY_KEY, JSON.stringify(o)); }catch(e){}
+  }
+  function getCxRowsForIso(iso){
+    if(!iso || !/^\d{4}-\d{2}-\d{2}$/.test(String(iso))) return [];
+    var emb = (window.AZ21_CX_SCHEDULE_BY_DATE && window.AZ21_CX_SCHEDULE_BY_DATE[iso]) || [];
+    var o = loadCxOverlayObject();
+    if(Object.prototype.hasOwnProperty.call(o, iso)){
+      var ov = o[iso];
+      return Array.isArray(ov) ? ov : [];
+    }
+    return emb;
+  }
+  function setCxOverlayRows(iso, rows){
+    if(!iso || !/^\d{4}-\d{2}-\d{2}$/.test(String(iso))) return;
+    var o = loadCxOverlayObject();
+    var clean = rows.filter(function(e){ return e && String(e.t||'').trim() && String(e.r||'').trim(); });
+    o[iso] = hubSortScheduleEntriesEMFirst(clean);
+    saveCxOverlayObject(o);
+  }
+  function clearCxOverlayIso(iso){
+    if(!iso) return;
+    var o = loadCxOverlayObject();
+    delete o[iso];
+    saveCxOverlayObject(o);
+  }
+  function getHubDayManualStaffCsv(iso){
+    try{
+      var o = JSON.parse(localStorage.getItem(HUB_DAY_MANUAL_STAFF_KEY) || '{}');
+      return o && o[iso] != null ? String(o[iso]) : '';
+    }catch(e){ return ''; }
+  }
+  function setHubDayManualStaffCsv(iso, csv){
+    var o = {};
+    try{ o = JSON.parse(localStorage.getItem(HUB_DAY_MANUAL_STAFF_KEY) || '{}'); }catch(e){}
+    if(!o || typeof o !== 'object') o = {};
+    if(csv && String(csv).trim()) o[iso] = String(csv).trim(); else delete o[iso];
+    try{ localStorage.setItem(HUB_DAY_MANUAL_STAFF_KEY, JSON.stringify(o)); }catch(e){}
+  }
+  function getHubDayManualStaffNames(iso){
+    var s = getHubDayManualStaffCsv(iso);
+    if(!s.trim()) return [];
+    return s.split(',').map(function(x){ return x.trim(); }).filter(Boolean);
+  }
+  function getHubWeekDayNote(iso){
+    if(!iso) return '';
+    try{
+      var o = JSON.parse(localStorage.getItem('hubWeekDayNotes') || '{}');
+      return o[iso] ? String(o[iso]).trim() : '';
+    }catch(e){ return ''; }
   }
   function hubPad2(n){ return n < 10 ? '0' + n : '' + n; }
   function hubToISODateLocal(d){
@@ -1424,11 +1496,33 @@
     var staff = pack.staff;
     var srcLabel = pack.source === 'labor' ? 'AZ21 labor schedule' : pack.source === 'cx' ? 'Hybrid Cx activity (fallback)' : 'No data';
     if(hint) hint.textContent = srcLabel + ' · ' + iso;
-    if(!staff.length){
-      wrap.innerHTML = '<p class="hubScheduleEmpty" style="color:#94a3b8;margin:0;font-size:12px;">No roster match for this day. Add dates to <code>AZ21_LABOR_SCHEDULE_BY_DATE</code> or extend the roster.</p>';
+    var manualNames = getHubDayManualStaffNames(iso);
+    var manualHtml = manualNames.length ? '<p class="hubManualStaffLine">Also on site (manual): ' + manualNames.map(function(n){ return escapeHtml(n); }).join(', ') + '</p>' : '';
+    var wnote = getHubWeekDayNote(iso);
+    var noteHtml = wnote ? '<p class="hubWeekDayNoteDisplay" style="font-size:12px;margin-top:10px;line-height:1.45;color:#334155;white-space:pre-wrap;">' + escapeHtml(wnote).replace(/\n/g,'<br>') + '</p>' : '';
+    if(!staff.length && !manualNames.length){
+      wrap.innerHTML = '<p class="hubScheduleEmpty" style="color:#94a3b8;margin:0;font-size:12px;">No roster match for this day. Add dates to <code>AZ21_LABOR_SCHEDULE_BY_DATE</code> or extend the roster.</p>' + noteHtml;
       return;
     }
-    wrap.innerHTML = staff.map(renderHubStaffCardHtml).join('');
+    if(!staff.length){
+      wrap.innerHTML = manualHtml + noteHtml;
+      return;
+    }
+    wrap.innerHTML = staff.map(renderHubStaffCardHtml).join('') + manualHtml + noteHtml;
+  }
+  function applyDcrTeamFromSiteAllocation(iso){
+    if(!iso || !/^\d{4}-\d{2}-\d{2}$/.test(String(iso))) return;
+    var pack = getHubStaffForDate(iso);
+    var names = [];
+    pack.staff.forEach(function(s){
+      var n = (s.nameFormal || s.name || '').trim();
+      if(n) names.push(n);
+    });
+    getHubDayManualStaffNames(iso).forEach(function(n){ if(names.indexOf(n) < 0) names.push(n); });
+    team.length = 0;
+    names.forEach(function(n){ team.push(n); });
+    if(typeof renderTeam === 'function') renderTeam();
+    if(typeof syncPreview === 'function') syncPreview();
   }
   function syncHubCalHint(){
     var el = document.getElementById('hubCalSelectedHint');
@@ -1443,7 +1537,7 @@
   function hubCxManpowerTotalsForIso(iso){
     var data = window.AZ21_CX_SCHEDULE_BY_DATE;
     if(!data || typeof data !== 'object' || !iso || !/^\d{4}-\d{2}-\d{2}$/.test(String(iso))) return null;
-    var rows = data[iso];
+    var rows = getCxRowsForIso(iso);
     if(!rows || !rows.length) return { emptyDay: true, total: 0, ecx: 0, mcx: 0 };
     var bySheet = {};
     for(var i = 0; i < rows.length; i++){
@@ -1499,8 +1593,6 @@
     var wrap = document.getElementById('hubScheduleDetail');
     var dateInput = document.getElementById('hubScheduleDate');
     if(!wrap) return;
-    var data = window.AZ21_CX_SCHEDULE_BY_DATE;
-    if(!data || typeof data !== 'object') data = {};
     var iso = hubSelectedDate ? hubToISODateLocal(hubSelectedDate) : '';
     if(dateInput){
       if(hubSelectedDate) dateInput.value = iso;
@@ -1511,7 +1603,7 @@
       renderHubCxCounter();
       return;
     }
-    var entries = data[iso];
+    var entries = getCxRowsForIso(iso);
     if(!entries || !entries.length){
       wrap.innerHTML = '<p class="hubScheduleEmpty">No schedule rows in the embedded workbook for this date. Dates with activities start in June 2026 (L3.5 Phase 1) per the current AZ21 Hybrid Cx Schedule.</p>';
       renderHubCxCounter();
@@ -1536,8 +1628,6 @@
   function renderHubLookAhead(){
     var grid = document.getElementById('hubLookAheadGrid');
     if(!grid) return;
-    var data = window.AZ21_CX_SCHEDULE_BY_DATE;
-    if(!data || typeof data !== 'object') data = {};
     var base = hubSelectedDate;
     if(!base){
       var dsi = document.getElementById('hubScheduleDate');
@@ -1552,7 +1642,7 @@
       var d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
       d.setHours(0,0,0,0);
       var iso = hubToISODateLocal(d);
-      var raw = data[iso] || [];
+      var raw = getCxRowsForIso(iso);
       var entries = raw.filter(function(e){ return e.r === 'Electrical' || e.r === 'Mechanical'; });
       var dayLabel = d.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
       html += '<div class="hubLookDay"><div class="hubLookDayHdr">' + escapeHtml(dayLabel) + '</div><div class="hubLookDayBody">';
@@ -1583,8 +1673,7 @@
   }
   /** Build DCR `look` entries (Day 1–3, ECx/MCx) from embedded AZ21 schedule — same sheet order & E/M rows as the hub look ahead. */
   function fillLookAheadFromCxSchedule(baseISO){
-    var data = window.AZ21_CX_SCHEDULE_BY_DATE;
-    if(!data || typeof data !== 'object' || !baseISO || !/^\d{4}-\d{2}-\d{2}$/.test(String(baseISO))) return;
+    if(!baseISO || !/^\d{4}-\d{2}-\d{2}$/.test(String(baseISO))) return;
     var base = hubParseISODateLocal(baseISO);
     if(!base) return;
     base.setHours(0,0,0,0);
@@ -1593,7 +1682,7 @@
       var d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
       d.setHours(0,0,0,0);
       var iso = hubToISODateLocal(d);
-      var raw = data[iso] || [];
+      var raw = getCxRowsForIso(iso);
       var entries = raw.filter(function(e){ return e.r === 'Electrical' || e.r === 'Mechanical'; });
       function textForRow(rowLabel){
         var byT = {};
@@ -1618,6 +1707,346 @@
     }
     look.length = 0;
     next.forEach(function(x){ look.push(x); });
+  }
+  function replaceDayElectricalMechanical(iso, sheetMap){
+    var rows = getCxRowsForIso(iso).slice();
+    rows = rows.filter(function(e){ return e.r !== 'Electrical' && e.r !== 'Mechanical'; });
+    HUB_CX_SHEET_ORDER.forEach(function(sheet){
+      var u = sheetMap[sheet] || {};
+      if(String(u.Electrical || '').trim()) rows.push({ t: sheet, r: 'Electrical', v: String(u.Electrical).trim() });
+      if(String(u.Mechanical || '').trim()) rows.push({ t: sheet, r: 'Mechanical', v: String(u.Mechanical).trim() });
+    });
+    setCxOverlayRows(iso, rows);
+  }
+  function hubWeekStartSunday(d){
+    var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    x.setDate(x.getDate() - x.getDay());
+    x.setHours(0, 0, 0, 0);
+    return x;
+  }
+  function hubModalWide(){
+    setTimeout(function(){
+      var m = document.querySelector('#modalOverlay .modal');
+      if(m) m.classList.add('modal--hubWide');
+    }, 0);
+  }
+  function openHubEditDailyTasksModal(){
+    var iso = getHubSelectedIsoForLabor();
+    if(!iso){
+      alert('Select a date on the calendar or set the Daily tasks date first.');
+      return;
+    }
+    var rows = getCxRowsForIso(iso).slice().map(function(r){ return { t: r.t || '', r: r.r || '', v: r.v != null ? String(r.v) : '' }; });
+    var body = document.createElement('div');
+    body.style.cssText = 'max-height:75vh;overflow-y:auto;padding-right:6px;';
+    var hint = document.createElement('p');
+    hint.style.cssText = 'font-size:12px;color:#64748b;margin:0 0 12px;line-height:1.45;';
+    hint.textContent = 'Edit workbook rows for ' + iso + '. Saved in this browser (overrides embedded data for this day). Reset removes your override.';
+    body.appendChild(hint);
+    var list = document.createElement('div');
+    function makeRowWrap(row){
+      var wrap = document.createElement('div');
+      wrap.style.cssText = 'display:grid;grid-template-columns:1fr 1fr 2fr auto;gap:8px;margin-bottom:10px;align-items:start;';
+      var tIn = document.createElement('input');
+      tIn.type = 'text';
+      tIn.className = 'input hubEdT';
+      tIn.placeholder = 'Sheet / tab';
+      tIn.style.cssText = 'font-size:12px;padding:6px 8px;';
+      tIn.value = row.t;
+      var rIn = document.createElement('input');
+      rIn.type = 'text';
+      rIn.className = 'input hubEdR';
+      rIn.placeholder = 'Row name';
+      rIn.style.cssText = 'font-size:12px;padding:6px 8px;';
+      rIn.value = row.r;
+      var vIn = document.createElement('textarea');
+      vIn.className = 'textarea hubEdV';
+      vIn.placeholder = 'Value';
+      vIn.style.cssText = 'min-height:52px;font-size:12px;padding:6px 8px;';
+      vIn.value = row.v;
+      var del = document.createElement('button');
+      del.type = 'button';
+      del.className = 'btn btnDanger';
+      del.style.cssText = 'padding:6px 10px;';
+      del.textContent = '×';
+      del.onclick = function(){ wrap.remove(); };
+      wrap.appendChild(tIn);
+      wrap.appendChild(rIn);
+      wrap.appendChild(vIn);
+      wrap.appendChild(del);
+      return wrap;
+    }
+    rows.forEach(function(row){ list.appendChild(makeRowWrap(row)); });
+    body.appendChild(list);
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;margin-top:14px;';
+    var addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'btn';
+    addBtn.textContent = '+ Add row';
+    addBtn.onclick = function(){ list.appendChild(makeRowWrap({ t: '', r: '', v: '' })); };
+    var saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'btn btnPrimary';
+    saveBtn.textContent = 'Save';
+    saveBtn.onclick = function(){
+      var out = [];
+      list.querySelectorAll(':scope > div').forEach(function(wrap){
+        var t = wrap.querySelector('.hubEdT');
+        var r = wrap.querySelector('.hubEdR');
+        var v = wrap.querySelector('.hubEdV');
+        if(!t || !r) return;
+        out.push({ t: t.value.trim(), r: r.value.trim(), v: v ? v.value : '' });
+      });
+      setCxOverlayRows(iso, out);
+      closeModal();
+      renderHubScheduleForSelectedDay();
+      renderHubLookAhead();
+      renderHubCxCounter();
+    };
+    var resetBtn = document.createElement('button');
+    resetBtn.type = 'button';
+    resetBtn.className = 'btn';
+    resetBtn.textContent = 'Reset to embedded';
+    resetBtn.onclick = function(){
+      if(!confirm('Remove your saved override for this day?')) return;
+      clearCxOverlayIso(iso);
+      closeModal();
+      renderHubScheduleForSelectedDay();
+      renderHubLookAhead();
+      renderHubCxCounter();
+    };
+    var cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = closeModal;
+    btnRow.appendChild(addBtn);
+    btnRow.appendChild(saveBtn);
+    btnRow.appendChild(resetBtn);
+    btnRow.appendChild(cancelBtn);
+    body.appendChild(btnRow);
+    openModal('Edit daily tasks — ' + iso, body);
+    hubModalWide();
+  }
+  function openHubEditLookAheadModal(){
+    var base = hubSelectedDate;
+    if(!base){
+      var dsi = document.getElementById('hubScheduleDate');
+      if(dsi && dsi.value) base = hubParseISODateLocal(dsi.value);
+    }
+    if(!base){
+      alert('Select a date on the calendar or set the Daily tasks date first.');
+      return;
+    }
+    var body = document.createElement('div');
+    body.style.cssText = 'max-height:75vh;overflow-y:auto;padding-right:6px;';
+    var hint = document.createElement('p');
+    hint.style.cssText = 'font-size:12px;color:#64748b;margin:0 0 12px;';
+    hint.textContent = 'Electrical & Mechanical only (per phase). Saves all three days. Other row types stay as in workbook + your daily-task edits.';
+    body.appendChild(hint);
+    var daysWrap = document.createElement('div');
+    for(var di = 0; di < 3; di++){
+      var d = new Date(base.getFullYear(), base.getMonth(), base.getDate() + di);
+      d.setHours(0, 0, 0, 0);
+      var iso = hubToISODateLocal(d);
+      var raw = getCxRowsForIso(iso);
+      var byT = {};
+      raw.filter(function(e){ return e.r === 'Electrical' || e.r === 'Mechanical'; }).forEach(function(e){
+        if(!byT[e.t]) byT[e.t] = {};
+        byT[e.t][e.r] = e.v != null ? String(e.v) : '';
+      });
+      var dayBox = document.createElement('div');
+      dayBox.style.cssText = 'border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:14px;background:#fafafa;';
+      var h = document.createElement('div');
+      h.style.cssText = 'font-weight:900;font-size:13px;margin-bottom:10px;color:var(--navy);';
+      h.textContent = d.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' }) + ' (' + iso + ')';
+      dayBox.appendChild(h);
+      dayBox.setAttribute('data-hub-look-iso', iso);
+      HUB_CX_SHEET_ORDER.forEach(function(sheet){
+        var o = byT[sheet] || {};
+        var blk = document.createElement('div');
+        blk.style.marginBottom = '10px';
+        blk.innerHTML = '<div style="font-size:11px;font-weight:800;color:var(--dlb-blue);margin-bottom:6px;">' + escapeHtml(sheet) + '</div>';
+        var elab = document.createElement('label');
+        elab.style.cssText = 'font-size:10px;color:#64748b;display:block;margin-bottom:4px;';
+        elab.textContent = 'Electrical';
+        var eTa = document.createElement('textarea');
+        eTa.className = 'textarea hubLookE';
+        eTa.setAttribute('data-sheet', sheet);
+        eTa.style.cssText = 'min-height:48px;font-size:12px;padding:6px 8px;width:100%;box-sizing:border-box;margin-bottom:6px;';
+        eTa.value = o.Electrical || '';
+        var mlab = document.createElement('label');
+        mlab.style.cssText = 'font-size:10px;color:#64748b;display:block;margin-bottom:4px;';
+        mlab.textContent = 'Mechanical';
+        var mTa = document.createElement('textarea');
+        mTa.className = 'textarea hubLookM';
+        mTa.setAttribute('data-sheet', sheet);
+        mTa.style.cssText = 'min-height:48px;font-size:12px;padding:6px 8px;width:100%;box-sizing:border-box;';
+        mTa.value = o.Mechanical || '';
+        blk.appendChild(elab);
+        blk.appendChild(eTa);
+        blk.appendChild(mlab);
+        blk.appendChild(mTa);
+        dayBox.appendChild(blk);
+      });
+      daysWrap.appendChild(dayBox);
+    }
+    body.appendChild(daysWrap);
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;';
+    var saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'btn btnPrimary';
+    saveBtn.textContent = 'Save 3-day look ahead';
+    saveBtn.onclick = function(){
+      daysWrap.querySelectorAll('[data-hub-look-iso]').forEach(function(dayBox){
+        var isoOne = dayBox.getAttribute('data-hub-look-iso');
+        var sheetMap = {};
+        var eList = dayBox.querySelectorAll('textarea.hubLookE');
+        var mList = dayBox.querySelectorAll('textarea.hubLookM');
+        HUB_CX_SHEET_ORDER.forEach(function(sheet, idx){
+          var eTa = eList[idx];
+          var mTa = mList[idx];
+          if(!eTa || !mTa) return;
+          sheetMap[sheet] = { Electrical: eTa.value, Mechanical: mTa.value };
+        });
+        replaceDayElectricalMechanical(isoOne, sheetMap);
+      });
+      closeModal();
+      renderHubLookAhead();
+      renderHubScheduleForSelectedDay();
+      renderHubCxCounter();
+    };
+    var cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = closeModal;
+    btnRow.appendChild(saveBtn);
+    btnRow.appendChild(cancelBtn);
+    body.appendChild(btnRow);
+    openModal('Edit 3-day look ahead', body);
+    hubModalWide();
+  }
+  function openHubWeekViewModal(){
+    var base = hubSelectedDate;
+    if(!base){
+      var dsi = document.getElementById('hubScheduleDate');
+      if(dsi && dsi.value) base = hubParseISODateLocal(dsi.value);
+    }
+    if(!base){
+      alert('Select a date on the calendar or set the Daily tasks date first.');
+      return;
+    }
+    var week0 = hubWeekStartSunday(base);
+    var body = document.createElement('div');
+    body.style.cssText = 'max-height:78vh;overflow-y:auto;padding-right:6px;';
+    var hint = document.createElement('p');
+    hint.style.cssText = 'font-size:12px;color:#64748b;margin:0 0 12px;line-height:1.45;';
+    hint.textContent = 'Week shown Sunday–Saturday. Edit manual names (comma-separated) and day notes. Open a day’s full task list with Edit tasks.';
+    body.appendChild(hint);
+    for(var i = 0; i < 7; i++){
+      var d = new Date(week0.getFullYear(), week0.getMonth(), week0.getDate() + i);
+      d.setHours(0, 0, 0, 0);
+      var iso = hubToISODateLocal(d);
+      var pack = getHubStaffForDate(iso);
+      var names = pack.staff.map(function(s){ return (s.nameFormal || s.name || '').trim(); }).filter(Boolean);
+      var box = document.createElement('div');
+      box.style.cssText = 'border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:12px;background:#fff;';
+      var title = document.createElement('div');
+      title.style.cssText = 'font-weight:900;font-size:13px;margin-bottom:8px;color:var(--navy);';
+      title.textContent = d.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' });
+      box.appendChild(title);
+      var roster = document.createElement('div');
+      roster.style.cssText = 'font-size:12px;margin-bottom:8px;line-height:1.4;';
+      roster.innerHTML = names.length ? '<strong>Roster:</strong> ' + names.map(function(n){ return escapeHtml(n); }).join(', ') : '<span style="color:#94a3b8;">No roster match this day</span>';
+      box.appendChild(roster);
+      var manLab = document.createElement('label');
+      manLab.style.cssText = 'font-size:10px;font-weight:800;color:#64748b;display:block;margin-bottom:4px;';
+      manLab.textContent = 'Also on site (manual names, comma-separated)';
+      var manIn = document.createElement('input');
+      manIn.type = 'text';
+      manIn.className = 'input hubWeekMan';
+      manIn.setAttribute('data-iso', iso);
+      manIn.style.cssText = 'width:100%;box-sizing:border-box;font-size:12px;padding:6px 8px;margin-bottom:8px;';
+      manIn.value = getHubDayManualStaffCsv(iso);
+      box.appendChild(manLab);
+      box.appendChild(manIn);
+      var noteLab = document.createElement('label');
+      noteLab.style.cssText = 'font-size:10px;font-weight:800;color:#64748b;display:block;margin-bottom:4px;';
+      noteLab.textContent = 'Day notes';
+      var noteTa = document.createElement('textarea');
+      noteTa.className = 'textarea hubWeekNote';
+      noteTa.setAttribute('data-iso', iso);
+      noteTa.style.cssText = 'width:100%;min-height:44px;box-sizing:border-box;font-size:12px;padding:6px 8px;margin-bottom:8px;';
+      noteTa.value = (function(){
+        try{
+          var o = JSON.parse(localStorage.getItem('hubWeekDayNotes') || '{}');
+          return o[iso] ? String(o[iso]) : '';
+        }catch(e){ return ''; }
+      })();
+      box.appendChild(noteLab);
+      box.appendChild(noteTa);
+      var taskCount = getCxRowsForIso(iso).length;
+      var sum = document.createElement('div');
+      sum.style.cssText = 'font-size:11px;color:#64748b;margin-bottom:8px;';
+      sum.textContent = taskCount ? ('Schedule rows: ' + taskCount) : 'No schedule rows for this day';
+      box.appendChild(sum);
+      var edBtn = document.createElement('button');
+      edBtn.type = 'button';
+      edBtn.className = 'btn';
+      edBtn.style.cssText = 'font-size:11px;padding:6px 10px;';
+      edBtn.textContent = 'Edit this day’s tasks';
+      edBtn.onclick = function(){
+        hubSelectedDate = d;
+        hubViewDate = new Date(d.getFullYear(), d.getMonth(), 1);
+        var hsd = document.getElementById('hubScheduleDate');
+        if(hsd) hsd.value = iso;
+        renderHubCalendar();
+        syncHubCalHint();
+        renderHubScheduleForSelectedDay();
+        renderHubLookAhead();
+        renderHubLaborPanel();
+        closeModal();
+        setTimeout(function(){ openHubEditDailyTasksModal(); }, 300);
+      };
+      box.appendChild(edBtn);
+      body.appendChild(box);
+    }
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;';
+    var saveBtn = document.createElement('button');
+    saveBtn.type = 'button';
+    saveBtn.className = 'btn btnPrimary';
+    saveBtn.textContent = 'Save week notes & manual names';
+    saveBtn.onclick = function(){
+      body.querySelectorAll('.hubWeekMan').forEach(function(inp){
+        var isoW = inp.getAttribute('data-iso');
+        if(isoW) setHubDayManualStaffCsv(isoW, inp.value);
+      });
+      var notes = {};
+      try{ notes = JSON.parse(localStorage.getItem('hubWeekDayNotes') || '{}'); }catch(e){}
+      if(!notes || typeof notes !== 'object') notes = {};
+      body.querySelectorAll('.hubWeekNote').forEach(function(ta){
+        var isoW = ta.getAttribute('data-iso');
+        if(!isoW) return;
+        if(String(ta.value).trim()) notes[isoW] = ta.value.trim(); else delete notes[isoW];
+      });
+      try{ localStorage.setItem('hubWeekDayNotes', JSON.stringify(notes)); }catch(e){}
+      closeModal();
+      renderHubLaborPanel();
+    };
+    var cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'btn';
+    cancelBtn.textContent = 'Cancel';
+    cancelBtn.onclick = closeModal;
+    btnRow.appendChild(saveBtn);
+    btnRow.appendChild(cancelBtn);
+    body.appendChild(btnRow);
+    openModal('Week view', body);
+    hubModalWide();
   }
   function renderHubCalendar(){
     var grid = document.getElementById('hubCalGrid');
@@ -1729,11 +2158,12 @@
         rd.value = hubToISODateLocal(t);
       }
     }
-    if(fillCxFromHub && rd && rd.value){
-      var isoFill = rd.value;
+    if(rd && rd.value){
+      var isoOpen = rd.value;
       if(typeof syncPreview === 'function') syncPreview();
       setTimeout(function(){
-        fillLookAheadFromCxSchedule(isoFill);
+        if(fillCxFromHub) fillLookAheadFromCxSchedule(isoOpen);
+        applyDcrTeamFromSiteAllocation(isoOpen);
         if(typeof renderAll === 'function') renderAll();
         else if(typeof syncPreview === 'function') syncPreview();
       }, 0);
@@ -3611,6 +4041,16 @@
     }
   }
   ['reportDate','reportTitle','execSummary','issueOpen','issueHigh','issueNew'].forEach(id=> attachSync(document.getElementById(id)));
+  (function bindReportDateSiteTeam(){
+    var rdAlloc = document.getElementById('reportDate');
+    if(!rdAlloc || rdAlloc._dcrSiteTeamOnChange) return;
+    rdAlloc._dcrSiteTeamOnChange = true;
+    rdAlloc.addEventListener('change', function(){
+      var v = (rdAlloc.value || '').trim();
+      if(!v || typeof applyDcrTeamFromSiteAllocation !== 'function') return;
+      applyDcrTeamFromSiteAllocation(v);
+    });
+  })();
   // Auto-resize executive summary textarea
   const execSummaryEl = $('#execSummary');
   if(execSummaryEl) {
@@ -3860,6 +4300,21 @@
         renderHubCalendar();
         renderHubLaborPanel();
       };
+    }
+    var hedt = document.getElementById('hubEditDailyTasksBtn');
+    if(hedt && !hedt._hubBound){
+      hedt._hubBound = true;
+      hedt.onclick = function(ev){ if(ev){ ev.preventDefault(); } openHubEditDailyTasksModal(); };
+    }
+    var hel = document.getElementById('hubEditLookAheadBtn');
+    if(hel && !hel._hubBound){
+      hel._hubBound = true;
+      hel.onclick = function(ev){ if(ev){ ev.preventDefault(); } openHubEditLookAheadModal(); };
+    }
+    var hwv = document.getElementById('hubWeekViewBtn');
+    if(hwv && !hwv._hubBound){
+      hwv._hubBound = true;
+      hwv.onclick = function(ev){ if(ev){ ev.preventDefault(); } openHubWeekViewModal(); };
     }
     _reg('openDcrTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showDcrApp({ fillCxLookAheadFromSchedule: true }); });
     _reg('backToHubBtn', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showHubDashboard(); });
