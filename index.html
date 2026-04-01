@@ -549,11 +549,18 @@
     .hubScheduleCard:first-of-type{border-top:none;}
     .hubScheduleCardLabel{font-size:9px;font-weight:900;color:var(--dlb-blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
     .hubScheduleCardValue{font-size:11px;color:var(--ink);line-height:1.4;white-space:pre-wrap;word-break:break-word;}
-    .hubSchedulePanel--compact .hubScheduleSheetTitle{padding:4px 8px;font-size:9px;}
-    .hubSchedulePanel--compact .hubScheduleCard{padding:4px 8px;}
-    .hubSchedulePanel--compact .hubScheduleCardLabel{font-size:8px;margin-bottom:2px;}
-    .hubSchedulePanel--compact .hubScheduleCardValue{font-size:10px;line-height:1.35;}
-    .hubSchedulePanel--compact .hubScheduleDetail{gap:6px;}
+    /* Daily tasks: larger task cards, no hour/manpower rows in data */
+    .hubScheduleDetail.hubScheduleDetail--tasks{gap:12px;}
+    .hubTaskSheet{border-radius:12px;border:1px solid var(--border);background:#fff;overflow:hidden;box-shadow:0 1px 2px rgba(15,23,42,0.04);}
+    .hubTaskSheetTitle{padding:12px 14px;font-size:12px;font-weight:900;color:var(--dlb-navy);background:linear-gradient(180deg,#f8fafc,#f1f5f9);border-bottom:1px solid var(--border);letter-spacing:0.03em;}
+    .hubTaskCard{padding:14px 16px;border-top:1px solid #eef2f7;}
+    .hubTaskCard:first-of-type{border-top:none;}
+    .hubTaskLabel{font-size:11px;font-weight:900;color:var(--dlb-blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;}
+    .hubTaskValue{font-size:15px;font-weight:700;color:var(--ink);line-height:1.5;white-space:pre-wrap;word-break:break-word;}
+    .hubWeekTasksWrap{margin-bottom:12px;}
+    .hubWeekTasksTitle{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:0.06em;color:var(--dlb-blue);margin-bottom:10px;}
+    .hubWeekTasksBody .hubTaskSheet{margin-bottom:10px;}
+    .hubWeekTasksBody .hubTaskSheet:last-child{margin-bottom:0;}
     @media (max-width:900px){
       .hubSchedulePanel{min-height:min(36vh,340px);}
     }
@@ -619,7 +626,7 @@
   <div class="splashLogoWrap">
     <img id="splashLogo" class="splashLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO0GmEwAAAAASUVORK5CYII=" alt="DLB" />
   </div>
-  <div id="splashTitle" class="splashTitle">Vantage AZ21, Workspace</div>
+  <div id="splashTitle" class="splashTitle">Vantage AZ21 Workspace</div>
   <div id="splashDate" class="splashDate" aria-hidden="true"></div>
   <div class="splashBarWrap"><div class="splashBar"></div></div>
 </div>
@@ -780,7 +787,7 @@
         <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
       </div>
     </section>
-    <section class="hubPanel hubSchedulePanel hubSchedulePanel--compact" aria-labelledby="hubSchedHeading">
+    <section class="hubPanel hubSchedulePanel hubSchedulePanel--tasks" aria-labelledby="hubSchedHeading">
       <div class="hubSchedulePanelTop">
         <h2 id="hubSchedHeading" class="hubPanelTitle">Daily tasks · Hybrid Cx schedule</h2>
         <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end;">
@@ -788,13 +795,13 @@
           <div class="hubCxCount" id="hubCxCount" role="status" aria-live="polite"></div>
         </div>
       </div>
-      <p class="hubScheduleLead">Core rows only (E / M / manpower / Cx hours). Vendor lines are under <strong>Tools</strong>.</p>
+      <p class="hubScheduleLead">Field tasks (E / M / comments). Hour, manpower, and vendor lines are hidden here — vendors under <strong>Tools</strong>.</p>
       <div class="hubScheduleWrap" id="hubScheduleWrap">
         <div class="hubScheduleDateRow">
           <label for="hubScheduleDate">Day</label>
           <input type="date" id="hubScheduleDate" name="hubScheduleDate" aria-label="Schedule date" />
         </div>
-        <div class="hubScheduleDetail" id="hubScheduleDetail" role="region" aria-live="polite" aria-label="Schedule details for selected day"></div>
+        <div class="hubScheduleDetail hubScheduleDetail--tasks" id="hubScheduleDetail" role="region" aria-live="polite" aria-label="Schedule details for selected day"></div>
       </div>
     </section>
     </div>
@@ -1199,12 +1206,12 @@
 
   function initApp() {
     try { window.scrollTo(0,0); var mo=document.getElementById('modalOverlay'); if(mo)mo.classList.add('hidden'); if(document.body){ document.body.style.overflow=''; if(document.body.style.removeProperty) document.body.style.removeProperty('overflow'); } } catch(e){}
-    // Splash: DLB logo + Vantage AZ21, Workspace + loading bar only
+    // Splash: DLB logo + Vantage AZ21 Workspace + loading bar only
     (function(){
       var splash = document.getElementById('dcrSplash');
       var titleEl = document.getElementById('splashTitle');
       var dateEl = document.getElementById('splashDate');
-      if (titleEl) titleEl.textContent = 'Vantage AZ21, Workspace';
+      if (titleEl) titleEl.textContent = 'Vantage AZ21 Workspace';
       if (dateEl) dateEl.textContent = '';
       setTimeout(function(){ if (splash) splash.classList.add('splashDone'); }, 2000);
     })();
@@ -1655,6 +1662,41 @@
   function hubIsVendorTabRow(e){
     return !!(e && e.r && !HUB_CX_NON_VENDOR_ROWS[e.r]);
   }
+  /** Hidden from Daily tasks + week task list: manpower / hours / time requirement rows. */
+  var HUB_CX_TIME_METRICS_ROWS = {
+    'CxA MANPOWER': 1,
+    'Cx Hour(s)': 1,
+    'Cx Hours': 1,
+    'Cx Totals': 1,
+    'TIME REQUIREMENT': 1
+  };
+  function hubShowInDailyTasksPanel(e){
+    if(!e || !e.r) return false;
+    if(hubIsVendorTabRow(e)) return false;
+    if(HUB_CX_TIME_METRICS_ROWS[e.r]) return false;
+    return true;
+  }
+  function hubFilteredTaskEntriesForIso(iso){
+    var all = getCxRowsForIso(iso);
+    if(!all || !all.length) return [];
+    return hubSortScheduleEntriesEMFirst(all.filter(hubShowInDailyTasksPanel));
+  }
+  function hubHtmlForTaskEntries(entries){
+    if(!entries || !entries.length) return '';
+    var html = '';
+    var curSheet = null;
+    for(var i = 0; i < entries.length; i++){
+      var e = entries[i];
+      if(e.t !== curSheet){
+        if(curSheet !== null) html += '</div>';
+        curSheet = e.t;
+        html += '<div class="hubTaskSheet"><div class="hubTaskSheetTitle">' + escapeHtml(e.t) + '</div>';
+      }
+      html += '<div class="hubTaskCard"><div class="hubTaskLabel">' + escapeHtml(e.r) + '</div><div class="hubTaskValue">' + escapeHtml(String(e.v != null ? e.v : '')).replace(/\n/g, '<br>') + '</div></div>';
+    }
+    if(curSheet !== null) html += '</div>';
+    return html;
+  }
   function getHubCxIsoForUi(){
     var iso = '';
     if(hubSelectedDate) iso = hubToISODateLocal(hubSelectedDate);
@@ -1844,26 +1886,13 @@
       renderHubCxCounter();
       return;
     }
-    var entries = entriesAll.filter(function(e){ return !hubIsVendorTabRow(e); });
+    var entries = hubFilteredTaskEntriesForIso(iso);
     if(!entries.length){
-      wrap.innerHTML = '<p class="hubScheduleEmpty">No core scope rows (E / M / manpower / Cx hours / comments) for this day — only vendor or support lines. Use <strong>Tools → Vendors &amp; support</strong> below.</p>';
+      wrap.innerHTML = '<p class="hubScheduleEmpty">No field tasks for this day (Electrical / Mechanical / comments only). Hour and manpower rows are hidden. Vendors: <strong>Tools → Vendors &amp; support</strong>.</p>';
       renderHubCxCounter();
       return;
     }
-    entries = hubSortScheduleEntriesEMFirst(entries);
-    var html = '';
-    var curSheet = null;
-    for(var i = 0; i < entries.length; i++){
-      var e = entries[i];
-      if(e.t !== curSheet){
-        if(curSheet !== null) html += '</div>';
-        curSheet = e.t;
-        html += '<div class="hubScheduleSheet"><div class="hubScheduleSheetTitle">' + escapeHtml(e.t) + '</div>';
-      }
-      html += '<div class="hubScheduleCard"><div class="hubScheduleCardLabel">' + escapeHtml(e.r) + '</div><div class="hubScheduleCardValue">' + escapeHtml(e.v).replace(/\n/g, '<br>') + '</div></div>';
-    }
-    if(curSheet !== null) html += '</div>';
-    wrap.innerHTML = html;
+    wrap.innerHTML = hubHtmlForTaskEntries(entries);
     renderHubCxCounter();
   }
   function renderHubLookAhead(){
@@ -2185,7 +2214,7 @@
     body.style.cssText = 'max-height:78vh;overflow-y:auto;padding-right:6px;';
     var hint = document.createElement('p');
     hint.style.cssText = 'font-size:12px;color:#64748b;margin:0 0 12px;line-height:1.45;';
-    hint.textContent = 'Week shown Sunday–Saturday. Edit manual names (comma-separated) and day notes. Open a day’s full task list with Edit tasks.';
+    hint.textContent = 'Week shown Sunday–Saturday. Each day lists staff and the same field tasks as Daily tasks (E / M / comments). Edit manual names, day notes, or open Edit tasks for the full workbook row editor.';
     body.appendChild(hint);
     for(var i = 0; i < 7; i++){
       var d = new Date(week0.getFullYear(), week0.getMonth(), week0.getDate() + i);
@@ -2203,6 +2232,23 @@
       roster.style.cssText = 'font-size:12px;margin-bottom:8px;line-height:1.4;';
       roster.innerHTML = names.length ? '<strong>Roster:</strong> ' + names.map(function(n){ return escapeHtml(n); }).join(', ') : '<span style="color:#94a3b8;">No roster match this day</span>';
       box.appendChild(roster);
+      var taskEntries = hubFilteredTaskEntriesForIso(iso);
+      var tasksWrap = document.createElement('div');
+      tasksWrap.className = 'hubWeekTasksWrap';
+      tasksWrap.style.cssText = 'margin-bottom:12px;padding:12px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0;';
+      var tasksTitle = document.createElement('div');
+      tasksTitle.className = 'hubWeekTasksTitle';
+      tasksTitle.textContent = 'Tasks (Hybrid Cx)';
+      tasksWrap.appendChild(tasksTitle);
+      var tasksBody = document.createElement('div');
+      tasksBody.className = 'hubWeekTasksBody';
+      if(taskEntries.length){
+        tasksBody.innerHTML = hubHtmlForTaskEntries(taskEntries);
+      } else {
+        tasksBody.innerHTML = '<p style="margin:0;font-size:13px;color:#94a3b8;line-height:1.45;">No field tasks for this day.</p>';
+      }
+      tasksWrap.appendChild(tasksBody);
+      box.appendChild(tasksWrap);
       var manLab = document.createElement('label');
       manLab.style.cssText = 'font-size:10px;font-weight:800;color:#64748b;display:block;margin-bottom:4px;';
       manLab.textContent = 'Also on site (manual names, comma-separated)';
@@ -2229,11 +2275,6 @@
       })();
       box.appendChild(noteLab);
       box.appendChild(noteTa);
-      var taskCount = getCxRowsForIso(iso).length;
-      var sum = document.createElement('div');
-      sum.style.cssText = 'font-size:11px;color:#64748b;margin-bottom:8px;';
-      sum.textContent = taskCount ? ('Schedule rows: ' + taskCount) : 'No schedule rows for this day';
-      box.appendChild(sum);
       var edBtn = document.createElement('button');
       edBtn.type = 'button';
       edBtn.className = 'btn';
@@ -3306,7 +3347,7 @@
     var splashFixCss = '<style id="dcr-splash-download-fix">#dcrSplash{overflow:visible !important;min-height:100vh !important;box-sizing:border-box !important}#dcrSplash .splashLogoWrap{overflow:visible !important;width:200px !important;height:200px !important;min-width:200px !important;min-height:200px !important;flex:0 0 200px !important;flex-shrink:0 !important;flex-grow:0 !important;box-sizing:border-box !important}#dcrSplash #splashLogo{width:200px !important;height:200px !important;min-height:200px !important;max-width:200px !important;max-height:200px !important;object-fit:contain !important;object-position:center center !important;display:block !important;vertical-align:top !important;box-sizing:border-box !important}#dcrSplash #splashTitle,#dcrSplash #splashDate,#dcrSplash .splashBarWrap{position:relative;z-index:1 !important}</style>';
     htmlContent = htmlContent.replace(/<\/head>/i, splashFixCss + '</head>');
     var bakedTitle = (state.reportTitle != null && String(state.reportTitle).trim()) ? String(state.reportTitle).trim() : 'Daily Commissioning Report';
-    htmlContent = htmlContent.replace(/(<div\s+id="splashTitle"[^>]*>)([\s\S]*?)(<\/div>)/i, '$1' + escapeHtml('Vantage AZ21, Workspace') + '$3');
+    htmlContent = htmlContent.replace(/(<div\s+id="splashTitle"[^>]*>)([\s\S]*?)(<\/div>)/i, '$1' + escapeHtml('Vantage AZ21 Workspace') + '$3');
     // Bake report date into #splashDate for downloaded file (display format MM-DD-YYYY)
     var bakedDateRaw = (state.reportDate != null && String(state.reportDate).trim()) ? String(state.reportDate).trim() : '';
     var bakedDateDisplay = bakedDateRaw ? (function(){ var p = bakedDateRaw.split('-'); return p.length >= 3 ? p[1] + '-' + p[2] + '-' + p[0] : bakedDateRaw; }()) : '';
