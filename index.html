@@ -388,12 +388,51 @@
 
     /* ===== Hub dashboard (before opening a tool) ===== */
     .hubDashboard{min-height:calc(100vh - 0px);background:linear-gradient(165deg,#f4f6f9 0%,#e8ecf4 45%,#f8fafc 100%);padding-bottom:32px;}
-    .hubTopBar{background:var(--card);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;}
+    .hubTopBar{background:var(--card);border-bottom:1px solid var(--border);padding:14px 20px 16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px 20px;}
     .hubTopBarInner{display:flex;align-items:center;gap:16px;flex-wrap:wrap;flex:1;min-width:0;}
+    .hubHealthBar{display:flex;align-items:center;flex-wrap:wrap;gap:10px 18px;padding:8px 14px;background:linear-gradient(180deg,#f8fafc,#f1f5f9);border:1px solid var(--border);border-radius:12px;box-shadow:0 1px 3px rgba(15,23,42,0.06);}
+    .hubHealthItem{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;color:var(--navy);}
+    .hubHealthDot{width:12px;height:12px;border-radius:50%;flex-shrink:0;box-shadow:0 0 0 2px rgba(255,255,255,0.9);}
+    .hubHealthDot--yellow{background:#eab308;}
+    .hubHealthDot--red{background:#dc2626;}
+    .hubHealthDot--green{background:#22c55e;}
+    .hubHealthDot--orange{background:#ea580c;}
+    .hubShell{display:grid;grid-template-columns:minmax(300px,360px) minmax(0,1fr);gap:20px;max-width:1520px;margin:0 auto;padding:20px 16px 32px;align-items:start;}
+    @media (max-width:1024px){.hubShell{grid-template-columns:1fr;}}
+    .hubProjectSidebar{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px 16px 20px;box-shadow:0 2px 12px rgba(15,23,42,0.06);max-height:calc(100vh - 120px);overflow-y:auto;position:sticky;top:12px;}
+    @media (max-width:1024px){.hubProjectSidebar{position:relative;max-height:none;top:0;}}
+    .hubProjectSidebar .hubPanelTitle{margin-bottom:10px;font-size:12px;}
+    .hubQuickLinks{list-style:none;margin:0 0 18px;padding:0;display:flex;flex-direction:column;gap:6px;}
+    .hubQuickLinks a{display:flex;align-items:flex-start;gap:8px;padding:8px 10px;border-radius:10px;background:linear-gradient(135deg,#e0e7ff,#dbeafe);border:1px solid #c7d2fe;font-size:12px;font-weight:700;color:#1e3a8a;text-decoration:none;transition:transform .15s,box-shadow .15s;}
+    .hubQuickLinks a:hover{transform:translateX(2px);box-shadow:0 4px 12px rgba(37,99,235,0.15);}
+    .hubQuickLinks a::before{content:'↗';font-size:10px;opacity:0.7;flex-shrink:0;}
+    .hubMiniTable{width:100%;border-collapse:collapse;font-size:11px;margin:0 0 16px;}
+    .hubMiniTable th,.hubMiniTable td{padding:6px 8px;border-bottom:1px solid #e2e8f0;text-align:left;vertical-align:top;}
+    .hubMiniTable th{color:#64748b;font-weight:800;width:52%;}
+    .hubMiniTable td{font-weight:700;color:var(--navy);}
+    .hubProjectHealthMini{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;margin-bottom:16px;}
+    .hubProjectHealthMini .hubHealthDot{width:14px;height:14px;}
+    .hubPHStats{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;font-weight:700;color:#166534;}
+    .hubChartBlock{margin-bottom:18px;}
+    .hubChartTitle{font-size:11px;font-weight:900;color:var(--dlb-navy);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 8px;}
+    .hubChartWrap{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 8px 6px;overflow:hidden;}
+    .hubChartWrap svg{display:block;width:100%;height:auto;max-height:200px;}
+    .hubChartLegend{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:8px;font-size:10px;font-weight:700;color:#64748b;}
+    .hubChartLegend span{display:inline-flex;align-items:center;gap:4px;}
+    .hubChartLegend i{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;}
+    .hubChartLineAnim{stroke-dasharray:600;stroke-dashoffset:600;animation:hubChartDraw 1.4s ease-out forwards;}
+    .hubChartLineAnim--delay1{animation-delay:0.2s;}
+    .hubChartLineAnim--delay2{animation-delay:0.45s;}
+    .hubChartDotAnim{opacity:0;animation:hubChartFade .5s ease-out forwards;}
+    .hubChartDotAnim--d1{animation-delay:0.9s;}
+    .hubChartDotAnim--d2{animation-delay:1s;}
+    @keyframes hubChartDraw{to{stroke-dashoffset:0;}}
+    @keyframes hubChartFade{to{opacity:1;}}
+    .hubMainStream{min-width:0;}
     .hubHeaderLogoContainer{margin-right:4px;}
     .hubBrandTitle{font-size:20px;font-weight:900;color:var(--navy);letter-spacing:-0.02em;}
     .hubBrandSub{display:block;font-size:13px;color:#64748b;font-weight:600;margin-top:4px;}
-    .hubMain{max-width:1100px;margin:0 auto;padding:24px 18px;}
+    .hubMain{max-width:none;margin:0;padding:0;}
     .hubLayout{display:grid;grid-template-columns:1fr minmax(320px,420px);gap:24px;align-items:start;}
     @media (max-width:900px){.hubLayout{grid-template-columns:1fr;}}
     .hubLookAheadPanel{margin-top:24px;}
@@ -525,7 +564,96 @@
         <span class="hubBrandSub">Choose a tool or pick a date on the calendar</span>
       </div>
     </div>
+    <div class="hubHealthBar" role="region" aria-label="Contract health indicators">
+      <div class="hubHealthItem"><span class="hubHealthDot hubHealthDot--yellow" title="Planned vs actual negative"></span> Revenue</div>
+      <div class="hubHealthItem"><span class="hubHealthDot hubHealthDot--yellow"></span> Labor</div>
+      <div class="hubHealthItem"><span class="hubHealthDot hubHealthDot--yellow"></span> Expense</div>
+      <div class="hubHealthItem"><span class="hubHealthDot hubHealthDot--red" title="Exceeded or projected over contract"></span> Billing</div>
+    </div>
   </header>
+  <div class="hubShell">
+  <aside class="hubProjectSidebar" aria-label="Vantage AZ21 project dashboard">
+    <h2 class="hubPanelTitle">Quick links</h2>
+    <ul class="hubQuickLinks">
+      <li><a href="#hubProjectHealth">Project health</a></li>
+      <li><a href="#" onclick="return false;" title="Link when ready">101560 — Backlog review</a></li>
+      <li><a href="#" onclick="return false;" title="Link when ready">Vantage AZ21 — Labor schedule</a></li>
+      <li><a href="#" onclick="return false;" title="Link when ready">101560 — Bid sheet</a></li>
+      <li><a href="#" onclick="return false;" title="Link when ready">101560 — SoV</a></li>
+      <li><a href="#" onclick="return false;" title="Link when ready">101560 — Contract management</a></li>
+      <li><a href="#" onclick="return false;" title="Link when ready">101560 — Project dashboard</a></li>
+    </ul>
+    <div id="hubProjectHealth" class="hubProjectHealthMini">
+      <span class="hubHealthDot hubHealthDot--green" aria-hidden="true"></span>
+      <div>
+        <div style="font-size:12px;font-weight:900;color:#14532d;">Project health</div>
+        <div class="hubPHStats"><span>Escalated 0</span><span>Overdue 0</span><span>Issues 0</span><span>Risks 0</span><span>Actions 1</span></div>
+      </div>
+    </div>
+    <h2 class="hubPanelTitle">Contract overview</h2>
+    <p style="font-size:10px;color:#64748b;margin:-4px 0 8px;">Placeholder values — replace when you connect spreadsheets.</p>
+    <table class="hubMiniTable">
+      <tbody>
+        <tr><th>Contract total</th><td>$2,085,440.00</td></tr>
+        <tr><th>Unapproved CO $</th><td>—</td></tr>
+        <tr><th>Contract budget hours</th><td>8,920</td></tr>
+        <tr><th>Contract hourly rate</th><td>$200.00</td></tr>
+        <tr><th>Budgeted expenses</th><td>—</td></tr>
+      </tbody>
+    </table>
+    <h2 class="hubPanelTitle">Key performance</h2>
+    <table class="hubMiniTable">
+      <tbody>
+        <tr><th>Cost to date</th><td>$32,182.31</td></tr>
+        <tr><th>Revenue to date</th><td>—</td></tr>
+        <tr><th>Remaining hours</th><td>—</td></tr>
+        <tr><th>% complete (PM)</th><td>—</td></tr>
+        <tr><th>% complete (planned hrs)</th><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="hubChartBlock">
+      <h3 class="hubChartTitle">Burn-up — hours</h3>
+      <div class="hubChartWrap">
+        <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="hubHgrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#e2e8f0"/></linearGradient>
+          </defs>
+          <rect width="320" height="120" fill="url(#hubHgrad)"/>
+          <g stroke="#cbd5e1" stroke-width="0.5" fill="none">
+            <line x1="36" y1="10" x2="36" y2="100"/><line x1="36" y1="100" x2="310" y2="100"/>
+          </g>
+          <text x="38" y="20" font-size="7" fill="#64748b">9k</text>
+          <text x="38" y="100" font-size="7" fill="#64748b">0</text>
+          <path class="hubChartLineAnim" d="M 36 18 L 310 18" stroke="#ef4444" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <path class="hubChartLineAnim hubChartLineAnim--delay1" d="M 36 95 Q 120 70 200 45 T 310 35" stroke="#1e3a8f" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          <circle class="hubChartDotAnim hubChartDotAnim--d1" cx="100" cy="92" r="3" fill="#eab308"/><circle class="hubChartDotAnim hubChartDotAnim--d2" cx="200" cy="90" r="3" fill="#eab308"/><circle class="hubChartDotAnim hubChartDotAnim--d2" cx="280" cy="88" r="3" fill="#eab308"/>
+        </svg>
+        <div class="hubChartLegend"><span><i style="background:#ef4444"></i> Budgeted</span><span><i style="background:#1e3a8f"></i> Planned</span><span><i style="background:#eab308;height:8px;width:8px;border-radius:50%"></i> Actual</span></div>
+      </div>
+    </div>
+    <div class="hubChartBlock">
+      <h3 class="hubChartTitle">Burn-up — expenses</h3>
+      <div class="hubChartWrap">
+        <svg viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="hubEgrad" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#f8fafc"/><stop offset="100%" stop-color="#e2e8f0"/></linearGradient>
+          </defs>
+          <rect width="320" height="120" fill="url(#hubEgrad)"/>
+          <g stroke="#cbd5e1" stroke-width="0.5" fill="none">
+            <line x1="36" y1="10" x2="36" y2="100"/><line x1="36" y1="100" x2="310" y2="100"/>
+          </g>
+          <text x="32" y="20" font-size="6" fill="#64748b">$300k</text>
+          <text x="38" y="100" font-size="7" fill="#64748b">0</text>
+          <path class="hubChartLineAnim" d="M 36 22 L 310 22" stroke="#ef4444" stroke-width="2" fill="none"/>
+          <path class="hubChartLineAnim hubChartLineAnim--delay2" d="M 36 92 Q 130 65 210 42 T 310 38" stroke="#1e3a8f" stroke-width="2.2" fill="none"/>
+          <circle class="hubChartDotAnim hubChartDotAnim--d1" cx="110" cy="90" r="3" fill="#eab308"/><circle class="hubChartDotAnim hubChartDotAnim--d2" cx="240" cy="87" r="3" fill="#eab308"/>
+        </svg>
+        <div class="hubChartLegend"><span><i style="background:#ef4444"></i> Budgeted</span><span><i style="background:#1e3a8f"></i> Planned</span><span><i style="background:#eab308;height:8px;width:8px;border-radius:50%"></i> Actual</span></div>
+      </div>
+    </div>
+    <p style="font-size:10px;color:#94a3b8;margin:0;line-height:1.4;">Charts animate on load. Swap in live data or embed links when your sheets are ready.</p>
+  </aside>
+  <div class="hubMainStream">
   <div class="hubMain">
     <div class="hubLayout">
       <section class="hubPanel hubCalendarPanel" aria-labelledby="hubCalHeading">
@@ -596,6 +724,8 @@
         <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
       </div>
     </section>
+  </div>
+  </div>
   </div>
 </div>
 
