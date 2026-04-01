@@ -549,8 +549,13 @@
     .hubScheduleCard:first-of-type{border-top:none;}
     .hubScheduleCardLabel{font-size:9px;font-weight:900;color:var(--dlb-blue);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;}
     .hubScheduleCardValue{font-size:11px;color:var(--ink);line-height:1.4;white-space:pre-wrap;word-break:break-word;}
+    .hubSchedulePanel--compact .hubScheduleSheetTitle{padding:4px 8px;font-size:9px;}
+    .hubSchedulePanel--compact .hubScheduleCard{padding:4px 8px;}
+    .hubSchedulePanel--compact .hubScheduleCardLabel{font-size:8px;margin-bottom:2px;}
+    .hubSchedulePanel--compact .hubScheduleCardValue{font-size:10px;line-height:1.35;}
+    .hubSchedulePanel--compact .hubScheduleDetail{gap:6px;}
     @media (max-width:900px){
-      .hubSchedulePanel{min-height:min(65vh,560px);}
+      .hubSchedulePanel{min-height:min(36vh,340px);}
     }
     .hubLookAheadTile{border:1px solid var(--border);border-radius:10px;padding:10px 12px 12px;background:#fff;}
     .hubLookAheadHint{font-size:10px;color:#64748b;margin:0 0 8px;line-height:1.45;max-width:72ch;}
@@ -573,7 +578,7 @@
     .hubBottomPair{display:flex;flex-direction:column;gap:10px;align-items:stretch;}
     .hubBottomPair > .hubPanel{min-height:0;display:flex;flex-direction:column;}
     .hubLookAheadPanel{min-height:0;}
-    .hubSchedulePanel{flex:1;min-height:min(72vh,680px);}
+    .hubSchedulePanel{flex:1;min-height:min(40vh,420px);}
     .hubScheduleWrap{flex:1;min-height:0;display:flex;flex-direction:column;overflow:hidden;}
     @media (min-width:1100px){
       .hubBottomPair{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch;}
@@ -582,6 +587,25 @@
     .hubManualStaffLine{font-size:10px;color:#64748b;margin:8px 0 0;line-height:1.4;}
     .hubPanelActions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:0 0 8px;}
     .hubPanelActions .btn{font-size:11px;padding:6px 10px;}
+    .hubCalActionsRow{justify-content:space-between;align-items:center;gap:10px;}
+    .hubCalCxHoursStrip{font-size:11px;font-weight:800;color:var(--navy);display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;line-height:1.35;flex:1;min-width:0;}
+    .hubCalCxHoursStrip .hubCxHrVal{font-weight:900;color:var(--dlb-blue);}
+    .hubCalCxHoursStrip .hubCxHrSep{color:#94a3b8;font-weight:600;}
+    .hubVendorTabsWrap{margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0;}
+    .hubVendorTabsLabel{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.07em;color:#64748b;margin:0 0 8px;}
+    .hubVendorTabsBar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
+    .hubVendorTab{padding:5px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;font-size:10px;font-weight:800;color:var(--navy);cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s,border-color .15s;}
+    .hubVendorTab:hover{background:#f8fafc;border-color:#cbd5e1;}
+    .hubVendorTab[aria-selected="true"]{background:#e6efff;border-color:var(--dlb-blue);color:var(--dlb-navy);}
+    .hubVendorTabsPanels{min-height:48px;}
+    .hubVendorPanel{display:none;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:#fafafa;font-size:11px;line-height:1.45;}
+    .hubVendorPanel.is-active{display:block;}
+    .hubVendorTabsEmpty{margin:0;font-size:11px;color:#64748b;line-height:1.45;}
+    .hubVendorSheetBlock{margin-bottom:10px;}
+    .hubVendorSheetBlock:last-child{margin-bottom:0;}
+    .hubVendorSheetTitle{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.05em;color:var(--dlb-blue);margin-bottom:4px;}
+    .hubVendorRowVal{color:var(--ink);white-space:pre-wrap;word-break:break-word;margin-bottom:6px;}
+    .hubVendorRowVal:last-child{margin-bottom:0;}
     .dcrAppRoot.hidden{display:none !important;}
     @media print{
       .hubDashboard{display:none !important;}
@@ -724,7 +748,8 @@
           </aside>
         </div>
         <p class="hubCalHint" id="hubCalSelectedHint"></p>
-        <div class="hubPanelActions">
+        <div class="hubPanelActions hubCalActionsRow">
+          <div class="hubCalCxHoursStrip" id="hubCalCxHoursStrip" role="status" aria-live="polite"></div>
           <button type="button" class="btn" id="hubWeekViewBtn">Week view (tasks &amp; staff)</button>
         </div>
       </section>
@@ -735,10 +760,11 @@
             <span class="hubToolCardTitle">Daily Commissioning Report</span>
             <span class="hubToolCardDesc">DCR — executive summary, issues, constraints, activities, 3-day look ahead, team</span>
           </button>
-          <div class="hubToolCard hubToolCardSoon" aria-disabled="true">
-            <span class="hubToolCardTitle">More tools</span>
-            <span class="hubToolCardDesc">Additional modules will appear here.</span>
-          </div>
+        </div>
+        <div class="hubVendorTabsWrap" id="hubVendorTabsWrap">
+          <p class="hubVendorTabsLabel">Vendors &amp; support (Hybrid Cx · selected day)</p>
+          <div class="hubVendorTabsBar" id="hubVendorTabsBar" role="tablist" aria-label="Vendor schedule tabs"></div>
+          <div class="hubVendorTabsPanels" id="hubVendorTabsPanels"></div>
         </div>
       </section>
     </div>
@@ -754,7 +780,7 @@
         <div class="hubLookAheadGrid" id="hubLookAheadGrid" role="region" aria-label="Three day electrical and mechanical look ahead"></div>
       </div>
     </section>
-    <section class="hubPanel hubSchedulePanel" aria-labelledby="hubSchedHeading">
+    <section class="hubPanel hubSchedulePanel hubSchedulePanel--compact" aria-labelledby="hubSchedHeading">
       <div class="hubSchedulePanelTop">
         <h2 id="hubSchedHeading" class="hubPanelTitle">Daily tasks · Hybrid Cx schedule</h2>
         <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:flex-end;">
@@ -762,7 +788,7 @@
           <div class="hubCxCount" id="hubCxCount" role="status" aria-live="polite"></div>
         </div>
       </div>
-      <p class="hubScheduleLead">Workbook — electrical, mechanical, manpower, vendors</p>
+      <p class="hubScheduleLead">Core rows only (E / M / manpower / Cx hours). Vendor lines are under <strong>Tools</strong>.</p>
       <div class="hubScheduleWrap" id="hubScheduleWrap">
         <div class="hubScheduleDateRow">
           <label for="hubScheduleDate">Day</label>
@@ -1621,29 +1647,171 @@
     });
     return { emptyDay: false, total: ecx + mcx, ecx: ecx, mcx: mcx };
   }
-  function renderHubCxCounter(){
-    var el = document.getElementById('hubCxCount');
-    if(!el) return;
-    var iso = hubSelectedDate ? hubToISODateLocal(hubSelectedDate) : '';
+  /** Row types kept in Daily tasks; contractor/vendor-style rows go under Tools tabs. */
+  var HUB_CX_NON_VENDOR_ROWS = {
+    'Electrical': 1, 'Mechanical': 1, 'CxA MANPOWER': 1, 'Comment(s)': 1,
+    'Cx Hour(s)': 1, 'Cx Hours': 1, 'Cx Totals': 1, 'TIME REQUIREMENT': 1
+  };
+  function hubIsVendorTabRow(e){
+    return !!(e && e.r && !HUB_CX_NON_VENDOR_ROWS[e.r]);
+  }
+  function getHubCxIsoForUi(){
+    var iso = '';
+    if(hubSelectedDate) iso = hubToISODateLocal(hubSelectedDate);
     var dateInput = document.getElementById('hubScheduleDate');
     if(dateInput){
       if(hubSelectedDate) dateInput.value = iso;
       else if(dateInput.value) iso = dateInput.value;
     }
+    return iso && /^\d{4}-\d{2}-\d{2}$/.test(String(iso)) ? String(iso) : '';
+  }
+  function hubCxScheduledHoursForIso(iso){
+    if(!iso) return null;
+    var rows = getCxRowsForIso(iso);
+    if(!rows || !rows.length) return null;
+    var sum = 0;
+    var found = false;
+    for(var i = 0; i < rows.length; i++){
+      var e = rows[i];
+      if(e.r !== 'Cx Hour(s)' && e.r !== 'Cx Hours') continue;
+      found = true;
+      var n = parseFloat(String(e.v).replace(/[^0-9.-]/g, ''));
+      if(!isNaN(n)) sum += n;
+    }
+    return found ? sum : null;
+  }
+  function hubCxScheduledHoursWeekSum(iso){
+    if(!iso) return null;
+    var d = hubParseISODateLocal(iso);
+    if(!d) return null;
+    var sun = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    sun.setDate(sun.getDate() - sun.getDay());
+    sun.setHours(0, 0, 0, 0);
+    var total = 0;
+    var any = false;
+    for(var w = 0; w < 7; w++){
+      var di = new Date(sun.getFullYear(), sun.getMonth(), sun.getDate() + w);
+      var si = hubToISODateLocal(di);
+      var daySum = hubCxScheduledHoursForIso(si);
+      if(daySum != null){
+        any = true;
+        total += daySum;
+      }
+    }
+    return any ? total : null;
+  }
+  function renderHubCalCxHoursStrip(){
+    var el = document.getElementById('hubCalCxHoursStrip');
+    if(!el) return;
+    var iso = getHubCxIsoForUi();
+    if(!iso){
+      el.innerHTML = '';
+      return;
+    }
+    var day = hubCxScheduledHoursForIso(iso);
+    var week = hubCxScheduledHoursWeekSum(iso);
+    var dayStr = day != null ? String(day) : '—';
+    var weekStr = week != null ? String(week) : '—';
+    el.innerHTML = '<span>Cx hours <span class="hubCxHrVal">' + escapeHtml(dayStr) + '</span> today</span><span class="hubCxHrSep">·</span><span>Week (Sun–Sat) <span class="hubCxHrVal">' + escapeHtml(weekStr) + '</span></span>';
+  }
+  function renderHubVendorTabs(){
+    var iso = getHubCxIsoForUi();
+    var bar = document.getElementById('hubVendorTabsBar');
+    var panels = document.getElementById('hubVendorTabsPanels');
+    var wrap = document.getElementById('hubVendorTabsWrap');
+    if(!bar || !panels || !wrap) return;
+    if(wrap._lastVendorIso !== iso){
+      wrap._vendorTabIdx = 0;
+      wrap._lastVendorIso = iso;
+    }
+    if(!iso){
+      bar.innerHTML = '';
+      panels.innerHTML = '<p class="hubVendorTabsEmpty">Select a day on the calendar to see vendor / support rows from the Hybrid Cx workbook.</p>';
+      return;
+    }
+    var rows = getCxRowsForIso(iso);
+    var vendors = {};
+    rows.forEach(function(e){
+      if(!hubIsVendorTabRow(e)) return;
+      var key = String(e.r || '').trim();
+      if(!key) return;
+      if(!vendors[key]) vendors[key] = [];
+      vendors[key].push(e);
+    });
+    var keys = Object.keys(vendors).sort(function(a, b){ return a.localeCompare(b); });
+    if(!keys.length){
+      bar.innerHTML = '';
+      panels.innerHTML = '<p class="hubVendorTabsEmpty">No vendor / contractor rows for this day in the schedule.</p>';
+      return;
+    }
+    var activeIdx = typeof wrap._vendorTabIdx === 'number' ? wrap._vendorTabIdx : 0;
+    if(activeIdx < 0 || activeIdx >= keys.length) activeIdx = 0;
+    wrap._vendorTabIdx = activeIdx;
+    bar.innerHTML = '';
+    panels.innerHTML = '';
+    keys.forEach(function(key, idx){
+      var tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'hubVendorTab';
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-selected', idx === activeIdx ? 'true' : 'false');
+      tab.textContent = key;
+      (function(selIdx){
+        tab.onclick = function(){
+          wrap._vendorTabIdx = selIdx;
+          renderHubVendorTabs();
+        };
+      })(idx);
+      bar.appendChild(tab);
+      var panel = document.createElement('div');
+      panel.className = 'hubVendorPanel' + (idx === activeIdx ? ' is-active' : '');
+      panel.setAttribute('role', 'tabpanel');
+      var bySheet = {};
+      vendors[key].forEach(function(e){
+        var t = e.t || 'Sheet';
+        if(!bySheet[t]) bySheet[t] = [];
+        bySheet[t].push(e);
+      });
+      var sheetKeys = Object.keys(bySheet).sort(function(a, b){ return hubCxSheetRank(a) - hubCxSheetRank(b); });
+      var html = '';
+      sheetKeys.forEach(function(t){
+        html += '<div class="hubVendorSheetBlock"><div class="hubVendorSheetTitle">' + escapeHtml(t) + '</div>';
+        bySheet[t].forEach(function(e){
+          html += '<div class="hubVendorRowVal">' + escapeHtml(String(e.v != null ? e.v : '')).replace(/\n/g, '<br>') + '</div>';
+        });
+        html += '</div>';
+      });
+      panel.innerHTML = html;
+      panels.appendChild(panel);
+    });
+  }
+  function renderHubCxCounter(){
+    var el = document.getElementById('hubCxCount');
+    if(!el){
+      renderHubCalCxHoursStrip();
+      return;
+    }
+    var iso = getHubCxIsoForUi();
     if(!iso){
       el.innerHTML = '';
       el.removeAttribute('title');
+      renderHubCalCxHoursStrip();
+      renderHubVendorTabs();
       return;
     }
     var tot = hubCxManpowerTotalsForIso(iso);
     if(!tot){
       el.innerHTML = '';
       el.removeAttribute('title');
+      renderHubCalCxHoursStrip();
+      renderHubVendorTabs();
       return;
     }
     if(tot.emptyDay){
       el.innerHTML = '<span class="hubCxCountMuted">—</span>';
       el.title = 'No embedded Hybrid Cx rows for this date';
+      renderHubCalCxHoursStrip();
+      renderHubVendorTabs();
       return;
     }
     var html = '<span class="hubCxCountN">' + String(tot.total) + '</span><span class="hubCxCountSuffix"> Cx</span>';
@@ -1653,6 +1821,8 @@
     html += '<span class="hubCxCountDetail"> · ' + bits.join(' · ') + '</span>';
     el.innerHTML = html;
     el.title = 'CxA manpower planned onsite (workbook) for ' + iso;
+    renderHubCalCxHoursStrip();
+    renderHubVendorTabs();
   }
   function renderHubScheduleForSelectedDay(){
     var wrap = document.getElementById('hubScheduleDetail');
@@ -1668,9 +1838,15 @@
       renderHubCxCounter();
       return;
     }
-    var entries = getCxRowsForIso(iso);
-    if(!entries || !entries.length){
+    var entriesAll = getCxRowsForIso(iso);
+    if(!entriesAll || !entriesAll.length){
       wrap.innerHTML = '<p class="hubScheduleEmpty">No schedule rows in the embedded workbook for this date. Dates with activities start in June 2026 (L3.5 Phase 1) per the current AZ21 Hybrid Cx Schedule.</p>';
+      renderHubCxCounter();
+      return;
+    }
+    var entries = entriesAll.filter(function(e){ return !hubIsVendorTabRow(e); });
+    if(!entries.length){
+      wrap.innerHTML = '<p class="hubScheduleEmpty">No core scope rows (E / M / manpower / Cx hours / comments) for this day — only vendor or support lines. Use <strong>Tools → Vendors &amp; support</strong> below.</p>';
       renderHubCxCounter();
       return;
     }
