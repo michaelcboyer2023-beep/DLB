@@ -433,6 +433,8 @@
     .hubChartBlock{margin-bottom:12px;}
     .hubChartTitle{font-size:11px;font-weight:900;color:var(--dlb-navy);text-transform:uppercase;letter-spacing:0.06em;margin:0 0 8px;}
     .hubChartWrap{background:#fff;border:1px solid var(--border);border-radius:12px;padding:10px 8px 6px;overflow:hidden;}
+    .hubBurnLive{font-size:10px;font-weight:800;color:#475569;margin:6px 2px 0;line-height:1.4;}
+    .hubBurnLive strong{color:var(--navy);}
     .hubChartWrap svg{display:block;width:100%;height:auto;max-height:140px;}
     .hubChartLegend{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:8px;font-size:10px;font-weight:700;color:#64748b;}
     .hubChartLegend span{display:inline-flex;align-items:center;gap:4px;}
@@ -615,7 +617,8 @@
     .hubCalCxHoursStrip{font-size:11px;font-weight:800;color:var(--navy);display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;line-height:1.35;flex:1;min-width:0;}
     .hubCalCxHoursStrip .hubCxHrVal{font-weight:900;color:var(--dlb-blue);}
     .hubCalCxHoursStrip .hubCxHrSep{color:#94a3b8;font-weight:600;}
-    .hubVendorTabsWrap{margin-top:10px;padding-top:10px;border-top:1px solid #e2e8f0;}
+    .hubVendorTabsWrap{margin-top:0;padding-top:0;flex-shrink:0;}
+    .hubVendorPanelSection .hubVendorTabsWrap{border-top:none;}
     .hubVendorTabsLabel{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:0.07em;color:#64748b;margin:0 0 8px;}
     .hubVendorTabsBar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
     .hubVendorTab{padding:5px 10px;border-radius:999px;border:1px solid var(--border);background:#fff;font-size:10px;font-weight:800;color:var(--navy);cursor:pointer;font-family:inherit;white-space:nowrap;transition:background .15s,border-color .15s;}
@@ -737,13 +740,14 @@
           <g stroke="#cbd5e1" stroke-width="0.5" fill="none">
             <line x1="36" y1="10" x2="36" y2="100"/><line x1="36" y1="100" x2="310" y2="100"/>
           </g>
-          <text x="38" y="20" font-size="7" fill="#64748b">9k</text>
+          <text id="hubHoursChartYTop" x="38" y="20" font-size="7" fill="#64748b">—</text>
           <text x="38" y="100" font-size="7" fill="#64748b">0</text>
           <path class="hubChartLineAnim" pathLength="1000" d="M 36 18 L 310 18" stroke="#ef4444" stroke-width="2" fill="none" stroke-linecap="round"/>
           <path class="hubChartLineAnim hubChartLineAnim--delay1" pathLength="1000" d="M 36 95 Q 120 70 200 45 T 310 35" stroke="#1e3a8f" stroke-width="2.2" fill="none" stroke-linecap="round"/>
           <circle class="hubChartDotAnim hubChartDotAnim--d1" cx="100" cy="92" r="3" fill="#eab308"/><circle class="hubChartDotAnim hubChartDotAnim--d2" cx="200" cy="90" r="3" fill="#eab308"/><circle class="hubChartDotAnim hubChartDotAnim--d3" cx="280" cy="88" r="3" fill="#eab308"/>
         </svg>
         <div class="hubChartLegend"><span><i style="background:#ef4444"></i> Budgeted</span><span><i style="background:#1e3a8f"></i> Planned</span><span><i style="background:#eab308;height:8px;width:8px;border-radius:50%"></i> Actual</span></div>
+        <p id="hubHoursBurnLive" class="hubBurnLive" aria-live="polite"></p>
       </div>
     </div>
     <div class="hubChartBlock">
@@ -757,20 +761,21 @@
           <g stroke="#cbd5e1" stroke-width="0.5" fill="none">
             <line x1="36" y1="10" x2="36" y2="100"/><line x1="36" y1="100" x2="310" y2="100"/>
           </g>
-          <text x="32" y="20" font-size="6" fill="#64748b">$300k</text>
+          <text id="hubExpChartYTop" x="32" y="20" font-size="6" fill="#64748b">—</text>
           <text x="38" y="100" font-size="7" fill="#64748b">0</text>
           <path class="hubChartLineAnim" pathLength="1000" d="M 36 22 L 310 22" stroke="#ef4444" stroke-width="2" fill="none" stroke-linecap="round"/>
           <path class="hubChartLineAnim hubChartLineAnim--delay2" pathLength="1000" d="M 36 92 Q 130 65 210 42 T 310 38" stroke="#1e3a8f" stroke-width="2.2" fill="none" stroke-linecap="round"/>
           <circle class="hubChartDotAnim hubChartDotAnim--d1" cx="110" cy="90" r="3" fill="#eab308"/><circle class="hubChartDotAnim hubChartDotAnim--d2" cx="240" cy="87" r="3" fill="#eab308"/>
         </svg>
         <div class="hubChartLegend"><span><i style="background:#ef4444"></i> Budgeted</span><span><i style="background:#1e3a8f"></i> Planned</span><span><i style="background:#eab308;height:8px;width:8px;border-radius:50%"></i> Actual</span></div>
+        <p id="hubExpenseBurnLive" class="hubBurnLive" aria-live="polite"></p>
       </div>
     </div>
     <label class="hubChartTitle" for="hubChartNoteHours" style="display:block;margin-top:4px;">Burn-up notes (hours)</label>
     <textarea id="hubChartNoteHours" class="hubChartNote" placeholder="Notes, targets, or future Smartsheet row IDs…" aria-label="Hours chart notes"></textarea>
     <label class="hubChartTitle" for="hubChartNoteExpenses" style="display:block;margin-top:10px;">Burn-up notes (expenses)</label>
     <textarea id="hubChartNoteExpenses" class="hubChartNote" placeholder="Notes or expense roll-up keys…" aria-label="Expenses chart notes"></textarea>
-    <p style="font-size:10px;color:#94a3b8;margin:8px 0 0;line-height:1.4;">Charts animate on load. Chart geometry stays placeholder until you wire data.</p>
+    <p style="font-size:10px;color:#94a3b8;margin:8px 0 0;line-height:1.4;">Chart curves are illustrative; numbers under each chart follow Contract + KPI. Set <strong>Budgeted expenses</strong> and <strong>Cost to date</strong> to refresh the expense line.</p>
     <p class="hubSyncHint"><strong>Smartsheet / sheets:</strong> Everything here is editable offline in your browser. When IT grants API or sheet access, the same field keys (<code>data-hub-contract</code>, <code>data-hub-kpi</code>) can be synced from Smartsheet without losing local edits as a fallback.</p>
   </aside>
   <div class="hubMainStream">
@@ -833,17 +838,12 @@
             <span class="hubToolCardTitle">Daily Commissioning Report</span>
             <span class="hubToolCardDesc">DCR — executive summary, issues, constraints, activities, 3-day look ahead, team</span>
           </button>
-          <button type="button" class="hubToolCard" id="hubFinCalcTool">
-            <span class="hubToolCardTitle">Rate × hours calculator</span>
-            <span class="hubToolCardDesc">Quick labor dollars (T&amp;M checks vs lump sum fee)</span>
-          </button>
-          <button type="button" class="hubToolCard" id="hubMilestoneNoteTool">
-            <span class="hubToolCardTitle">Milestone / SOV notes</span>
-            <span class="hubToolCardDesc">Scratchpad for billing windows, SOV row IDs, variance — saved in this browser</span>
-          </button>
         </div>
+      </section>
+      <section class="hubPanel hubVendorPanelSection" aria-labelledby="hubVendorHeading">
+        <h2 id="hubVendorHeading" class="hubPanelTitle">Vendors &amp; support</h2>
+        <p style="font-size:10px;color:#64748b;margin:-4px 0 8px;line-height:1.45;">Hybrid Cx rows for the selected calendar / schedule day (contractors, vendors, specialists — not E/M field tasks).</p>
         <div class="hubVendorTabsWrap" id="hubVendorTabsWrap">
-          <p class="hubVendorTabsLabel">Vendors &amp; support (Hybrid Cx · selected day)</p>
           <div class="hubVendorTabsBar" id="hubVendorTabsBar" role="tablist" aria-label="Vendor schedule tabs"></div>
           <div class="hubVendorTabsPanels" id="hubVendorTabsPanels"></div>
         </div>
@@ -856,7 +856,7 @@
             <div class="hubCxCount" id="hubCxCount" role="status" aria-live="polite"></div>
           </div>
         </div>
-        <p class="hubScheduleLead">Field tasks (E / M / comments). Hour, manpower, and vendor lines are hidden here — vendors under <strong>Tools</strong> above.</p>
+        <p class="hubScheduleLead">Field tasks (E / M / comments). Hour, manpower, and vendor lines are hidden here — use <strong>Vendors &amp; support</strong> in the sidebar.</p>
         <div class="hubScheduleWrap" id="hubScheduleWrap">
           <div class="hubScheduleDateRow">
             <label for="hubScheduleDate">Day</label>
@@ -2009,7 +2009,7 @@
     }
     var entries = hubFilteredTaskEntriesForIso(iso);
     if(!entries.length){
-      wrap.innerHTML = '<p class="hubScheduleEmpty">No field tasks for this day (Electrical / Mechanical / comments only). Hour and manpower rows are hidden. Vendors: <strong>Tools → Vendors &amp; support</strong>.</p>';
+      wrap.innerHTML = '<p class="hubScheduleEmpty">No field tasks for this day (Electrical / Mechanical / comments only). Hour and manpower rows are hidden. Vendors: see <strong>Vendors &amp; support</strong> in the sidebar.</p>';
       renderHubCxCounter();
       return;
     }
@@ -2526,6 +2526,7 @@
     renderHubScheduleForSelectedDay();
     renderHubLookAhead();
     renderHubLaborPanel();
+    renderHubVendorTabs();
   }
   /** Re-trigger burn-up SVG/CSS animations (they often finish behind splash or while hub is display:none). */
   function restartHubChartAnimations(){
@@ -2850,7 +2851,6 @@
     }
     return o;
   }
-  var HUB_FIN_SOV_KEY = 'hubFinanceSovNotes';
   function hubParseMoney(str){
     if(str == null) return NaN;
     var t = String(str).trim();
@@ -2906,7 +2906,6 @@
   }
   function renderHubFinanceSnapshot(){
     var root = document.getElementById('hubFinanceSnapshot');
-    if(!root) return;
     var ct = document.querySelector('[data-hub-contract="contractTotal"]');
     var be = document.querySelector('[data-hub-contract="budgetedExp"]');
     var bh = document.querySelector('[data-hub-contract="budgetHrs"]');
@@ -2926,14 +2925,16 @@
     var effRateC = (!isNaN(costT) && !isNaN(hrsConsumedC) && hrsConsumedC > 0) ? (costT / hrsConsumedC) : NaN;
     var marginC = (!isNaN(revT) && !isNaN(costT)) ? (revT - costT) : NaN;
     function inp(key){
-      return root.querySelector('[data-hub-snap="' + key + '"]');
+      return root ? root.querySelector('[data-hub-snap="' + key + '"]') : null;
     }
     var laborBudget = hubSnapEffectiveMoney(inp('laborBudget') && inp('laborBudget').value, laborBudgetC);
     var hrsConsumed = hubSnapEffectiveHours(inp('hrsConsumed') && inp('hrsConsumed').value, hrsConsumedC);
     var effRate = hubSnapEffectiveMoney(inp('effRate') && inp('effRate').value, effRateC);
     var margin = hubSnapEffectiveMoney(inp('margin') && inp('margin').value, marginC);
-    var costPct = hubSnapEffectivePct(inp('costPct') && inp('costPct').value, costPctC);
-    var hrsPct = hubSnapEffectivePct(inp('hrsPct') && inp('hrsPct').value, hrsPctC);
+    var costPct = root ? hubSnapEffectivePct(inp('costPct') && inp('costPct').value, costPctC) : costPctC;
+    var hrsPct = root ? hubSnapEffectivePct(inp('hrsPct') && inp('hrsPct').value, hrsPctC) : hrsPctC;
+    updateHubBurnChartLive(contract, budgetHrs, budgetExp, costT);
+    if(!root) return;
     if(inp('laborBudget')) inp('laborBudget').placeholder = isNaN(laborBudgetC) ? '—' : hubFmtMoneySnap(laborBudgetC);
     if(inp('costPct')) inp('costPct').placeholder = isNaN(costPctC) ? '—' : hubFmtPctSnap(costPctC);
     if(inp('hrsPct')) inp('hrsPct').placeholder = isNaN(hrsPctC) ? '—' : hubFmtPctSnap(hrsPctC);
@@ -2953,103 +2954,46 @@
       hrsBar.style.width = hw + '%';
     }
   }
-  function openHubFinCalcModal(){
-    var body = document.createElement('div');
-    body.style.cssText = 'max-height:70vh;overflow-y:auto;padding-right:4px;';
-    var p = document.createElement('p');
-    p.style.cssText = 'font-size:12px;color:#64748b;margin:0 0 12px;line-height:1.45;';
-    p.textContent = 'Quick labor dollars for spot checks (role rates, overtime, or SOV line math).';
-    body.appendChild(p);
-    var row1 = document.createElement('div');
-    row1.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;';
-    var rateIn = document.createElement('input');
-    rateIn.type = 'text';
-    rateIn.className = 'input';
-    rateIn.placeholder = 'Hourly rate ($)';
-    rateIn.setAttribute('aria-label', 'Hourly rate');
-    var hrEl = document.querySelector('[data-hub-contract="hourlyRate"]');
-    if(hrEl && hrEl.value){
-      var pr = hubParseMoney(hrEl.value);
-      if(!isNaN(pr)) rateIn.value = String(pr);
-    }
-    var hrsIn = document.createElement('input');
-    hrsIn.type = 'text';
-    hrsIn.className = 'input';
-    hrsIn.placeholder = 'Hours';
-    hrsIn.setAttribute('aria-label', 'Hours');
-    row1.appendChild(rateIn);
-    row1.appendChild(hrsIn);
-    body.appendChild(row1);
-    var out = document.createElement('div');
-    out.style.cssText = 'font-size:17px;font-weight:900;color:var(--navy);margin:12px 0;padding:12px 14px;background:#f8fafc;border-radius:10px;border:1px solid var(--border);';
-    out.setAttribute('role', 'status');
-    out.textContent = '—';
-    function recalc(){
-      var r = hubParseMoney(rateIn.value);
-      var h = hubParseHoursField(hrsIn.value);
-      if(isNaN(r) || isNaN(h)) out.textContent = '—';
-      else out.textContent = hubFmtMoneySnap(r * h) + ' labor';
-    }
-    rateIn.oninput = hrsIn.oninput = recalc;
-    body.appendChild(out);
-    var btnRow = document.createElement('div');
-    btnRow.style.cssText = 'display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;';
-    var useContract = document.createElement('button');
-    useContract.type = 'button';
-    useContract.className = 'btn';
-    useContract.textContent = 'Fill rate from Contract';
-    useContract.onclick = function(){
-      var el = document.querySelector('[data-hub-contract="hourlyRate"]');
-      if(el && el.value){
-        var pr = hubParseMoney(el.value);
-        if(!isNaN(pr)) rateIn.value = String(pr);
-      }
-      recalc();
-    };
-    var closeB = document.createElement('button');
-    closeB.type = 'button';
-    closeB.className = 'btn btnPrimary';
-    closeB.textContent = 'Close';
-    closeB.onclick = closeModal;
-    btnRow.appendChild(useContract);
-    btnRow.appendChild(closeB);
-    body.appendChild(btnRow);
-    openModal('Rate × hours', body);
-    hubModalWide();
-    recalc();
+  function hubFmtCompactMoney(n){
+    if(isNaN(n)) return '—';
+    var abs = Math.abs(n);
+    var sign = n < 0 ? '-' : '';
+    if(abs >= 1e9) return sign + '$' + (abs / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
+    if(abs >= 1e6) return sign + '$' + (abs / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
+    if(abs >= 1e3) return sign + '$' + (abs / 1e3).toFixed(1).replace(/\.?0+$/, '') + 'k';
+    return sign + '$' + abs.toLocaleString(undefined, { maximumFractionDigits: 0 });
   }
-  function openHubMilestoneNoteModal(){
-    var body = document.createElement('div');
-    var ta = document.createElement('textarea');
-    ta.className = 'textarea';
-    ta.style.cssText = 'min-height:200px;width:100%;font-size:12px;box-sizing:border-box;';
-    ta.setAttribute('aria-label', 'Milestone and SOV notes');
-    try{ ta.value = localStorage.getItem(HUB_FIN_SOV_KEY) || ''; }catch(e1){}
-    body.appendChild(ta);
-    var hint = document.createElement('p');
-    hint.style.cssText = 'font-size:11px;color:#64748b;margin:10px 0 0;line-height:1.45;';
-    hint.textContent = 'Use for SOV month keys, draw schedule, backlog review, or variance vs bid (Expected vs Billable hours). Saved only in this browser.';
-    body.appendChild(hint);
-    var btnRow = document.createElement('div');
-    btnRow.style.cssText = 'display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;';
-    var save = document.createElement('button');
-    save.type = 'button';
-    save.className = 'btn btnPrimary';
-    save.textContent = 'Save';
-    save.onclick = function(){
-      try{ localStorage.setItem(HUB_FIN_SOV_KEY, ta.value); }catch(e2){}
-      closeModal();
-    };
-    var cancel = document.createElement('button');
-    cancel.type = 'button';
-    cancel.className = 'btn';
-    cancel.textContent = 'Cancel';
-    cancel.onclick = closeModal;
-    btnRow.appendChild(save);
-    btnRow.appendChild(cancel);
-    body.appendChild(btnRow);
-    openModal('Milestone / SOV notes', body);
-    hubModalWide();
+  function hubFmtCompactHours(n){
+    if(isNaN(n)) return '—';
+    var abs = Math.abs(n);
+    if(abs >= 1e6) return (n / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M h';
+    if(abs >= 1e3) return (n / 1e3).toFixed(1).replace(/\.?0+$/, '') + 'k h';
+    return n.toLocaleString(undefined, { maximumFractionDigits: 0 }) + ' h';
+  }
+  /** Sync burn-up chart axis hints + live expense/hours lines from Contract + KPI. */
+  function updateHubBurnChartLive(contract, budgetHrs, budgetExp, costT){
+    var yh = document.getElementById('hubHoursChartYTop');
+    var ye = document.getElementById('hubExpChartYTop');
+    var liveH = document.getElementById('hubHoursBurnLive');
+    var liveE = document.getElementById('hubExpenseBurnLive');
+    if(yh) yh.textContent = hubFmtCompactHours(budgetHrs);
+    if(ye) ye.textContent = hubFmtCompactMoney(budgetExp);
+    if(liveH){
+      var partsH = [];
+      partsH.push('<strong>Budget hrs</strong> (contract): ' + (isNaN(budgetHrs) ? '—' : budgetHrs.toLocaleString(undefined, { maximumFractionDigits: 1 })));
+      if(!isNaN(contract) && contract > 0) partsH.push('contract total ' + hubFmtMoneySnap(contract));
+      liveH.innerHTML = partsH.join(' · ');
+    }
+    if(liveE){
+      var rem = (!isNaN(budgetExp) && !isNaN(costT)) ? (budgetExp - costT) : NaN;
+      var pct = (!isNaN(budgetExp) && budgetExp > 0 && !isNaN(costT)) ? (costT / budgetExp * 100) : NaN;
+      var bits = [];
+      bits.push('<strong>Budgeted expenses</strong>: ' + (isNaN(budgetExp) ? '—' : hubFmtMoneySnap(budgetExp)));
+      bits.push('<strong>Cost to date</strong>: ' + (isNaN(costT) ? '—' : hubFmtMoneySnap(costT)));
+      if(!isNaN(rem)) bits.push('<strong>Remaining</strong>: ' + hubFmtMoneySnap(rem));
+      if(!isNaN(pct)) bits.push(hubFmtPctSnap(pct) + ' of expense budget');
+      liveE.innerHTML = bits.join(' · ');
+    }
   }
   /** Top bar: read-only chips from contract + KPI fields (no dropdowns). */
   function syncHubHeaderMetricsBar(){
@@ -4903,8 +4847,6 @@
       hwv.onclick = function(ev){ if(ev){ ev.preventDefault(); } openHubWeekViewModal(); };
     }
     _reg('openDcrTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showDcrApp({ fillCxLookAheadFromSchedule: true }); });
-    _reg('hubFinCalcTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } openHubFinCalcModal(); });
-    _reg('hubMilestoneNoteTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } openHubMilestoneNoteModal(); });
     _reg('backToHubBtn', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showHubDashboard(); });
     (function(){ var b = document.getElementById('openDcrTool'); if(b){ b.setAttribute('role','button'); b.style.touchAction='manipulation'; } })();
     (function(){ var b = document.getElementById('backToHubBtn'); if(b){ b.setAttribute('role','button'); b.style.touchAction='manipulation'; } })();
