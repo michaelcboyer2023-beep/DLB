@@ -534,6 +534,18 @@
     .hubToolCardDesc{display:block;margin-top:4px;font-size:11px;color:#64748b;line-height:1.4;}
     .hubToolCardSoon{opacity:0.65;cursor:not-allowed;}
     .hubToolCardSoon:hover{border-color:var(--border);box-shadow:none;}
+    .hubFinanceSnap{font-size:11px;margin:0 0 14px;}
+    .hubFinanceSnap .hubFinRow{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:8px;line-height:1.35;}
+    .hubFinanceSnap .hubFinLabel{color:#64748b;font-weight:700;flex:1;min-width:0;}
+    .hubFinanceSnap .hubFinVal{font-weight:900;color:var(--navy);text-align:right;white-space:nowrap;}
+    .hubFinanceSnap .hubFinSub{font-size:9px;color:#94a3b8;font-weight:600;margin-top:2px;}
+    .hubProgRow{margin:6px 0 10px;}
+    .hubProgLabel{font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:#64748b;margin-bottom:4px;display:flex;justify-content:space-between;gap:8px;}
+    .hubProgTrack{height:8px;border-radius:999px;background:#e2e8f0;overflow:hidden;}
+    .hubProgFill{height:100%;border-radius:999px;background:linear-gradient(90deg,#1e3a8f,#0057e7);transition:width .35s ease;}
+    .hubProgFill--warn{background:linear-gradient(90deg,#ca8a04,#eab308);}
+    .hubProgFill--risk{background:linear-gradient(90deg,#b91c1c,#ef4444);}
+    .hubFinHint{font-size:9px;color:#94a3b8;margin-top:10px;line-height:1.45;}
     /* AZ21 Cx schedule (full-width panel below look ahead) */
     .hubSchedulePanel .hubScheduleWrap{margin:0;padding:0;border:none;}
     .hubScheduleTitle{margin:0 0 10px;font-size:11px;font-weight:900;color:var(--dlb-navy);text-transform:uppercase;letter-spacing:0.07em;}
@@ -674,6 +686,9 @@
         <tr><th>% complete (planned hrs)</th><td><input type="text" class="hubSheetCell" data-hub-kpi="pctPlanned" aria-label="Percent complete planned hours" /></td></tr>
       </tbody>
     </table>
+    <h2 class="hubPanelTitle">Lump sum snapshot</h2>
+    <p style="font-size:10px;color:#64748b;margin:-4px 0 8px;line-height:1.45;">Derived from Contract + KPI — cost vs contract, hours vs budget, blended effective rate. For field control; not GAAP.</p>
+    <div id="hubFinanceSnapshot" class="hubFinanceSnap" aria-live="polite"></div>
     <div class="hubChartBlock">
       <h3 class="hubChartTitle">Burn-up — hours</h3>
       <div class="hubChartWrap">
@@ -780,6 +795,14 @@
           <button type="button" class="hubToolCard hubToolCardPrimary" id="openDcrTool">
             <span class="hubToolCardTitle">Daily Commissioning Report</span>
             <span class="hubToolCardDesc">DCR — executive summary, issues, constraints, activities, 3-day look ahead, team</span>
+          </button>
+          <button type="button" class="hubToolCard" id="hubFinCalcTool">
+            <span class="hubToolCardTitle">Rate × hours calculator</span>
+            <span class="hubToolCardDesc">Quick labor dollars (T&amp;M checks vs lump sum fee)</span>
+          </button>
+          <button type="button" class="hubToolCard" id="hubMilestoneNoteTool">
+            <span class="hubToolCardTitle">Milestone / SOV notes</span>
+            <span class="hubToolCardDesc">Scratchpad for billing windows, SOV row IDs, variance — saved in this browser</span>
           </button>
         </div>
         <div class="hubVendorTabsWrap" id="hubVendorTabsWrap">
@@ -2777,6 +2800,164 @@
     }
     return o;
   }
+  var HUB_FIN_SOV_KEY = 'hubFinanceSovNotes';
+  function hubParseMoney(str){
+    if(str == null) return NaN;
+    var t = String(str).trim();
+    if(t === '' || t === '—') return NaN;
+    var n = parseFloat(t.replace(/[^0-9.-]/g, ''));
+    return isNaN(n) ? NaN : n;
+  }
+  function hubParseHoursField(str){
+    if(str == null) return NaN;
+    var t = String(str).trim();
+    if(t === '' || t === '—') return NaN;
+    var n = parseFloat(t.replace(/[^0-9.-]/g, ''));
+    return isNaN(n) ? NaN : n;
+  }
+  function hubFmtMoneySnap(n){
+    if(isNaN(n)) return '—';
+    return '$' + n.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function hubFmtPctSnap(n){
+    if(isNaN(n)) return '—';
+    return Math.min(100, n).toFixed(1) + '%';
+  }
+  function hubProgBarClassSnap(pct){
+    if(isNaN(pct) || pct <= 0) return '';
+    if(pct >= 95) return 'hubProgFill--risk';
+    if(pct >= 80) return 'hubProgFill--warn';
+    return '';
+  }
+  function renderHubFinanceSnapshot(){
+    var root = document.getElementById('hubFinanceSnapshot');
+    if(!root) return;
+    var ct = document.querySelector('[data-hub-contract="contractTotal"]');
+    var be = document.querySelector('[data-hub-contract="budgetedExp"]');
+    var bh = document.querySelector('[data-hub-contract="budgetHrs"]');
+    var cost = document.querySelector('[data-hub-kpi="costToDate"]');
+    var rev = document.querySelector('[data-hub-kpi="revenueToDate"]');
+    var rem = document.querySelector('[data-hub-kpi="remainingHrs"]');
+    var contract = hubParseMoney(ct && ct.value);
+    var budgetExp = hubParseMoney(be && be.value);
+    var budgetHrs = hubParseHoursField(bh && bh.value);
+    var costT = hubParseMoney(cost && cost.value);
+    var revT = hubParseMoney(rev && rev.value);
+    var remH = hubParseHoursField(rem && rem.value);
+    var laborBudget = (!isNaN(contract) && !isNaN(budgetExp)) ? (contract - budgetExp) : NaN;
+    var hrsConsumed = (!isNaN(budgetHrs) && !isNaN(remH)) ? (budgetHrs - remH) : NaN;
+    var costPct = (!isNaN(contract) && contract > 0 && !isNaN(costT)) ? (costT / contract * 100) : NaN;
+    var hrsPct = (!isNaN(budgetHrs) && budgetHrs > 0 && !isNaN(hrsConsumed) && hrsConsumed >= 0) ? (hrsConsumed / budgetHrs * 100) : NaN;
+    var effRate = (!isNaN(costT) && !isNaN(hrsConsumed) && hrsConsumed > 0) ? (costT / hrsConsumed) : NaN;
+    var margin = (!isNaN(revT) && !isNaN(costT)) ? (revT - costT) : NaN;
+    var html = '';
+    html += '<div class="hubFinRow"><span class="hubFinLabel">Implied labor budget <span class="hubFinSub">(contract − budgeted expenses)</span></span><span class="hubFinVal">' + hubFmtMoneySnap(laborBudget) + '</span></div>';
+    html += '<div class="hubProgRow"><div class="hubProgLabel"><span>Cost vs contract</span><span>' + hubFmtPctSnap(costPct) + '</span></div><div class="hubProgTrack"><div class="hubProgFill ' + hubProgBarClassSnap(costPct) + '" style="width:' + (isNaN(costPct) ? 0 : Math.min(100, costPct)) + '%"></div></div></div>';
+    html += '<div class="hubProgRow"><div class="hubProgLabel"><span>Hours consumed vs budget</span><span>' + hubFmtPctSnap(hrsPct) + '</span></div><div class="hubProgTrack"><div class="hubProgFill ' + hubProgBarClassSnap(hrsPct) + '" style="width:' + (isNaN(hrsPct) ? 0 : Math.min(100, hrsPct)) + '%"></div></div></div>';
+    html += '<div class="hubFinRow"><span class="hubFinLabel">Hours consumed <span class="hubFinSub">(budget − remaining)</span></span><span class="hubFinVal">' + (isNaN(hrsConsumed) ? '—' : hrsConsumed.toLocaleString(undefined, { maximumFractionDigits: 1 }) + ' h') + '</span></div>';
+    html += '<div class="hubFinRow"><span class="hubFinLabel">Effective $/hr <span class="hubFinSub">(cost ÷ hrs consumed)</span></span><span class="hubFinVal">' + hubFmtMoneySnap(effRate) + '</span></div>';
+    html += '<div class="hubFinRow"><span class="hubFinLabel">Contribution <span class="hubFinSub">(revenue − cost)</span></span><span class="hubFinVal">' + hubFmtMoneySnap(margin) + '</span></div>';
+    html += '<p class="hubFinHint">Enter numeric Contract, Budgeted expenses, Budget hours, Remaining hours, Cost &amp; Revenue for live burn. Aligns with lump sum + expense envelope; does not include unapproved CO.</p>';
+    root.innerHTML = html;
+  }
+  function openHubFinCalcModal(){
+    var body = document.createElement('div');
+    body.style.cssText = 'max-height:70vh;overflow-y:auto;padding-right:4px;';
+    var p = document.createElement('p');
+    p.style.cssText = 'font-size:12px;color:#64748b;margin:0 0 12px;line-height:1.45;';
+    p.textContent = 'Quick labor dollars for spot checks (role rates, overtime, or SOV line math).';
+    body.appendChild(p);
+    var row1 = document.createElement('div');
+    row1.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;';
+    var rateIn = document.createElement('input');
+    rateIn.type = 'text';
+    rateIn.className = 'input';
+    rateIn.placeholder = 'Hourly rate ($)';
+    rateIn.setAttribute('aria-label', 'Hourly rate');
+    var hrEl = document.querySelector('[data-hub-contract="hourlyRate"]');
+    if(hrEl && hrEl.value){
+      var pr = hubParseMoney(hrEl.value);
+      if(!isNaN(pr)) rateIn.value = String(pr);
+    }
+    var hrsIn = document.createElement('input');
+    hrsIn.type = 'text';
+    hrsIn.className = 'input';
+    hrsIn.placeholder = 'Hours';
+    hrsIn.setAttribute('aria-label', 'Hours');
+    row1.appendChild(rateIn);
+    row1.appendChild(hrsIn);
+    body.appendChild(row1);
+    var out = document.createElement('div');
+    out.style.cssText = 'font-size:17px;font-weight:900;color:var(--navy);margin:12px 0;padding:12px 14px;background:#f8fafc;border-radius:10px;border:1px solid var(--border);';
+    out.setAttribute('role', 'status');
+    out.textContent = '—';
+    function recalc(){
+      var r = hubParseMoney(rateIn.value);
+      var h = hubParseHoursField(hrsIn.value);
+      if(isNaN(r) || isNaN(h)) out.textContent = '—';
+      else out.textContent = hubFmtMoneySnap(r * h) + ' labor';
+    }
+    rateIn.oninput = hrsIn.oninput = recalc;
+    body.appendChild(out);
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;';
+    var useContract = document.createElement('button');
+    useContract.type = 'button';
+    useContract.className = 'btn';
+    useContract.textContent = 'Fill rate from Contract';
+    useContract.onclick = function(){
+      var el = document.querySelector('[data-hub-contract="hourlyRate"]');
+      if(el && el.value){
+        var pr = hubParseMoney(el.value);
+        if(!isNaN(pr)) rateIn.value = String(pr);
+      }
+      recalc();
+    };
+    var closeB = document.createElement('button');
+    closeB.type = 'button';
+    closeB.className = 'btn btnPrimary';
+    closeB.textContent = 'Close';
+    closeB.onclick = closeModal;
+    btnRow.appendChild(useContract);
+    btnRow.appendChild(closeB);
+    body.appendChild(btnRow);
+    openModal('Rate × hours', body);
+    hubModalWide();
+    recalc();
+  }
+  function openHubMilestoneNoteModal(){
+    var body = document.createElement('div');
+    var ta = document.createElement('textarea');
+    ta.className = 'textarea';
+    ta.style.cssText = 'min-height:200px;width:100%;font-size:12px;box-sizing:border-box;';
+    ta.setAttribute('aria-label', 'Milestone and SOV notes');
+    try{ ta.value = localStorage.getItem(HUB_FIN_SOV_KEY) || ''; }catch(e1){}
+    body.appendChild(ta);
+    var hint = document.createElement('p');
+    hint.style.cssText = 'font-size:11px;color:#64748b;margin:10px 0 0;line-height:1.45;';
+    hint.textContent = 'Use for SOV month keys, draw schedule, backlog review, or variance vs bid (Expected vs Billable hours). Saved only in this browser.';
+    body.appendChild(hint);
+    var btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;';
+    var save = document.createElement('button');
+    save.type = 'button';
+    save.className = 'btn btnPrimary';
+    save.textContent = 'Save';
+    save.onclick = function(){
+      try{ localStorage.setItem(HUB_FIN_SOV_KEY, ta.value); }catch(e2){}
+      closeModal();
+    };
+    var cancel = document.createElement('button');
+    cancel.type = 'button';
+    cancel.className = 'btn';
+    cancel.textContent = 'Cancel';
+    cancel.onclick = closeModal;
+    btnRow.appendChild(save);
+    btnRow.appendChild(cancel);
+    body.appendChild(btnRow);
+    openModal('Milestone / SOV notes', body);
+    hubModalWide();
+  }
   /** Top bar: read-only chips from contract + KPI fields (no dropdowns). */
   function syncHubHeaderMetricsBar(){
     var hb = document.getElementById('hubHealthBarRoot');
@@ -2902,6 +3083,7 @@
     if(ne && data.chartNotes) ne.value = data.chartNotes.expenses || '';
     syncHubHeaderMetricsBar();
     hubRefreshQuickLinkAnchors();
+    renderHubFinanceSnapshot();
   }
   function saveHubWorkspaceDebounced(){
     if(saveHubWorkspaceDebounced._t) clearTimeout(saveHubWorkspaceDebounced._t);
@@ -2910,6 +3092,7 @@
       try{
         hubRefreshQuickLinkAnchors();
         syncHubHeaderMetricsBar();
+        renderHubFinanceSnapshot();
         localStorage.setItem(HUB_WORKSPACE_KEY, JSON.stringify(gatherHubWorkspaceFromUI()));
       }catch(e){}
     }, 300);
@@ -4611,6 +4794,8 @@
       hwv.onclick = function(ev){ if(ev){ ev.preventDefault(); } openHubWeekViewModal(); };
     }
     _reg('openDcrTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showDcrApp({ fillCxLookAheadFromSchedule: true }); });
+    _reg('hubFinCalcTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } openHubFinCalcModal(); });
+    _reg('hubMilestoneNoteTool', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } openHubMilestoneNoteModal(); });
     _reg('backToHubBtn', function(ev){ if(ev){ ev.preventDefault(); ev.stopPropagation(); } showHubDashboard(); });
     (function(){ var b = document.getElementById('openDcrTool'); if(b){ b.setAttribute('role','button'); b.style.touchAction='manipulation'; } })();
     (function(){ var b = document.getElementById('backToHubBtn'); if(b){ b.setAttribute('role','button'); b.style.touchAction='manipulation'; } })();
