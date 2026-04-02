@@ -546,6 +546,11 @@
     .hubProgFill--warn{background:linear-gradient(90deg,#ca8a04,#eab308);}
     .hubProgFill--risk{background:linear-gradient(90deg,#b91c1c,#ef4444);}
     .hubFinHint{font-size:9px;color:#94a3b8;margin-top:10px;line-height:1.45;}
+    .hubFinRow--edit{align-items:center;}
+    .hubSnapInput{min-width:0;flex:0 1 46%;max-width:160px;text-align:right;font-size:11px;padding:5px 8px;border-radius:8px;border:1px solid var(--border);font-family:inherit;background:#fff;}
+    .hubSnapInput::placeholder{color:#94a3b8;font-weight:600;}
+    .hubProgRow .hubSnapPctInput{min-width:52px;max-width:72px;text-align:right;font-size:10px;padding:2px 6px;border-radius:6px;border:1px solid var(--border);font-family:inherit;background:#fff;font-weight:800;}
+    .hubProgRow .hubSnapPctInput::placeholder{color:#94a3b8;font-weight:700;}
     /* AZ21 Cx schedule (full-width panel below look ahead) */
     .hubSchedulePanel .hubScheduleWrap{margin:0;padding:0;border:none;}
     .hubScheduleTitle{margin:0 0 10px;font-size:11px;font-weight:900;color:var(--dlb-navy);text-transform:uppercase;letter-spacing:0.07em;}
@@ -687,8 +692,40 @@
       </tbody>
     </table>
     <h2 class="hubPanelTitle">Lump sum snapshot</h2>
-    <p style="font-size:10px;color:#64748b;margin:-4px 0 8px;line-height:1.45;">Derived from Contract + KPI — cost vs contract, hours vs budget, blended effective rate. For field control; not GAAP.</p>
-    <div id="hubFinanceSnapshot" class="hubFinanceSnap" aria-live="polite"></div>
+    <p style="font-size:10px;color:#64748b;margin:-4px 0 8px;line-height:1.45;">Editable overrides (saved with workspace). Leave a field blank to use the value calculated from Contract + KPI above.</p>
+    <div id="hubFinanceSnapshot" class="hubFinanceSnap" aria-live="polite">
+      <div class="hubFinRow hubFinRow--edit">
+        <span class="hubFinLabel">Implied labor budget <span class="hubFinSub">(contract − expenses)</span></span>
+        <input type="text" class="hubSnapInput" data-hub-snap="laborBudget" autocomplete="off" aria-label="Implied labor budget" title="Blank = calculated from contract minus budgeted expenses" />
+      </div>
+      <div class="hubProgRow">
+        <div class="hubProgLabel">
+          <span>Cost vs contract</span>
+          <input type="text" class="hubSnapPctInput" data-hub-snap="costPct" inputmode="decimal" autocomplete="off" aria-label="Cost versus contract percent" title="Blank = cost ÷ contract. Enter e.g. 12.5 or 12.5%" />
+        </div>
+        <div class="hubProgTrack" aria-hidden="true"><div id="hubSnapCostBar" class="hubProgFill" style="width:0%"></div></div>
+      </div>
+      <div class="hubProgRow">
+        <div class="hubProgLabel">
+          <span>Hours consumed vs budget</span>
+          <input type="text" class="hubSnapPctInput" data-hub-snap="hrsPct" inputmode="decimal" autocomplete="off" aria-label="Hours consumed versus budget percent" title="Blank = consumed hours ÷ budget hours" />
+        </div>
+        <div class="hubProgTrack" aria-hidden="true"><div id="hubSnapHrsBar" class="hubProgFill" style="width:0%"></div></div>
+      </div>
+      <div class="hubFinRow hubFinRow--edit">
+        <span class="hubFinLabel">Hours consumed <span class="hubFinSub">(budget − remaining)</span></span>
+        <input type="text" class="hubSnapInput" data-hub-snap="hrsConsumed" autocomplete="off" aria-label="Hours consumed" title="Blank = budget hours minus remaining hours" />
+      </div>
+      <div class="hubFinRow hubFinRow--edit">
+        <span class="hubFinLabel">Effective $/hr <span class="hubFinSub">(cost ÷ hrs consumed)</span></span>
+        <input type="text" class="hubSnapInput" data-hub-snap="effRate" autocomplete="off" aria-label="Effective dollars per hour" title="Blank = cost to date divided by hours consumed" />
+      </div>
+      <div class="hubFinRow hubFinRow--edit">
+        <span class="hubFinLabel">Contribution <span class="hubFinSub">(revenue − cost)</span></span>
+        <input type="text" class="hubSnapInput" data-hub-snap="margin" autocomplete="off" aria-label="Contribution margin" title="Blank = revenue to date minus cost to date" />
+      </div>
+      <p class="hubFinHint">Contract + KPI drive placeholders. Type to override for briefings or what-if; bars use your % overrides when set.</p>
+    </div>
     <div class="hubChartBlock">
       <h3 class="hubChartTitle">Burn-up — hours</h3>
       <div class="hubChartWrap">
@@ -2765,7 +2802,15 @@
       pctPlanned: '—'
     },
     quickLinks: [],
-    chartNotes: { hours: '', expenses: '' }
+    chartNotes: { hours: '', expenses: '' },
+    financeSnap: {
+      laborBudget: '',
+      costPct: '',
+      hrsPct: '',
+      hrsConsumed: '',
+      effRate: '',
+      margin: ''
+    }
   };
   function deepMergeHubWorkspace(saved){
     var o = JSON.parse(JSON.stringify(HUB_WS_DEFAULT));
@@ -2798,6 +2843,11 @@
       if(saved.chartNotes.hours != null) o.chartNotes.hours = String(saved.chartNotes.hours);
       if(saved.chartNotes.expenses != null) o.chartNotes.expenses = String(saved.chartNotes.expenses);
     }
+    if(saved.financeSnap && typeof saved.financeSnap === 'object'){
+      Object.keys(o.financeSnap).forEach(function(k){
+        if(saved.financeSnap[k] != null) o.financeSnap[k] = String(saved.financeSnap[k]);
+      });
+    }
     return o;
   }
   var HUB_FIN_SOV_KEY = 'hubFinanceSovNotes';
@@ -2829,6 +2879,31 @@
     if(pct >= 80) return 'hubProgFill--warn';
     return '';
   }
+  function hubParsePctSnap(str){
+    if(str == null) return NaN;
+    var t = String(str).trim().replace(/%/g, '');
+    if(t === '' || t === '—') return NaN;
+    var n = parseFloat(t.replace(/[^0-9.-]/g, ''));
+    return isNaN(n) ? NaN : n;
+  }
+  function hubSnapEffectiveMoney(raw, computed){
+    var t = raw != null ? String(raw).trim() : '';
+    if(t === '') return computed;
+    var n = hubParseMoney(t);
+    return isNaN(n) ? computed : n;
+  }
+  function hubSnapEffectiveHours(raw, computed){
+    var t = raw != null ? String(raw).trim() : '';
+    if(t === '') return computed;
+    var n = hubParseHoursField(t);
+    return isNaN(n) ? computed : n;
+  }
+  function hubSnapEffectivePct(raw, computed){
+    var t = raw != null ? String(raw).trim() : '';
+    if(t === '') return computed;
+    var n = hubParsePctSnap(t);
+    return isNaN(n) ? computed : n;
+  }
   function renderHubFinanceSnapshot(){
     var root = document.getElementById('hubFinanceSnapshot');
     if(!root) return;
@@ -2844,21 +2919,39 @@
     var costT = hubParseMoney(cost && cost.value);
     var revT = hubParseMoney(rev && rev.value);
     var remH = hubParseHoursField(rem && rem.value);
-    var laborBudget = (!isNaN(contract) && !isNaN(budgetExp)) ? (contract - budgetExp) : NaN;
-    var hrsConsumed = (!isNaN(budgetHrs) && !isNaN(remH)) ? (budgetHrs - remH) : NaN;
-    var costPct = (!isNaN(contract) && contract > 0 && !isNaN(costT)) ? (costT / contract * 100) : NaN;
-    var hrsPct = (!isNaN(budgetHrs) && budgetHrs > 0 && !isNaN(hrsConsumed) && hrsConsumed >= 0) ? (hrsConsumed / budgetHrs * 100) : NaN;
-    var effRate = (!isNaN(costT) && !isNaN(hrsConsumed) && hrsConsumed > 0) ? (costT / hrsConsumed) : NaN;
-    var margin = (!isNaN(revT) && !isNaN(costT)) ? (revT - costT) : NaN;
-    var html = '';
-    html += '<div class="hubFinRow"><span class="hubFinLabel">Implied labor budget <span class="hubFinSub">(contract − budgeted expenses)</span></span><span class="hubFinVal">' + hubFmtMoneySnap(laborBudget) + '</span></div>';
-    html += '<div class="hubProgRow"><div class="hubProgLabel"><span>Cost vs contract</span><span>' + hubFmtPctSnap(costPct) + '</span></div><div class="hubProgTrack"><div class="hubProgFill ' + hubProgBarClassSnap(costPct) + '" style="width:' + (isNaN(costPct) ? 0 : Math.min(100, costPct)) + '%"></div></div></div>';
-    html += '<div class="hubProgRow"><div class="hubProgLabel"><span>Hours consumed vs budget</span><span>' + hubFmtPctSnap(hrsPct) + '</span></div><div class="hubProgTrack"><div class="hubProgFill ' + hubProgBarClassSnap(hrsPct) + '" style="width:' + (isNaN(hrsPct) ? 0 : Math.min(100, hrsPct)) + '%"></div></div></div>';
-    html += '<div class="hubFinRow"><span class="hubFinLabel">Hours consumed <span class="hubFinSub">(budget − remaining)</span></span><span class="hubFinVal">' + (isNaN(hrsConsumed) ? '—' : hrsConsumed.toLocaleString(undefined, { maximumFractionDigits: 1 }) + ' h') + '</span></div>';
-    html += '<div class="hubFinRow"><span class="hubFinLabel">Effective $/hr <span class="hubFinSub">(cost ÷ hrs consumed)</span></span><span class="hubFinVal">' + hubFmtMoneySnap(effRate) + '</span></div>';
-    html += '<div class="hubFinRow"><span class="hubFinLabel">Contribution <span class="hubFinSub">(revenue − cost)</span></span><span class="hubFinVal">' + hubFmtMoneySnap(margin) + '</span></div>';
-    html += '<p class="hubFinHint">Enter numeric Contract, Budgeted expenses, Budget hours, Remaining hours, Cost &amp; Revenue for live burn. Aligns with lump sum + expense envelope; does not include unapproved CO.</p>';
-    root.innerHTML = html;
+    var laborBudgetC = (!isNaN(contract) && !isNaN(budgetExp)) ? (contract - budgetExp) : NaN;
+    var hrsConsumedC = (!isNaN(budgetHrs) && !isNaN(remH)) ? (budgetHrs - remH) : NaN;
+    var costPctC = (!isNaN(contract) && contract > 0 && !isNaN(costT)) ? (costT / contract * 100) : NaN;
+    var hrsPctC = (!isNaN(budgetHrs) && budgetHrs > 0 && !isNaN(hrsConsumedC) && hrsConsumedC >= 0) ? (hrsConsumedC / budgetHrs * 100) : NaN;
+    var effRateC = (!isNaN(costT) && !isNaN(hrsConsumedC) && hrsConsumedC > 0) ? (costT / hrsConsumedC) : NaN;
+    var marginC = (!isNaN(revT) && !isNaN(costT)) ? (revT - costT) : NaN;
+    function inp(key){
+      return root.querySelector('[data-hub-snap="' + key + '"]');
+    }
+    var laborBudget = hubSnapEffectiveMoney(inp('laborBudget') && inp('laborBudget').value, laborBudgetC);
+    var hrsConsumed = hubSnapEffectiveHours(inp('hrsConsumed') && inp('hrsConsumed').value, hrsConsumedC);
+    var effRate = hubSnapEffectiveMoney(inp('effRate') && inp('effRate').value, effRateC);
+    var margin = hubSnapEffectiveMoney(inp('margin') && inp('margin').value, marginC);
+    var costPct = hubSnapEffectivePct(inp('costPct') && inp('costPct').value, costPctC);
+    var hrsPct = hubSnapEffectivePct(inp('hrsPct') && inp('hrsPct').value, hrsPctC);
+    if(inp('laborBudget')) inp('laborBudget').placeholder = isNaN(laborBudgetC) ? '—' : hubFmtMoneySnap(laborBudgetC);
+    if(inp('costPct')) inp('costPct').placeholder = isNaN(costPctC) ? '—' : hubFmtPctSnap(costPctC);
+    if(inp('hrsPct')) inp('hrsPct').placeholder = isNaN(hrsPctC) ? '—' : hubFmtPctSnap(hrsPctC);
+    if(inp('hrsConsumed')) inp('hrsConsumed').placeholder = isNaN(hrsConsumedC) ? '—' : hrsConsumedC.toLocaleString(undefined, { maximumFractionDigits: 1 }) + ' h';
+    if(inp('effRate')) inp('effRate').placeholder = isNaN(effRateC) ? '—' : hubFmtMoneySnap(effRateC);
+    if(inp('margin')) inp('margin').placeholder = isNaN(marginC) ? '—' : hubFmtMoneySnap(marginC);
+    var costBar = document.getElementById('hubSnapCostBar');
+    var hrsBar = document.getElementById('hubSnapHrsBar');
+    var cw = isNaN(costPct) ? 0 : Math.min(100, Math.max(0, costPct));
+    var hw = isNaN(hrsPct) ? 0 : Math.min(100, Math.max(0, hrsPct));
+    if(costBar){
+      costBar.className = 'hubProgFill ' + hubProgBarClassSnap(costPct);
+      costBar.style.width = cw + '%';
+    }
+    if(hrsBar){
+      hrsBar.className = 'hubProgFill ' + hubProgBarClassSnap(hrsPct);
+      hrsBar.style.width = hw + '%';
+    }
   }
   function openHubFinCalcModal(){
     var body = document.createElement('div');
@@ -3018,6 +3111,11 @@
     var nh = document.getElementById('hubChartNoteHours');
     var ne = document.getElementById('hubChartNoteExpenses');
     o.chartNotes = { hours: nh ? nh.value : '', expenses: ne ? ne.value : '' };
+    o.financeSnap = JSON.parse(JSON.stringify(HUB_WS_DEFAULT.financeSnap));
+    document.querySelectorAll('[data-hub-snap]').forEach(function(el){
+      var k = el.getAttribute('data-hub-snap');
+      if(k && Object.prototype.hasOwnProperty.call(o.financeSnap, k)) o.financeSnap[k] = el.value;
+    });
     return o;
   }
   function hubRefreshQuickLinkAnchors(){
@@ -3081,6 +3179,12 @@
     var ne = document.getElementById('hubChartNoteExpenses');
     if(nh && data.chartNotes) nh.value = data.chartNotes.hours || '';
     if(ne && data.chartNotes) ne.value = data.chartNotes.expenses || '';
+    if(data.financeSnap){
+      Object.keys(HUB_WS_DEFAULT.financeSnap).forEach(function(k){
+        var el = document.querySelector('[data-hub-snap="' + k + '"]');
+        if(el && data.financeSnap[k] != null) el.value = data.financeSnap[k];
+      });
+    }
     syncHubHeaderMetricsBar();
     hubRefreshQuickLinkAnchors();
     renderHubFinanceSnapshot();
@@ -3104,6 +3208,11 @@
     hub._hubWsInit = true;
     hub.addEventListener('input', saveHubWorkspaceDebounced);
     hub.addEventListener('change', saveHubWorkspaceDebounced);
+    var fsSnap = document.getElementById('hubFinanceSnapshot');
+    if(fsSnap && !fsSnap._hubSnapInput){
+      fsSnap._hubSnapInput = true;
+      fsSnap.addEventListener('input', function(){ renderHubFinanceSnapshot(); });
+    }
   }
 
   function renderLookEditor(){
